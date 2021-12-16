@@ -1,12 +1,12 @@
-FROM ubuntu
+# Imagem de Origem
+FROM node:13-alpine
 
 WORKDIR /app
 
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y npm
+ENV PATH /app/node_modules/.bin:$PATH
 
-COPY package*.json ./
+COPY package.json /app/package.json
 RUN npm install
 
-COPY . .
-CMD ["npm","start"]
+# Inicializa a aplicação
+CMD ["npm", "start"]
