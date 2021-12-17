@@ -5,6 +5,11 @@ export const DivBody = styled.div`
   flex-direction: column;
 `;
 
+export const Label = styled.label`
+  width: 150px;
+  text-align: start;
+`;
+
 export const H2 = styled.h2`
   text-align: center;
   margin: 20px;
@@ -24,7 +29,7 @@ export const Button = styled.button`
   }
 `;
 
-export const Form = styled.form`
+export const Form1 = styled.form`
   width: 500px;
   margin: 0 auto;
   @media(max-width: 450px) {
@@ -49,31 +54,34 @@ export const DivInput = styled.div`
 
 export const Input = styled.input`
   border-radius: 5px;
-  height: 50px;
+  height: 40px;
   width: 100%;
+  align-items: center;
   &:focus-visible {
     border-color: rgb(0, 60, 255);
     color: rgb(0, 60, 255);
     outline: none;
   }
   @media(max-width: 550px) {
-    height: 45px;
+    height: 40px;
   }
   @media(max-width: 450px) {
-    height: 40px;
+    height: 35px;
   }
 `;
 
 export const DivForm = styled.div`
   display: flex;
-  flex-direction: column;
-  margin: 0 auto;
+  align-items: center;
+  margin: 10px auto;
   width: 400px;
   @media(max-width: 550px) {
     width: 300px;
   }
   @media(max-width: 450px) {
-    width: 200px;
+    align-items: start;
+    flex-direction: column;
+    width: 90%;
   }
 `;
 
@@ -86,6 +94,21 @@ export const DivButton = styled.div`
     width: 300px;
   }
   @media(max-width: 450px) {
-    width: 200px;
+    width: 400px;
   }
 `;
+
+export const layoutFormItem = {
+  style: {
+    boder: "red",
+    display: "flex",
+    width: "100%",
+    margin: "auto 0",
+  }
+}
+
+export const layoutForm = {
+  style: {
+    margin: "0px",
+  }
+};
