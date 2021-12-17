@@ -5,24 +5,13 @@ import { newRegister } from "../../services/fetchActions";
 import 'antd/dist/antd.css';
 
 import {
-  H2, Button, Form1, Label, DivBody, DivInput, layoutFormItem, layoutForm, Input, DivButton, DivForm,
+  H2, Button, Label, DivBody, layoutFormItem, Input, DivButton, DivForm,
 } from "./registerCss";
 
 export function Register() {
   const [form] = Form.useForm();
-  /* const [redirect, setRedirect] = useState(false); */
-  /* const [cadastro, setCadastro] = useState(initialState); */
-
-  /* function onChange(event) {
-    const { value, name } = event.target;
-    setCadastro({
-      ...cadastro,
-      [name]: value,
-    });
-  } */
 
   function checkPassword(cadastro) {
-    console.log('cadastro :', cadastro);
     const { password, password2 } = cadastro;
     if (password === password2) {
       return true;
@@ -36,19 +25,15 @@ export function Register() {
       newRegister({ name, email, password })
         .then(() => {
           message.success("Sucesso: Usuario criado com sucesso.");
+          onClickRedirect();
         })
         .catch(() => {
           message.error("Erro: Usuario nao cadastrado.");
         });
-      /* setRedirect(true); */
     } else {
       message.error("Erro: Senha não confere.");
     }
   }
-
-  /* if (redirect) {
-    window.location.pathname = "/";
-  } */
 
   function onClickRedirect() {
     window.location.pathname = "/";
@@ -57,7 +42,7 @@ export function Register() {
   return (
     <DivBody>
       <H2>Registre-se</H2>
-      <Form form={form} {...layoutForm} onFinish={handleSubmit}>
+      <Form form={form} onFinish={handleSubmit}>
         <DivForm>
           <Label>*Nome</Label>
           <Form.Item
@@ -115,7 +100,7 @@ export function Register() {
               { required: true, message: "Por favor insira id da loja!" },
             ]}
           >
-            <Input type="password" placeholder=""/>
+            <Input type="text" placeholder=""/>
           </Form.Item>
         </DivForm>
         <DivForm>
