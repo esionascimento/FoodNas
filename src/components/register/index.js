@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 /* import { useHistory } from 'react-router-dom'; */
 import { message, Form } from "antd";
 import { newRegister } from "../../services/fetchActions";
@@ -64,7 +64,7 @@ export function Register() {
               { required: true, message: "Por favor insira o email!" },
             ]}
           >
-            <Input type="text" placeholder="email@email.com"/>
+            <Input type="email" placeholder="email@email.com"/>
           </Form.Item>
         </DivForm>
         <DivForm>
