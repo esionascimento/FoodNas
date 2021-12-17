@@ -29,29 +29,6 @@ export const Button = styled.button`
   }
 `;
 
-export const Form1 = styled.form`
-  width: 500px;
-  margin: 0 auto;
-  @media(max-width: 450px) {
-    width: 250px;
-    margin: 0 auto;
-  }
-`;
-
-export const DivInput = styled.div`
-  margin: 0 auto;
-  padding: 10px 15px;
-  width: 400px;
-  @media(max-width: 550px) {
-    width: 300px;
-    padding: 8px 13px;
-  }
-  @media(max-width: 450px) {
-    width: 200px;
-    padding: 5px 10px;
-  }
-`;
-
 export const Input = styled.input`
   border-radius: 5px;
   height: 40px;
@@ -106,9 +83,3 @@ export const layoutFormItem = {
     margin: "auto 0",
   }
 }
-
-export const layoutForm = {
-  style: {
-    margin: "0px",
-  }
-};
