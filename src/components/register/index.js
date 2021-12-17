@@ -1,43 +1,54 @@
 import React, { useState } from "react";
 /* import { useHistory } from 'react-router-dom'; */
-/* import { message } from "antd";
-import { newCadastro } from "../../services/fetchActions"; */
+import { message, Form } from "antd";
+import { newRegister } from "../../services/fetchActions";
+import 'antd/dist/antd.css';
+
 import {
-  H2, Button, Form, DivBody, DivInput, Input, DivButton, DivForm,
+  H2, Button, Form1, Label, DivBody, DivInput, layoutFormItem, layoutForm, Input, DivButton, DivForm,
 } from "./registerCss";
 
-const initialState = {
-  name: "",
-  email: "",
-  password: "",
-};
-
 export function Register() {
-  const [redirect, setRedirect] = useState(false);
-  const [cadastro, setCadastro] = useState(initialState);
+  const [form] = Form.useForm();
+  /* const [redirect, setRedirect] = useState(false); */
+  /* const [cadastro, setCadastro] = useState(initialState); */
 
-  function onChange(event) {
+  /* function onChange(event) {
     const { value, name } = event.target;
     setCadastro({
       ...cadastro,
       [name]: value,
     });
+  } */
+
+  function checkPassword(cadastro) {
+    console.log('cadastro :', cadastro);
+    const { password, password2 } = cadastro;
+    if (password === password2) {
+      return true;
+    }
+    return false;
   }
 
-  function onSubmit() {
-    /* newCadastro(cadastro)
-      .then(() => {
-        message.success("Sucesso: Usuario criado com sucesso.");
-      })
-      .catch(() => {
-        message.error("Erro: Usuario nao cadastrado.");
-      });
-    setRedirect(true); */
+  function handleSubmit(cadastro) {
+    const { name, email, password } = cadastro
+    if (checkPassword(cadastro)) {
+      newRegister({ name, email, password })
+        .then(() => {
+          message.success("Sucesso: Usuario criado com sucesso.");
+        })
+        .catch(() => {
+          message.error("Erro: Usuario nao cadastrado.");
+        });
+      /* setRedirect(true); */
+    } else {
+      message.error("Erro: Senha não confere.");
+    }
   }
 
-  if (redirect) {
-    /* history.push("/"); */
-  }
+  /* if (redirect) {
+    window.location.pathname = "/";
+  } */
 
   function onClickRedirect() {
     window.location.pathname = "/";
@@ -46,38 +57,69 @@ export function Register() {
   return (
     <DivBody>
       <H2>Registre-se</H2>
-      <Form onSubmit={onSubmit}>
+      <Form form={form} {...layoutForm} onFinish={handleSubmit}>
         <DivForm>
-          <DivInput>
-            <Input
-              type="text"
-              name="name"
-              placeholder="Nome"
-              onChange={onChange}
-              required
-            />
-          </DivInput>
-          <DivInput>
-            <Input
-              type="text"
-              name="email"
-              placeholder="Email"
-              onChange={onChange}
-              required
-            />
-          </DivInput>
-          <DivInput>
-            <Input
-              type="password"
-              name="password"
-              onChange={onChange}
-              placeholder="Senha"
-              required
-            />
-          </DivInput>
+          <Label>*Nome</Label>
+          <Form.Item
+            {...layoutFormItem}
+            name="name"
+            rules={[
+              { required: true, message: "Por favor insira o nome!" },
+            ]}
+          >
+            <Input type="text" placeholder="nome"/>
+          </Form.Item>
         </DivForm>
         <DivForm>
-          <DivButton>
+          <Label>*Email</Label>
+          <Form.Item
+            {...layoutFormItem}
+            name="email"
+            rules={[
+              { required: true, message: "Por favor insira o email!" },
+            ]}
+          >
+            <Input type="text" placeholder="email@email.com"/>
+          </Form.Item>
+        </DivForm>
+        <DivForm>
+          <Label>*Senha</Label>
+          <Form.Item
+            {...layoutFormItem}
+            name="password"
+            rules={[
+              { required: true, message: "Por favor insira uma senha!" },
+            ]}
+          >
+            <Input type="password" placeholder="******"/>
+          </Form.Item>
+        </DivForm>
+        <DivForm>
+          <Label>*Senha novamente</Label>
+          <Form.Item
+            {...layoutFormItem}
+            name="password2"
+            rules={[
+              { required: true, message: "Por favor insira a senha novamente!" },
+            ]}
+          >
+            <Input type="password" placeholder="******"/>
+          </Form.Item>
+        </DivForm>
+        <DivForm>
+          <Label>*ID Loja</Label>
+          <Form.Item
+            {...layoutFormItem}
+            name="idStore"
+            rules={[
+              { required: true, message: "Por favor insira id da loja!" },
+            ]}
+          >
+            <Input type="password" placeholder=""/>
+          </Form.Item>
+        </DivForm>
+        <DivForm>
+          <DivButton {...layoutFormItem}>
             <Button onClick={onClickRedirect}>Voltar para Tela Inicial</Button>
             <Button type="submit" value="cadastro">
               Cadastra-se
