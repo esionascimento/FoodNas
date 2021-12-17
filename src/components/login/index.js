@@ -66,7 +66,7 @@ export function Login() {
         <div>
           <DivLink>
             Não tem uma conta?
-            <Link to="/cadastro">Criar nova conta</Link>
+            <Link to="/register">Criar nova conta</Link>
           </DivLink>
           {/* <div className="">
             <a href="#">Esqueceu sua senha?</a>
