@@ -18,7 +18,6 @@ export const DivInputForm = styled.div`
     width: 300px;
   }
   @media(max-width: 450px) {
-    align-items: start;
     width: 90%;
   }
 `;
@@ -75,11 +74,7 @@ export const DivButton = styled.div`
   align-items: center;
   align-content: center;
   width: 400px;
-  
-  @media(max-width: 550px) {
-    width: 300px;
-  }
   @media(max-width: 450px) {
-    width: 400px;
+    width: 100%;
   }
 `;
