@@ -12,6 +12,6 @@ const APIPOST = axios.create({
   },
 });
 
-export const newRegister = (user) => axios.post(`${BASE_URL}user`, user);
+export const newRegister = (user) => axios.post(`${BASE_URL}register`, user);
 
 export const login = (user) => APIPOST.post('/login', user);
