@@ -20,9 +20,9 @@ export function Register() {
   }
 
   function handleSubmit(cadastro) {
-    const { name, email, password } = cadastro
+    const { name, email, password, idStore } = cadastro
     if (checkPassword(cadastro)) {
-      newRegister({ name, email, password })
+      newRegister({ name, email, password, idStore })
         .then(() => {
           message.success("Sucesso: Usuario criado com sucesso.");
           onClickRedirect();
