@@ -1,28 +1,16 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Form } from 'antd';
 /* import { login } from '../../services/fetchActions'; */
 
-import { DivCard, Form, DivInputForm, H3, Input, Button, Hr, DivLink } from './loginCss';
+import { DivCard, DivInputForm, H3, Input, Button, Hr, DivLink, DivButton, Label } from './loginCss';
 
-function initialState() {
-  return { email: '', password: '' };
-}
 
 export function Login() {
-  const [valuesLogin, setValues] = useState(initialState);
+  const [form] = Form.useForm();
   const [validLogin, setValidLogin] = useState(false);
-  const { email, password } = valuesLogin;
-
-  function onChange(event) {
-    const { value, name } = event.target;
-    setValues({
-      ...valuesLogin,
-      [name]: value,
-    })
-  }
   
-  async function onSubmit(event) {
-    event.preventDefault();
+  function handleSubmit(event) {
     try {
       /* const { data: { token } } = await login({ email, password });
       localStorage.setItem('token', token);
@@ -34,39 +22,42 @@ export function Login() {
 
   return (
     <DivCard>
-      <Form onSubmit={onSubmit}>
+      <Form form={form} onFinish={handleSubmit}>
         {validLogin && 
           <H3>Credenciais inexistente ou invalida</H3>
         }
         <DivInputForm>
-          <Input type="text"
+          <Label>Qual é o seu e-mail?</Label>
+          <Form.Item
             name="email"
-            value={email}
-            required
-            placeholder="email@email.com"
-            onChange={onChange}
-          />
-          <Input type="password"
-            name="password"
-            onChange={onChange}
-            value={password}
-            required
-            placeholder="Senha"
-          />
+            rules={[
+              { required: true, message: "Por favor insira o email!" },
+            ]}
+          >
+            <Input type="email" placeholder="email@email.com"/>
+          </Form.Item>
         </DivInputForm>
         <DivInputForm>
-          <Button
-            type="submit"
-            value="Login"
+          <Label>Informe sua senha, por favor.</Label>
+          <Form.Item
+            name="password"
+            rules={[
+              { required: true, message: "Por favor insira a senha!" },
+            ]}
           >
+            <Input type="password" placeholder="******"/>
+          </Form.Item>
+        </DivInputForm>
+        <DivButton>
+          <Button type="submit" value="login">
             Entrar
           </Button>
-        </DivInputForm>
+        </DivButton>
         <Hr/>
         <div>
           <DivLink>
             Não tem uma conta?
-            <Link to="/cadastro">Criar nova conta</Link>
+            <Link to="/register">Criar nova conta</Link>
           </DivLink>
           {/* <div className="">
             <a href="#">Esqueceu sua senha?</a>

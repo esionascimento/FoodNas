@@ -4,11 +4,23 @@ export const DivCard = styled.div`
   margin: 10px;
 `;
 
-export const Form = styled.form`
+export const Form1 = styled.form`
   text-align: center;
 `;
 
 export const DivInputForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px auto;
+  width: 400px;
+  @media(max-width: 550px) {
+    width: 300px;
+  }
+  @media(max-width: 450px) {
+    align-items: start;
+    width: 90%;
+  }
 `;
 
 export const H3 = styled.h3`
@@ -45,11 +57,29 @@ export const Input = styled.input`
   }
 `;
 
-
 export const Hr = styled.hr`
   margin: 5px;
 `;
 
 export const DivLink = styled.div`
   margin-left: 5px;
+`;
+
+export const Label = styled.label`
+  font-weight: bold;
+`;
+
+export const DivButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  width: 400px;
+  
+  @media(max-width: 550px) {
+    width: 300px;
+  }
+  @media(max-width: 450px) {
+    width: 400px;
+  }
 `;
