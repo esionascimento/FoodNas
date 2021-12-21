@@ -1,24 +1,16 @@
 import styled from 'styled-components';
+import { Input as AntInput } from "antd";
 
 export const DivCard = styled.div`
   margin: 10px;
-`;
-
-export const Form1 = styled.form`
-  text-align: center;
 `;
 
 export const DivInputForm = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 10px auto;
-  width: 400px;
-  @media(max-width: 550px) {
-    width: 300px;
-  }
   @media(max-width: 450px) {
-    width: 90%;
+    width: 100%;
   }
 `;
 
@@ -39,7 +31,7 @@ export const Button = styled.button`
   }
 `;
 
-export const Input = styled.input`
+/* export const Input = styled.input`
   border-radius: 5px;
   margin-bottom: 15px;
   padding: 10px 15px;
@@ -54,18 +46,14 @@ export const Input = styled.input`
     width: 100%;
     padding: 6px 40px;
   }
-`;
+`; */
 
 export const Hr = styled.hr`
   margin: 5px;
 `;
 
-export const DivLink = styled.div`
-  margin-left: 5px;
-`;
-
 export const Label = styled.label`
-  font-weight: bold;
+font-weight: bold;
 `;
 
 export const DivButton = styled.div`
@@ -73,8 +61,42 @@ export const DivButton = styled.div`
   justify-content: center;
   align-items: center;
   align-content: center;
-  width: 400px;
   @media(max-width: 450px) {
     width: 100%;
   }
+`;
+
+export const DivLink = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+export const Input = styled(AntInput)`
+    width: 70%;
+    padding-left: 0;
+    outline: 0;
+    border: 0;
+    display: inline;
+    padding-bottom: 0;
+    line-height: 5px;
+    border-radius: 0;
+    &:focus,
+    &::selection,
+    &:active {
+        outline: none;
+        padding-left: 0;
+        outline: 0;
+        border: 0;
+        border-bottom: 1px solid #000;
+        display: inline;
+        padding-bottom: 0;
+        line-height: 5px;
+        border-color: none !important;
+        outline: 0;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+    }
+    ::placeholder {
+        font-family: "Poppins", Arial, Helvetica, sans-serif;
+    }
 `;
