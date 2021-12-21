@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form } from 'antd';
-/* import { login } from '../../services/fetchActions'; */
+import { fetchLogin } from '../../services/fetchActions';
 
 import { DivCard, DivInputForm, H3, Input, Button, Hr, DivLink, DivButton, Label } from './loginCss';
 
@@ -10,11 +10,12 @@ export function Login() {
   const [form] = Form.useForm();
   const [validLogin, setValidLogin] = useState(false);
   
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
+    const { email, password } = event;
     try {
-      /* const { data: { token } } = await login({ email, password });
+      const { data: { token } } = await fetchLogin({ email, password });
       localStorage.setItem('token', token);
-      window.location.pathname = '/dashboard'; */
+      window.location.pathname = '/dashboard';
     } catch (err) {
       setValidLogin(err);
     }
