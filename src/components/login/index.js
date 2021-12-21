@@ -54,15 +54,13 @@ export function Login() {
           </Button>
         </DivButton>
         <Hr/>
-        <div>
-          <DivLink>
-            Não tem uma conta?
-            <Link to="/register">Criar nova conta</Link>
-          </DivLink>
-          {/* <div className="">
-            <a href="#">Esqueceu sua senha?</a>
-          </div> */}
-        </div>
+        <DivLink>
+          Não tem uma conta?
+          <Link to="/register">Criar nova conta</Link>
+        </DivLink>
+        {/* <div className="">
+          <a href="#">Esqueceu sua senha?</a>
+        </div> */}
       </Form>
     </DivCard>
   );
