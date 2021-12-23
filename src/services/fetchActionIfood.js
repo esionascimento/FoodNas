@@ -7,12 +7,15 @@ const tokenIfood = localStorage.getItem('tokenIfood');
 const APIPOST = axios.create({
   baseURL: BASE_URL,
   headers: {
-    'Content-type': 'application/json',
-    'Authorization': `Bearer ${tokenIfood}`,
-    'Content-Length': '<calculated when request is sent>',
-    'Host': '<calculated when request is sent>',
-    'Content-Type': 'application/x-www-form-urlencoded',
-  },
+    'Content-Type': "application/x-www-form-urlencoded",
+    'User-Agent': 'PostmanRuntime/7.28.4',
+    'Accept': "*/*",
+    'Host': 'merchant-api.ifood.com.br',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Connection': 'keep-alive',
+    'Content-Length': '29',
+    'Access-Control-Allow-Origin': '*',
+  }
 });
 
-export const fechtAuthenticationCode = () => APIPOST.post('/authentication/v1.0/oauth/userCode');
+export const fechtAuthenticationCode = (code) => APIPOST.post('/authentication/v1.0/oauth/userCode', code);

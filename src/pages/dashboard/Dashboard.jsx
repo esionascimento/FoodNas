@@ -13,7 +13,7 @@ export function Dashboard() {
       console.log('data :', data);
       window.location.pathname = '/';
     } catch (err) {
-      console.log('err2 :', err.response);
+      console.log('err2 :', err);
     }
   }
 
