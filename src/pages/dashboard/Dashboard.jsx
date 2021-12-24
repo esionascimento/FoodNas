@@ -1,7 +1,7 @@
 import React from 'react';
 require('dotenv').config();
 
-import { fechtAuthenticationTokenCentralized } from '../../services/fetchActionIfood';
+import { fechtMerchantCatalogProductList, fechtAuthenticationTokenCentralized } from '../../services/fetchActionIfood';
 
 import { DivBody } from './dashboardCss';
 
@@ -10,6 +10,8 @@ export function Dashboard() {
     try {
       const {data} = await fechtAuthenticationTokenCentralized();
       localStorage.setItem('tokenIfood', data.data.accessToken)
+      const aux = await fechtMerchantCatalogProductList()
+      console.log('aux :', aux.data);
     } catch (err) {
       console.log('err2 :', err.response);
     }
