@@ -1,19 +1,17 @@
 import React from 'react';
 require('dotenv').config();
 
-import { fechtAuthenticationCode } from '../../services/fetchActionIfood';
+import { fechtAuthenticationTokenCentralized } from '../../services/fetchActionIfood';
 
 import { DivBody } from './dashboardCss';
 
 export function Dashboard() {
   async function generateCode() {
-    const clientId = process.env.REACT_APP_CLIENTEID;
     try {
-      const data = await fechtAuthenticationCode({ clientId });
-      console.log('data :', data);
-      window.location.pathname = '/';
+      const {data} = await fechtAuthenticationTokenCentralized();
+      localStorage.setItem('token', data.data.accessToken)
     } catch (err) {
-      console.log('err2 :', err);
+      console.log('err2 :', err.response);
     }
   }
 
@@ -24,7 +22,6 @@ export function Dashboard() {
         <div>
           <h3>Clique abaixo para pegar codigo de acesso.</h3>
           <button onClick={generateCode} type="button">Gerar Código</button>
-          <h4>Código gerado: </h4>
         </div>
         <div>
           <h3>Autorizar loja.</h3>

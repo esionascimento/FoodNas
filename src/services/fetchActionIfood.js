@@ -1,21 +1,15 @@
 import axios from 'axios';
 require('dotenv').config();
 
-const BASE_URL = process.env.REACT_APP_URL_AUTHENTICATION_CODE;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 const tokenIfood = localStorage.getItem('tokenIfood');
 
 const APIPOST = axios.create({
-  baseURL: BASE_URL,
-  headers: {
-    'Content-Type': "application/x-www-form-urlencoded",
-    'User-Agent': 'PostmanRuntime/7.28.4',
-    'Accept': "*/*",
-    'Host': 'merchant-api.ifood.com.br',
-    'Accept-Encoding': 'gzip, deflate, br',
-    'Connection': 'keep-alive',
-    'Content-Length': '29',
-    'Access-Control-Allow-Origin': '*',
-  }
+  baseURL: BASE_URL
 });
 
-export const fechtAuthenticationCode = (code) => APIPOST.post('/authentication/v1.0/oauth/userCode', code);
+export const fechtAuthenticationCode = (user) => APIPOST.post('/authentication/usercode', user);
+
+export const fechtAuthenticationTokenCentralized = () => APIPOST.get('/authentication/token/centralized');
+
+export const fechtMerchantCatalogProductList = () => APIPOST.post('/merchant/list_products');
