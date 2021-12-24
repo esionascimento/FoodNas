@@ -9,7 +9,7 @@ export function Dashboard() {
   async function generateCode() {
     try {
       const {data} = await fechtAuthenticationTokenCentralized();
-      localStorage.setItem('token', data.data.accessToken)
+      localStorage.setItem('tokenIfood', data.data.accessToken)
     } catch (err) {
       console.log('err2 :', err.response);
     }
