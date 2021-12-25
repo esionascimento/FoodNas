@@ -72,7 +72,7 @@ export const DivLink = styled.div`
 `;
 
 export const Input = styled(AntInput)`
-    width: 70%;
+    width: 100%;
     padding-left: 0;
     outline: 0;
     border: 0;

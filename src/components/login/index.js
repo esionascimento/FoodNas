@@ -4,6 +4,8 @@ import { Form } from 'antd';
 import { fetchLogin } from '../../services/fetchActions';
 
 import { DivCard, DivInputForm, H3, Input, Button, Hr, DivLink, DivButton, Label } from './loginCss';
+import ButtonRegister from "../../atoms/button";
+
 
 
 export function Login() {
@@ -50,9 +52,11 @@ export function Login() {
           </Form.Item>
         </DivInputForm>
         <DivButton>
-          <Button type="submit" value="login">
+          {/* <Button type="submit" value="login">
             Entrar
-          </Button>
+          </Button> */}
+           <ButtonRegister text="Entrar" />
+          
         </DivButton>
         <Hr/>
         <DivLink>

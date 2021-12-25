@@ -8,6 +8,8 @@ import {
   H2, Button, Label, DivBody, layoutFormItem, Input, DivButton, DivForm,
 } from "./registerCss";
 
+import ButtonRegister from "../../atoms/button";
+
 export function Register() {
   const [form] = Form.useForm();
 
@@ -109,6 +111,7 @@ export function Register() {
             <Button type="submit" value="cadastro">
               Cadastra-se
             </Button>
+           
           </DivButton>
         </DivForm>
       </Form>
