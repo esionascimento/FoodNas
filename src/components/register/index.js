@@ -1,7 +1,7 @@
 import React from "react";
 /* import { useHistory } from 'react-router-dom'; */
 import { message, Form } from "antd";
-import { newRegister } from "../../services/fetchActions";
+import { newRegister } from "../../services/fetchActionsAtlas";
 import 'antd/dist/antd.css';
 
 import {
