@@ -1,6 +1,4 @@
 import React from 'react';
-require('dotenv').config();
-
 import { fechtMerchantCatalogProductList, fechtAuthenticationTokenCentralized } from '../../services/fetchActionIfood';
 
 import { DivBody } from './dashboardCss';
