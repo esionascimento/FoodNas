@@ -14,7 +14,7 @@ export function Login() {
     const { email, password } = event;
     try {
       const { data: { token } } = await fetchLogin({ email, password });
-      localStorage.setItem('token', token);
+      localStorage.setItem('production_token', token);
       window.location.pathname = '/dashboard';
     } catch (err) {
       setValidLogin(err);

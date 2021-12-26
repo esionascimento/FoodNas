@@ -2,7 +2,7 @@ import axios from 'axios';
 require('dotenv').config();
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-const token = localStorage.getItem('tokenfoodnas');
+const token = localStorage.getItem('production_token');
 
 const APIPOST = axios.create({
   baseURL: BASE_URL,
@@ -15,3 +15,5 @@ const APIPOST = axios.create({
 export const newRegister = (user) => axios.post(`${BASE_URL}register`, user);
 
 export const fetchLogin = (user) => APIPOST.post('/login', user);
+
+export const authenticate = (token) => APIPOST.post('/authorization', token);

@@ -11,9 +11,9 @@ const APIPOST = axios.create({
   }
 });
 
-export const fechtAuthenticationCode = (user) => APIPOST.post('/authentication/usercode', user);
+export const fechtAuthenticationCode = (user) => APIPOST.post('/merchant/authentication/usercode', user);
 
-export const fechtAuthenticationTokenCentralized = () => APIPOST.get('/authentication/token/centralized');
+export const fechtAuthenticationTokenCentralized = () => APIPOST.get('/merchant/authentication/token/centralized');
 
 export const fechtMerchantCatalogProductList = () => APIPOST.get('/merchant/catalog/list_products');
 
