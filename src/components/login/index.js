@@ -13,8 +13,11 @@ export function Login() {
   async function handleSubmit(event) {
     const { email, password } = event;
     try {
-      const { data: { token } } = await fetchLogin({ email, password });
-      localStorage.setItem('production_token', token);
+      const { data } = await fetchLogin({ email, password })
+      localStorage.setItem('production_idStore', data.idStore)
+      localStorage.setItem('production_token', data.token)
+      localStorage.setItem('production_name', data.name)
+      localStorage.setItem('production_id', data._id)
       window.location.pathname = '/dashboard';
     } catch (err) {
       setValidLogin(err);
