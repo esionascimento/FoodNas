@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form } from 'antd';
-import { fetchLogin } from '../../services/fetchActions';
+import { fetchLogin } from '../../services/fetchActionsAtlas';
 
 import { DivCard, DivInputForm, H3, Input, Button, Hr, DivLink, DivButton, Label } from './loginCss';
-
 
 export function Login() {
   const [form] = Form.useForm();
