@@ -6,7 +6,7 @@ import { DivBox, FooterRodape, DivContainer, DivRight, DivLeft } from '../../sty
 
 export default function Home() {
   return (
-    <>
+    <div>
       <DivBox>
         <DivContainer>
           <DivLeft>
@@ -20,6 +20,6 @@ export default function Home() {
       <FooterRodape>
         Web site desenvolvido por Esio Rodrigues
       </FooterRodape>
-    </>
+    </div>
   );
 }
