@@ -1,4 +1,5 @@
 import axios from 'axios';
+<<<<<<< HEAD
 /* require('dotenv').config(); */
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -7,6 +8,12 @@ let token;
 if (typeof window !== "undefined") {
   token = window.localStorage.getItem('production_token');
 }
+=======
+require('dotenv').config();
+
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+const token = localStorage.getItem('production_token');
+>>>>>>> d2102fc6703a6482b6cbf25ef53a7dbeeada5ed4
 
 const APIPOST = axios.create({
   baseURL: BASE_URL,
