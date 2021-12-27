@@ -1,7 +1,7 @@
 import React from 'react';
 import { fechtMerchantCatalogProductList, fechtAuthenticationTokenCentralized } from '../../services/fetchActionIfood';
 
-import { DivBody } from './dashboardCss';
+import { DivBody } from '../../../styles/dashboardCss';
 
 export default function Dashboard() {
   async function generateCode() {

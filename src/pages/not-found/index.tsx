@@ -1,5 +1,6 @@
 import React from 'react'
-import { Button } from './notFoundCss';
+
+import { Button } from '../../../styles/notFoundCss'
 
 export default function NotFound() {
   function onClick() {

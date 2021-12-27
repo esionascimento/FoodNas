@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { Login } from '../components/login';
-import { DivBox, FooterRodape, DivContainer, DivRight, DivLeft } from './_indexCss';
+
+import { DivBox, FooterRodape, DivContainer, DivRight, DivLeft } from '../../styles/indexCss';
 
 export default function Home() {
   return (
