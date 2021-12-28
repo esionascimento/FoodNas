@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import { fechtCatalogProductList } from '../../services/FetchFood/merchantCatalog'
-import { fechtAuthenticationTokenCentralized } from '../../services/FetchFood/merchantAuthorization'
+import { fechtCatalogProductList } from '../../services/FetchFood/merchantCatalog';
+import { fechtAuthenticationTokenCentralized } from '../../services/FetchFood/merchantAuthorization';
 
 import { DivBody } from '../../../styles/dashboardCss';
 import { APIATLAS } from '../../services/FetchAtlas/utilsAtlas';
-import { GetServerSideProps } from 'next';
 
 export default function Dashboard() {
 
@@ -19,7 +18,7 @@ export default function Dashboard() {
       const aux = await fechtCatalogProductList()
       console.log('aux :', aux.data);
     } catch (err) {
-      console.log('err2 :', err.response);
+      console.log('err :', err.response);
     }
   }
 

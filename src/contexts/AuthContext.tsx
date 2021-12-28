@@ -30,7 +30,6 @@ export function AuthProvider({ children }) {
     const token = localStorage.getItem('atlas.token');
     if (token) {
       fetchAuthorizationAtlas().then(response => {
-        console.log('response :', response);
         setUser(response.data);
       })
     }
