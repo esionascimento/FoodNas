@@ -1,17 +1,24 @@
-import React from 'react';
-import { fechtMerchantCatalogProductList, fechtAuthenticationTokenCentralized } from '../../services/fetchActionIfood';
+import React, { useEffect } from 'react';
+import { fechtCatalogProductList } from '../../services/FetchFood/merchantCatalog';
+import { fechtAuthenticationTokenCentralized } from '../../services/FetchFood/merchantAuthorization';
 
 import { DivBody } from '../../../styles/dashboardCss';
+import { APIATLAS } from '../../services/FetchAtlas/utilsAtlas';
 
 export default function Dashboard() {
+
+  useEffect(() => {
+    APIATLAS.get('/');
+  }, [])
+
   async function generateCode() {
     try {
       const {data} = await fechtAuthenticationTokenCentralized();
       localStorage.setItem('tokenIfood', data.data.accessToken)
-      const aux = await fechtMerchantCatalogProductList()
+      const aux = await fechtCatalogProductList()
       console.log('aux :', aux.data);
     } catch (err) {
-      console.log('err2 :', err.response);
+      console.log('err :', err.response);
     }
   }
 
