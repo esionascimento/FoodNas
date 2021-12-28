@@ -1,24 +1,34 @@
-import React, { useState } from 'react';
-/* import { Link } from 'react-router-dom'; */
-import { Form } from 'antd';
-import { fetchLogin } from '../../services/fetchActionsAtlas';
+import React, { useContext, useState } from 'react';
+import Link from 'next/link'
+import { Form, message } from 'antd';
+import { fechtAuthenticationTokenCentralized } from '../../services/FetchFood/merchantAuthorization'
 
 import { DivCard, DivInputForm, H3, Input, Button, Hr, DivLink, DivButton, Label } from './loginCss';
+import { AuthContext } from '../../contexts/AuthContext';
 
 export function Login() {
   const [form] = Form.useForm();
+  const { signIn } = useContext(AuthContext)
+  const { isAuthenticated } = useContext(AuthContext)
   const [validLogin, setValidLogin] = useState(false);
   
-  async function handleSubmit(event) {
-    const { email, password } = event;
+  async function getTokenFood() {
     try {
-      const { data } = await fetchLogin({ email, password })
-      localStorage.setItem('production_idStore', data.idStore)
-      localStorage.setItem('production_token', data.token)
-      localStorage.setItem('production_name', data.name)
-      localStorage.setItem('production_id', data._id)
+      const {data} = await fechtAuthenticationTokenCentralized();
+      localStorage.setItem('tokenIfood', data.data.accessToken)
+    } catch (err) {
+      console.log('err2 :', err.response);
+    }
+  }
+  
+  async function handleSubmit(event) {
+    try {
+      await signIn(event)
+      await getTokenFood()
+      message.success("Sucesso Login.");
       window.location.pathname = '/dashboard';
     } catch (err) {
+      message.error("Error: Informações incorretas ou não existe.");
       setValidLogin(err);
     }
   }
@@ -59,7 +69,7 @@ export function Login() {
         <Hr/>
         <DivLink>
           Não tem uma conta?
-          {/* <Link to="/register">Criar nova conta</Link> */}
+          <Link href="/register">Criar nova conta</Link>
         </DivLink>
         {/* <div>
           <a href="#">Esqueceu sua senha?</a>

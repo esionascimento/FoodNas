@@ -1,14 +1,14 @@
 import React from "react";
 /* import { useHistory } from 'react-router-dom'; */
 import { message, Form } from "antd";
-import { newRegister } from "../../services/fetchActionsAtlas";
+import { newRegister } from "../../services/FetchAtlas";
 import 'antd/dist/antd.css';
 
 import {
   H2, Button, Label, DivBody, layoutFormItem, Input, DivButton, DivForm,
-} from "./registerCss";
+} from "../../../styles/registerCss"
 
-export function Register() {
+export default function Register() {
   const [form] = Form.useForm();
 
   function checkPassword(cadastro) {
