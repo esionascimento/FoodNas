@@ -5,13 +5,17 @@ import { setCookie, parseCookies } from 'nookies';
 
 import { DivBody } from '../../../styles/dashboardCss';
 import { APIATLAS } from '../../services/FetchAtlas/utilsAtlas';
+import router from 'next/router';
 
 export default function Dashboard(props) {
   console.log('props :', props);
 
   useEffect(() => {
-    APIATLAS.get('/');
-  }, [])
+    const token = props.ATLAS_TOKEN;
+    if (!token) {
+      router.replace('/');
+    }
+  }, [props])
 
   async function generateCode() {
     try {
@@ -49,11 +53,12 @@ export default function Dashboard(props) {
 }
 
 export async function getServerSideProps(context) {
-  const cookies = parseCookies(context);
+  const cookies = context;
   console.log('cookies :', cookies);
   return {
     props: {
-      IFOOD_TOKEN: cookies['ifood.token'] ? cookies['ifood.token'] : ''
+      IFOOD_TOKEN: cookies['ifood.token'] ? cookies['ifood.token'] : '',
+      ATLAS_TOKEN: cookies['atlas.token'] ? cookies['atlas.token'] : ''
     }
   }
 }
