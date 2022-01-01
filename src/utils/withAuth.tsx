@@ -1,8 +1,10 @@
 import { ElementType, useEffect } from "react";
 import { useRouter } from 'next/router';
 import { parseCookies } from "nookies";
+import { GetServerSideProps } from "next";
 
-export default function withAuth(WrappedComponent: ElementType) {
+export default function withAuth(WrappedComponent: ElementType, props) {
+  console.log('props :', parseCookies());
   const Wrapper = (props: unknown) => {
     const router = useRouter();
 
@@ -10,7 +12,7 @@ export default function withAuth(WrappedComponent: ElementType) {
       const { 'atlas.token': token } = parseCookies();
       console.log('token :', token);
   
-      if (token) {
+      if (!token) {
         router.replace('/');
       }
 
@@ -19,4 +21,15 @@ export default function withAuth(WrappedComponent: ElementType) {
     return <WrappedComponent {...props} />
   }
   return Wrapper;
+}
+
+export async function getServerSideProps(context) {
+  const cookies = parseCookies(context);
+  console.log('cookies :', cookies);
+  return {
+    props: {
+      IFOOD_TOKEN: cookies['ifood.token'] ? cookies['ifood.token'] : '',
+      ATLAS_TOKEN: cookies['atlas.token'] ? cookies['atlas.token'] : ''
+    }
+  }
 }
