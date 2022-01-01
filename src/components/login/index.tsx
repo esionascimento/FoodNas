@@ -3,9 +3,10 @@ import Link from 'next/link'
 import { Form, message } from 'antd';
 import { fechtAuthenticationTokenCentralized } from '../../services/FetchFood/merchantAuthorization'
 import { setCookie } from 'nookies';
+import { AuthContext } from '../../contexts/AuthContext';
 
 import { DivCard, DivInputForm, H3, Input, Button, Hr, DivLink, DivButton, Label, SpanLink } from './loginCss';
-import { AuthContext } from '../../contexts/AuthContext';
+import 'antd/dist/antd.css';
 
 export function Login() {
   const [form] = Form.useForm();
