@@ -4,13 +4,12 @@ import { Form, message } from 'antd';
 import { fechtAuthenticationTokenCentralized } from '../../services/FetchFood/merchantAuthorization'
 import { setCookie } from 'nookies';
 
-import { DivCard, DivInputForm, H3, Input, Button, Hr, DivLink, DivButton, Label } from './loginCss';
+import { DivCard, DivInputForm, H3, Input, Button, Hr, DivLink, DivButton, Label, SpanLink } from './loginCss';
 import { AuthContext } from '../../contexts/AuthContext';
 
 export function Login() {
   const [form] = Form.useForm();
   const { signIn } = useContext(AuthContext)
-  const { isAuthenticated } = useContext(AuthContext)
   const [validLogin, setValidLogin] = useState(false);
   
   async function getTokenFood() {
@@ -22,7 +21,7 @@ export function Login() {
     }
   }
   
-  async function handleSubmit(event) {
+  async function handleSubmit(event: any) {
     try {
       await signIn(event)
       await getTokenFood()
@@ -70,7 +69,7 @@ export function Login() {
         <Hr/>
         <DivLink>
           Não tem uma conta?
-          <Link href="/register">Criar nova conta</Link>
+          <SpanLink><Link href="/register">Criar nova conta</Link></SpanLink>
         </DivLink>
         {/* <div>
           <a href="#">Esqueceu sua senha?</a>
