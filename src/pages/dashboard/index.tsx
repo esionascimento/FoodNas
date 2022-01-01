@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import { fechtCatalogProductList } from '../../services/FetchFood/merchantCatalog';
 import { fechtAuthenticationTokenCentralized } from '../../services/FetchFood/merchantAuthorization';
-import { setCookie } from 'nookies';
+import { setCookie, parseCookies } from 'nookies';
 
 import { DivBody } from '../../../styles/dashboardCss';
 import { APIATLAS } from '../../services/FetchAtlas/utilsAtlas';
 
-export default function Dashboard() {
+export default function Dashboard(props) {
+  console.log('props :', props);
+
   useEffect(() => {
     APIATLAS.get('/');
   }, [])
@@ -44,4 +46,14 @@ export default function Dashboard() {
       </section>
     </DivBody>
   );
+}
+
+export async function getServerSideProps(context) {
+  const cookies = parseCookies(context);
+  console.log('cookies :', cookies);
+  return {
+    props: {
+      IFOOD_TOKEN: cookies['ifood.token'] ? cookies['ifood.token'] : ''
+    }
+  }
 }
