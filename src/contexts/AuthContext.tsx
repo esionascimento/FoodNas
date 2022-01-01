@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from 'react'
 import { fetchLogin, fetchAuthorizationAtlas } from '../services/FetchAtlas'
 import { APIATLAS } from '../services/FetchAtlas/utilsAtlas';
+import { setCookie, parseCookies } from 'nookies';
 
 type User = {
   name: string;
@@ -26,24 +27,25 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState<User | null>(null);
   const isAuthenticated = !!user;
 
-  useEffect(() => {
+  /* useEffect(() => {
+    const token = parseCookies(context)
     const token = localStorage.getItem('atlas.token');
     if (token) {
       fetchAuthorizationAtlas().then(response => {
         setUser(response.data);
       })
     }
-  }, [])
+  }, []) */
 
   async function signIn({ email, password }: SignInData) {
     const { data } = await fetchLogin({
       email,
       password
-    })
-    localStorage.setItem('atlas.token', data.token)
-    localStorage.setItem('atlas.idStore', data.idStore)
-    localStorage.setItem('atlas.name', data.name)
-    localStorage.setItem('atals._id', data._id)
+    });
+    setCookie(null, 'atlas.token', data.token, {maxAge: 86400 * 7, path: '/'});
+    setCookie(null, 'atlas.idStore', data.idStore, {maxAge: 86400 * 7, path: '/'});
+    setCookie(null, 'atlas.name', data.name, {maxAge: 86400 * 7, path: '/'});
+    setCookie(null, 'atlas._id', data._id, {maxAge: 86400 * 7, path: '/'});
 
     setUser(data);
 
