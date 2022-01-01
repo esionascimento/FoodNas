@@ -1,10 +1,10 @@
 import React from 'react';
-
+import withAuthLogin from '../utils/withAuthLogin';
 import { Login } from '../components/login';
 
 import { DivBox, FooterRodape, DivContainer, DivRight, DivLeft } from '../../styles/indexCss';
 
-export default function Home() {
+function Home() {
   return (
     <div>
       <DivBox>
@@ -23,3 +23,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default withAuthLogin(Home);
