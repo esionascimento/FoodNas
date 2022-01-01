@@ -1,56 +1,26 @@
 import { ElementType, useEffect } from "react";
 import { useRouter } from 'next/router';
 import { parseCookies } from "nookies";
-import { GetServerSideProps } from "next";
+import { fetchAuthorizationAtlas } from '../services/FetchAtlas';
+import { APIATLAS } from '../services/FetchAtlas/utilsAtlas';
 
 export default function withAuth(WrappedComponent: ElementType) {
-  console.log('props :', parseCookies());
   const Wrapper = (props: unknown) => {
     const router = useRouter();
+    const { 'atlas.token': token } = parseCookies();
+
+    APIATLAS.defaults.headers['Authorization'] = `${token}`;
 
     useEffect(() => {
-      const { 'atlas.token': token } = parseCookies();
-      console.log('token :', token);
-  
-      if (!token) {
+      fetchAuthorizationAtlas().then((success) => {
+        console.log('success :', success);
+      })
+      .catch((error) => {
+        console.log('errorWithAuth :', error.response);
         router.replace('/');
-      }
-
-    }, [router])
-
+      });
+    }, [router]);
     return <WrappedComponent {...props} />
   }
   return Wrapper;
-}
-
-/* export async function getServerSideProps(context) {
-  const cookies = parseCookies(context);
-  console.log('cookies :', cookies);
-  return {
-    props: {
-      IFOOD_TOKEN: cookies['ifood.token'] ? cookies['ifood.token'] : '',
-      ATLAS_TOKEN: cookies['atlas.token'] ? cookies['atlas.token'] : ''
-    }
-  }
-} */
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const cookies = context;
-  console.log('cookies :', cookies);
-
-  if (!cookies) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false
-      }
-    }
-  }
-
-  return {
-    props: {
-      IFOOD_TOKEN: cookies['ifood.token'] ? cookies['ifood.token'] : '',
-      ATLAS_TOKEN: cookies['atlas.token'] ? cookies['atlas.token'] : ''
-    }
-  }
 }
