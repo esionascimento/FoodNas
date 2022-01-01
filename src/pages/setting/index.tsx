@@ -1,8 +1,11 @@
 import React from 'react';
+import withAuth from '../../utils/withAuth';
 
-export default function Setting() {
+function Setting() {
 
   return (
     <p>Setting</p>
   );
 }
+
+export default withAuth(Setting);
