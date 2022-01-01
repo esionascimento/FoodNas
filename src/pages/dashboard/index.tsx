@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { fechtCatalogProductList } from '../../services/FetchFood/merchantCatalog';
 import { fechtAuthenticationTokenCentralized } from '../../services/FetchFood/merchantAuthorization';
+import { setCookie } from 'nookies';
 
 import { DivBody } from '../../../styles/dashboardCss';
 import { APIATLAS } from '../../services/FetchAtlas/utilsAtlas';
 
 export default function Dashboard() {
-
   useEffect(() => {
     APIATLAS.get('/');
   }, [])
@@ -14,7 +14,8 @@ export default function Dashboard() {
   async function generateCode() {
     try {
       const {data} = await fechtAuthenticationTokenCentralized();
-      localStorage.setItem('tokenIfood', data.data.accessToken)
+      setCookie(null, 'ifood.token', data.data.accessToken, {maxAge: 86400 * 7, path: '/'});
+
       const aux = await fechtCatalogProductList()
       console.log('aux :', aux.data);
     } catch (err) {
