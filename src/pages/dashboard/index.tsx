@@ -5,17 +5,9 @@ import { setCookie, parseCookies } from 'nookies';
 
 import { DivBody } from '../../../styles/dashboardCss';
 import { APIATLAS } from '../../services/FetchAtlas/utilsAtlas';
-import router from 'next/router';
+import withAuth from '../../utils/withAuth';
 
-export default function Dashboard(props) {
-  console.log('props :', props);
-
-  useEffect(() => {
-    const token = props.ATLAS_TOKEN;
-    if (!token) {
-      router.replace('/');
-    }
-  }, [props])
+function Dashboard() {
 
   async function generateCode() {
     try {
@@ -52,7 +44,7 @@ export default function Dashboard(props) {
   );
 }
 
-export async function getServerSideProps(context) {
+/* export async function getServerSideProps(context) {
   const cookies = context;
   console.log('cookies :', cookies);
   return {
@@ -61,4 +53,6 @@ export async function getServerSideProps(context) {
       ATLAS_TOKEN: cookies['atlas.token'] ? cookies['atlas.token'] : ''
     }
   }
-}
+} */
+
+export default withAuth(Dashboard);

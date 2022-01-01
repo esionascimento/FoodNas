@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { parseCookies } from "nookies";
 import { GetServerSideProps } from "next";
 
-export default function withAuth(WrappedComponent: ElementType, props) {
+export default function withAuth(WrappedComponent: ElementType) {
   console.log('props :', parseCookies());
   const Wrapper = (props: unknown) => {
     const router = useRouter();
