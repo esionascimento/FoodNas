@@ -4,7 +4,7 @@ import { parseCookies } from "nookies";
 import { fetchAuthorizationAtlas } from '../services/FetchAtlas';
 import { APIATLAS } from '../services/FetchAtlas/utilsAtlas';
 
-export default function withAuth(WrappedComponent: ElementType) {
+export default function withAuthLogin(WrappedComponent: ElementType) {
   const Wrapper = (props: unknown) => {
     const router = useRouter();
     const { 'atlas.token': token } = parseCookies();
@@ -13,11 +13,11 @@ export default function withAuth(WrappedComponent: ElementType) {
 
     useEffect(() => {
       fetchAuthorizationAtlas().then((success) => {
-        console.log('success :', success);
+        console.log('successLogin :', success);
+        router.replace('/dashboard');
       })
       .catch((error) => {
-        console.log('errorWithAuth :', error.response);
-        router.replace('/');
+        console.log('errorWithAuthLogin :', error.response);
       });
     }, [router]);
     return <WrappedComponent {...props} />

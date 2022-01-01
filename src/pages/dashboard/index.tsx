@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { fechtCatalogProductList } from '../../services/FetchFood/merchantCatalog';
 import { fechtAuthenticationTokenCentralized } from '../../services/FetchFood/merchantAuthorization';
-import { setCookie, parseCookies } from 'nookies';
+import { setCookie } from 'nookies';
 
 import { DivBody } from '../../../styles/dashboardCss';
-import { APIATLAS } from '../../services/FetchAtlas/utilsAtlas';
 import withAuth from '../../utils/withAuth';
 
 function Dashboard() {
@@ -43,16 +42,5 @@ function Dashboard() {
     </DivBody>
   );
 }
-
-/* export async function getServerSideProps(context) {
-  const cookies = context;
-  console.log('cookies :', cookies);
-  return {
-    props: {
-      IFOOD_TOKEN: cookies['ifood.token'] ? cookies['ifood.token'] : '',
-      ATLAS_TOKEN: cookies['atlas.token'] ? cookies['atlas.token'] : ''
-    }
-  }
-} */
 
 export default withAuth(Dashboard);
