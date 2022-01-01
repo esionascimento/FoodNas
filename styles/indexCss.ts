@@ -20,7 +20,6 @@ export const DivContainer = styled.div`
   justify-content: center;
   align-items: center;
   @media(max-width: 800px) {
-    display: flex;
     flex-direction: column;
     text-align: center;
   }
