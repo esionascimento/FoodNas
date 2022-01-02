@@ -1,16 +1,20 @@
 import React from "react";
 /* import { useHistory } from 'react-router-dom'; */
 import { message, Form } from "antd";
-import { newRegister } from "../../services/fetchActions";
+import { newRegister } from "../../services/FetchAtlas";
 import 'antd/dist/antd.css';
 
 import {
   H2, Button, Label, DivBody, layoutFormItem, Input, DivButton, DivForm,
-} from "./registerCss";
+} from "../../../styles/registerCss"
 
+<<<<<<< HEAD:src/components/register/index.js
 import ButtonRegister from "../../atoms/button";
 
 export function Register() {
+=======
+export default function Register() {
+>>>>>>> main:src/pages/register/index.tsx
   const [form] = Form.useForm();
 
   function checkPassword(cadastro) {
