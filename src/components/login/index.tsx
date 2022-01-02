@@ -1,20 +1,9 @@
-<<<<<<< HEAD:src/components/login/index.js
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Form } from 'antd';
-import { fetchLogin } from '../../services/fetchActions';
-
-import { DivCard, DivInputForm, H3, Input, Button, Hr, DivLink, DivButton, Label } from './loginCss';
-import ButtonRegister from "../../atoms/button";
-
-=======
 import React, { useContext, useState } from 'react';
 import Link from 'next/link'
 import { Form, message } from 'antd';
 import { fechtAuthenticationTokenCentralized } from '../../services/FetchFood/merchantAuthorization'
 import { setCookie } from 'nookies';
 import { AuthContext } from '../../contexts/AuthContext';
->>>>>>> main:src/components/login/index.tsx
 
 import { DivCard, DivInputForm, H3, Input, Button, Hr, DivLink, DivButton, Label, SpanLink } from './loginCss';
 import 'antd/dist/antd.css';

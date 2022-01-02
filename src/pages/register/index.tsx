@@ -8,13 +8,9 @@ import {
   H2, Button, Label, DivBody, layoutFormItem, Input, DivButton, DivForm,
 } from "../../../styles/registerCss"
 
-<<<<<<< HEAD:src/components/register/index.js
 import ButtonRegister from "../../atoms/button";
 
 export function Register() {
-=======
-export default function Register() {
->>>>>>> main:src/pages/register/index.tsx
   const [form] = Form.useForm();
 
   function checkPassword(cadastro) {
