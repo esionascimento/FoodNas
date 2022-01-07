@@ -5,14 +5,12 @@ import { setCookie } from 'nookies';
 
 import { DivBody } from '../../../styles/dashboardCss';
 import withAuth from '../../utils/withAuth';
-
-function Dashboard() {
-
 import LeftMenu from "../../components/left-menu/index";
 import {Layout} from "antd";
+const { /* Header, Content, */ Footer/* , Sider */ } = Layout;
+import 'antd/dist/antd.css';
 
-
-export function Dashboard() {
+function Dashboard() {
   const {Content} = Layout;
   async function generateCode() {
     try {
@@ -27,39 +25,33 @@ export function Dashboard() {
   }
 
   return (
-    <div style={{ overflowX: "hidden" }}>
-      <Layout >
-        <h1 style={{background: "black", height: "50px", color: "white"}}>header</h1>
-        <Layout>
-          <div style={{marginTop: "-10px"}}>
-
-          <LeftMenu />
-          </div>
-          <Content style={{padding: "50px"}}>
-            <DivBody>
-              <h1 >Dashboard</h1>
-              <section>
-                <div>
-                  <h3>Clique abaixo para pegar codigo de acesso.</h3>
-                  <button onClick={generateCode} type="button">Gerar Código</button>
-                  <h4>Código gerado: </h4>
-                </div>
-                <div>
-                  <h3>Autorizar loja.</h3>
-                  <button type="button">Autorizar</button>
-                </div>
-                <div>
-                  <h3>Codigo de autorização.</h3>
-                  <label>Cole o código de autorização, o mesmo que o Ifood disponibilizou ao autorizar a aplicação.</label>
-                  <input type="text" required />
-                  <button type="button">Enviar</button>
-                </div>
-              </section>
-            </DivBody>
-          </Content>
-        </Layout>
+    <Layout style={{ minHeight: '100vh' }}>
+      <LeftMenu />
+      <Layout>
+        <Content>
+          <DivBody>
+            <section>
+              <div>
+                <h3>Clique abaixo para pegar codigo de acesso.</h3>
+                <button onClick={generateCode} type="button">Gerar Código</button>
+                <h4>Código gerado: </h4>
+              </div>
+              <div>
+                <h3>Autorizar loja.</h3>
+                <button type="button">Autorizar</button>
+              </div>
+              <div>
+                <h3>Codigo de autorização.</h3>
+                <label>Cole o código de autorização, o mesmo que o Ifood disponibilizou ao autorizar a aplicação.</label>
+                <input type="text" required />
+                <button type="button">Enviar</button>
+              </div>
+            </section>
+          </DivBody>
+        </Content>
+        <Footer style={{ textAlign: 'center' }}>...</Footer>
       </Layout>
-    </div>
+    </Layout>
   );
 }
 
