@@ -1,17 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import Link from 'next/link'
 import { Form, message } from 'antd';
 import { fechtAuthenticationTokenCentralized } from '../../services/FetchFood/merchantAuthorization'
 import { setCookie } from 'nookies';
 import { AuthContext } from '../../contexts/AuthContext';
+/* import ButtonRegister from '../../atoms/button/index'; */
 
-import { DivCard, DivInputForm, H3, Input, Button, Hr, DivLink, DivButton, Label, SpanLink } from './loginCss';
+import { DivCard, DivInputForm, Input, Button, Hr, DivLink, DivButton, Label, SpanLink } from './loginCss';
 import 'antd/dist/antd.css';
 
 export function Login() {
   const [form] = Form.useForm();
   const { signIn } = useContext(AuthContext)
-  const [validLogin, setValidLogin] = useState(false);
   
   async function getTokenFood() {
     try {
@@ -30,16 +30,12 @@ export function Login() {
       window.location.pathname = '/dashboard';
     } catch (err) {
       message.error("Error: Informações incorretas ou não existe.");
-      setValidLogin(err);
     }
   }
 
   return (
     <DivCard>
       <Form form={form} onFinish={handleSubmit}>
-        {validLogin && 
-          <H3>Credenciais inexistente ou invalida</H3>
-        }
         <DivInputForm>
           <Label>Qual é o seu e-mail?</Label>
           <Form.Item
@@ -63,10 +59,10 @@ export function Login() {
           </Form.Item>
         </DivInputForm>
         <DivButton>
-          {/* <Button type="submit" value="login">
+          <Button type="submit" value="login">
             Entrar
-          </Button> */}
-           <ButtonRegister text="Entrar" />
+          </Button>
+          {/* <ButtonRegister text="Entrar" /> */}
           
         </DivButton>
         <Hr/>
