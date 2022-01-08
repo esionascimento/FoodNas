@@ -1,49 +1,15 @@
-import React, { /* useContext, */ useState/* , useEffect */ } from "react";
-// import { ThemeContext } from "styled-components";
+import React, { useState } from "react";
 import * as S from "./styled";
 import { Tooltip, Menu } from "antd";
-// import { useRouter } from "next/router";
-// import Link from "next/link";
 import { iconsListAdmin } from "./options";
-// import UserIcon from "./userIcon/index";
-// import { Data } from "src/models/user/user"; 
 import 'antd/dist/antd.css';
-/* import {
-  WifiOutlined
-} from '@ant-design/icons'; */
 
 function LeftMenu() {
-  // const themeContext = useContext(ThemeContext);
   const [collapsed, setCollapsed] = useState(true);
-
-  // const router = useRouter();
-
-  // const Logout = () => {
-  //     localStorage.removeItem("userAdmin");
-  //     localStorage.removeItem("tokenAdmin");
-  //     router.push("/admin/login");
-  // };
 
   const SiderHandle = () => {
     setCollapsed(!collapsed);
   };
-
-  // const pagePath = router.pathname;
-
-  // const setDefaultSelected = () => {
-  //     if (pagePath === "/admin/dashboard") {
-  //         setCollapsed(false);
-  //         const newArray = ["1"];
-  //         setPageRef(newArray);
-  //     }
-  // };
-
-  // useEffect(() => {
-  //     setDefaultSelected();
-  // }, []);
-
-  // const user = JSON.parse(localStorage.getItem("userAdmin"));
-  // const isCustomer = user.customer.name !== "cashbanx" ? true : false;
 
   return (
     <>
@@ -53,7 +19,6 @@ function LeftMenu() {
         onMouseEnter={SiderHandle}
         onMouseLeave={SiderHandle}
       >
-        {/* <WifiOutlined /> */}
         <Menu style={{ backgroundColor: '#F0F2F5' }}
           selectable
           defaultSelectedKeys={
@@ -62,7 +27,7 @@ function LeftMenu() {
           mode="inline"
         >
           {iconsListAdmin.map(
-            ({ /* name, */ text/* , path */, active, access, icon }, index) => (
+            ({ text, active, access, icon }, index) => (
               <S.MenuItem 
                 key={index}
                 icon={icon}
