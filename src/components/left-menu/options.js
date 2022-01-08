@@ -10,7 +10,7 @@ export const iconsListAdmin = [
   {
     name: "dashboard",
     text: "Dashboard",
-    path: "/admin/dashboard",
+    path: "/dashboard",
     active: true,
     access: true,
     icon: <HomeOutlined />
@@ -18,7 +18,7 @@ export const iconsListAdmin = [
   {
     name: "profile",
     text: "Perfil",
-    path: "https://documenter.getpostman.com/view/8141632/Tz5qZGZR#bf94bad1-6090-4ee5-9839-ef309e533d0a",
+    path: "/profile",
     active: true,
     access: true,
     icon: <ProfileOutlined />
@@ -26,7 +26,7 @@ export const iconsListAdmin = [
   {
     name: "config",
     text: "Configuração",
-    path: "",
+    path: "/config",
     active: false,
     access: false,
     icon: <SettingFilled />
@@ -34,7 +34,7 @@ export const iconsListAdmin = [
   {
     name: "report",
     text: "Report",
-    path: "",
+    path: "/report",
     active: false,
     access: false,
     icon: <BugOutlined />
@@ -42,7 +42,7 @@ export const iconsListAdmin = [
   {
     name: "logout",
     text: "Sair",
-    path: "",
+    path: "/",
     active: false,
     access: false,
     icon: <LogoutOutlined />
