@@ -26,7 +26,9 @@ function Dashboard() {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <LeftMenu />
+      {typeof  window  ! ==  'undefined' ? 'null' : 
+        <LeftMenu />
+      }
       <Layout>
         <Content>
           <DivBody>
