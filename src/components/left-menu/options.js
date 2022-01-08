@@ -26,7 +26,7 @@ export const iconsListAdmin = [
   {
     name: "config",
     text: "Configuração",
-    path: "/config",
+    path: "/setting",
     active: false,
     access: false,
     icon: <SettingFilled />

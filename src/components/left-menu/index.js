@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import * as S from "./styled";
+import Link from "next/link";
 import { Tooltip, Menu } from "antd";
 import { iconsListAdmin } from "./options";
 import 'antd/dist/antd.css';
@@ -27,21 +28,23 @@ function LeftMenu() {
           mode="inline"
         >
           {iconsListAdmin.map(
-            ({ text, active, access, icon }, index) => (
+            ({ text, active, access, icon, path }, index) => (
               <S.MenuItem 
                 key={index}
                 icon={icon}
-              >
-                <Tooltip
-                  title={
-                    active && access ? "" : "Em Desenvolvimento"
-                  }
-                  placement="right"
                 >
-                  <span style={{ display: "none" }} />
-                  
-                  <S.Text>{text}</S.Text>
-                </Tooltip>  
+                <Link href={path} passHref >
+                  <Tooltip
+                    title={
+                      active && access ? "" : "Em Desenvolvimento"
+                    }
+                    placement="right"
+                  >
+                    <span style={{ display: "none" }} />
+                    
+                    <S.Text>{text}</S.Text>
+                  </Tooltip>  
+                </Link>
               </S.MenuItem>
             )
           )}
