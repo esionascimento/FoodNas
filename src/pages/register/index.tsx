@@ -8,9 +8,9 @@ import {
   H2, Button, Label, DivBody, layoutFormItem, Input, DivButton, DivForm,
 } from "../../../styles/registerCss"
 
-import ButtonRegister from "../../atoms/button";
+/* import ButtonRegister from "../../atoms/button"; */
 
-export function Register() {
+export default function Register() {
   const [form] = Form.useForm();
 
   function checkPassword(cadastro) {
@@ -22,9 +22,9 @@ export function Register() {
   }
 
   function handleSubmit(cadastro) {
-    const { name, email, password, idStore } = cadastro
+    const { username, email, password, id_store } = cadastro
     if (checkPassword(cadastro)) {
-      newRegister({ name, email, password, idStore })
+      newRegister({ username, email, password, id_store })
         .then(() => {
           message.success("Sucesso: Usuario criado com sucesso.");
           onClickRedirect();
@@ -49,7 +49,7 @@ export function Register() {
           <Label>*Nome</Label>
           <Form.Item
             {...layoutFormItem}
-            name="name"
+            name="username"
             rules={[
               { required: true, message: "Por favor insira o nome!" },
             ]}
@@ -97,7 +97,7 @@ export function Register() {
           <Label>*ID Loja</Label>
           <Form.Item
             {...layoutFormItem}
-            name="idStore"
+            name="id_store"
             rules={[
               { required: true, message: "Por favor insira id da loja!" },
             ]}

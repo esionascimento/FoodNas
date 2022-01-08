@@ -1,7 +1,7 @@
-import { createContext, useEffect, useState } from 'react'
-import { fetchLogin, fetchAuthorizationAtlas } from '../services/FetchAtlas'
+import { createContext, /* useEffect, */ useState } from 'react'
+import { fetchLogin/* , fetchAuthorizationAtlas */ } from '../services/FetchAtlas'
 import { APIATLAS } from '../services/FetchAtlas/utilsAtlas';
-import { setCookie, parseCookies } from 'nookies';
+import { setCookie/* , parseCookies */ } from 'nookies';
 
 type User = {
   name: string;

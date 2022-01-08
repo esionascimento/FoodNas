@@ -2,15 +2,15 @@ import styled from "styled-components";
 import { Layout, Menu as AntMenu } from "antd";
 
 export const Sider = styled(Layout.Sider)`
-    padding: 40px 0 0 0;
-    justify-content: space-between;
-    background-color: black;
-    position: fixed;
-    width: 500px;
+    /* padding: 40px 0 0 0; */
+    /* justify-content: space-between; */
+    background-color: #F0F2F5;
+    /* position: fixed;
+    width: 500px; */
 
-    .ant-menu-item .ant-menu-item-only-child .sc-eCImPb .jCRzzH {
+    /* .ant-menu-item .ant-menu-item-only-child .sc-eCImPb .jCRzzH {
       padding: 0px;
-    }
+    } */
 
     /* .ant-layout-sider-collapsed .sc-gsDKAQ .bQqxTG {
       width: 500px;
@@ -21,15 +21,15 @@ export const Sider = styled(Layout.Sider)`
 `;
 
 export const SiderShadow = styled(Layout.Sider)`
-    padding: 55px 30px 0 0;
+    /* padding: 55px 30px 0 0;
     justify-content: space-between;
     background-color: black;
-    width: 0px;
+    width: 0px; */
 
 `;
 
 export const Menu = styled(AntMenu)`
-    height: calc(75vh - 85px);
+    /* height: calc(75vh - 85px);
     border: 1px solid black;
     background-color: black !important;
     width: 100%;
@@ -76,18 +76,18 @@ export const Menu = styled(AntMenu)`
                     hue-rotate(110deg) brightness(93%) contrast(83%);
             }
         }
-    }
+    } */
 `;
 
 export const MenuItem = styled(AntMenu.Item)`
-  .ant-menu.ant-menu-inline-collapsed > .ant-menu-item, .ant-menu.ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-item, .ant-menu.ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title {
+  /* .ant-menu.ant-menu-inline-collapsed > .ant-menu-item, .ant-menu.ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-item, .ant-menu.ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title {
     padding: 0px;
-  }
+  } */
 
 `;
 
 export const LinkContainer = styled.div`
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     align-self: center;
     align-items: center;
@@ -123,19 +123,19 @@ export const LinkContainer = styled.div`
             filter: invert(63%) sepia(59%) saturate(2740%) hue-rotate(110deg)
                 brightness(93%) contrast(83%);
         }
-    }
+    } */
 `;
 
 export const UserAndExitContainer = styled.div`
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: end;
-    height: 25vh;
+    height: 25vh; */
 `;
 
 export const LogOut = styled.div`
-    display: flex;
+    /* display: flex;
     width: 100%;
     height: 75px;
     text-align: center;
@@ -147,14 +147,13 @@ export const LogOut = styled.div`
     img {
         width: 30px;
         height: 30px;
-    }
+    } */
 `;
 
 
 export const Text = styled.span`
-    color: white;
+    /* color: white;
     font-family: "Poppins";
     font-size: 12px;
-    width: 100%;
-   
+    width: 100%; */
 `;
