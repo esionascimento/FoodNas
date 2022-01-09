@@ -27,12 +27,14 @@ function LeftMenu() {
   return (
     <>
       <S.Sider 
+        theme="light"
         collapsible
         collapsed={collapsed}
         onMouseEnter={SiderHandleEnter}
         onMouseLeave={SiderHandleLeave}
       >
         <Menu
+          theme="light"
           onClick={onClick}
           /* style={{ backgroundColor: '#F0F2F5' }} */
           selectable
