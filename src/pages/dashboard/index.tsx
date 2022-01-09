@@ -6,6 +6,7 @@ import { setCookie } from 'nookies';
 import { DivBody } from '../../../styles/dashboardCss';
 import withAuth from '../../utils/withAuth';
 import LeftMenu from "../../components/left-menu/index";
+import Header from "../../components/header";
 import {Layout} from "antd";
 const { /* Header, Content, */ Footer/* , Sider */ } = Layout;
 import 'antd/dist/antd.css';
@@ -26,10 +27,12 @@ function Dashboard() {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      {typeof  window  ! ==  'undefined' ? 'null' : 
+      {
+        typeof  window  ! ==  'undefined' ? 'null' : 
         <LeftMenu />
       }
       <Layout>
+      <Header />
         <Content>
           <DivBody>
             <section>
