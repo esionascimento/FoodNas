@@ -4,7 +4,7 @@ import { Layout, Menu as AntMenu } from "antd";
 export const Sider = styled(Layout.Sider)`
     /* padding: 40px 0 0 0; */
     /* justify-content: space-between; */
-    background-color: #F0F2F5;
+    /* background-color: #F0F2F5; */
     /* position: fixed;
     width: 500px; */
 
