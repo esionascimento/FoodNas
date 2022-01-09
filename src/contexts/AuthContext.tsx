@@ -42,10 +42,11 @@ export function AuthProvider({ children }) {
       email,
       password
     });
+    console.log('data :', data);
     setCookie(null, 'atlas.token', data.token, {maxAge: 86400 * 7, path: '/'});
-    setCookie(null, 'atlas.id_store', data.idStore, {maxAge: 86400 * 7, path: '/'});
-    setCookie(null, 'atlas.name', data.name, {maxAge: 86400 * 7, path: '/'});
-    setCookie(null, 'atlas.id', data._id, {maxAge: 86400 * 7, path: '/'});
+    setCookie(null, 'atlas.id_store', data.id_store, {maxAge: 86400 * 7, path: '/'});
+    setCookie(null, 'atlas.username', data.username, {maxAge: 86400 * 7, path: '/'});
+    setCookie(null, 'atlas.id', data.id, {maxAge: 86400 * 7, path: '/'});
 
     setUser(data);
 
