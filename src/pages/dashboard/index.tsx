@@ -8,7 +8,7 @@ import withAuth from '../../utils/withAuth';
 import LeftMenu from "../../components/left-menu/index";
 import Header from "../../components/header";
 import {Layout} from "antd";
-const { /* Header, Content, */ Footer/* , Sider */ } = Layout;
+const { Footer } = Layout;
 import 'antd/dist/antd.css';
 
 function Dashboard() {
@@ -16,7 +16,7 @@ function Dashboard() {
   async function generateCode() {
     try {
       const {data} = await fechtAuthenticationTokenCentralized();
-      setCookie(null, 'ifood.token', data.data.accessToken, {maxAge: 86400 * 7, path: '/'});
+      setCookie(null, 'food.token', data.data.accessToken, {maxAge: 86400 * 7, path: '/'});
 
       const aux = await fechtCatalogProductList()
       console.log('aux :', aux.data);
