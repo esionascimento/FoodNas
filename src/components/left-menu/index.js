@@ -3,7 +3,7 @@ import * as S from "./styled";
 import Link from "next/link";
 import { Tooltip, Menu } from "antd";
 import { iconsListAdmin } from "./options";
-import { setCookie, parseCookies } from 'nookies';
+import { setCookie, parseCookies, destroyCookie } from 'nookies';
 import cookiess from 'nookies';
 import 'antd/dist/antd.css';
 
@@ -20,6 +20,14 @@ function LeftMenu() {
   };
 
   function onClick(index) {
+    if (index.key === '4') {
+      console.log('entrei aqui');
+      destroyCookie(null, 'food.sider.index');
+      destroyCookie(null, 'atlas.id');
+      destroyCookie(null, 'atlas.id_store');
+      destroyCookie(null, 'atlas.token');
+      destroyCookie(null, 'food.sider.index');
+    }
     setCollapsed(true);
     setCookie(null, 'food.sider.index', index.key, {maxAge: 86400 * 7, path: '/'});
   }
