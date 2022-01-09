@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import Link from 'next/link'
+import Link from 'next/link';
 import { Form, message } from 'antd';
-import { fechtAuthenticationTokenCentralized } from '../../services/FetchFood/merchantAuthorization'
+import { fechtAuthenticationTokenCentralized } from '../../services/FetchFood/merchantAuthorization';
 import { setCookie } from 'nookies';
 import { AuthContext } from '../../contexts/AuthContext';
 /* import ButtonRegister from '../../atoms/button/index'; */
@@ -16,7 +16,7 @@ export function Login() {
   async function getTokenFood() {
     try {
       const {data} = await fechtAuthenticationTokenCentralized();
-      setCookie(null, 'ifood.token', data.data.accessToken, {maxAge: 86400 * 7, path: '/'})
+      setCookie(null, 'food.token', data.data.accessToken, {maxAge: 86400 * 7, path: '/'})
     } catch (err) {
       console.log('err2 :', err.response);
     }
