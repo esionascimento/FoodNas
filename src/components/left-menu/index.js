@@ -1,16 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as S from "./styled";
-import Link from "next/link";
-import { Tooltip, Menu } from "antd";
+import { Tooltip, Menu, Switch } from "antd";
 import { iconsListAdmin } from "./options";
+import { useRouter } from 'next/router';
 import { setCookie, parseCookies, destroyCookie } from 'nookies';
-import cookiess from 'nookies';
+
 import 'antd/dist/antd.css';
 
 function LeftMenu() {
+  const router = useRouter();
   const [collapsed, setCollapsed] = useState(true);
+  const [theme, setTheme] = useState();
+  
   const { 'food.sider.index': foodSiderIndex } = parseCookies();
-
+  const { 'foodnas.theme': cookieTheme } = parseCookies();
+  
+  const changeTheme = value => {
+    const aux = value ? 'dark' : 'light';
+    setCookie(null, 'foodnas.theme', aux, {maxAge: 86400 * 7});
+    setTheme(aux);
+  };
+  
+  useEffect(() => {
+    if (!cookieTheme) {
+      return setTheme('light');
+    }
+    setTheme(cookieTheme);
+  }, [cookieTheme]);
+  
   const SiderHandleEnter = () => {
     setCollapsed(false);
   };
@@ -19,45 +36,50 @@ function LeftMenu() {
     setCollapsed(true);
   };
 
-  function onClick(index) {
-    if (index.key === '4') {
-      console.log('entrei aqui');
+  function onClick(path, index) {
+    if (index === 4) {
       destroyCookie(null, 'food.sider.index');
       destroyCookie(null, 'atlas.id');
       destroyCookie(null, 'atlas.id_store');
       destroyCookie(null, 'atlas.token');
       destroyCookie(null, 'food.sider.index');
+      router.replace(`${path}`);
     }
     setCollapsed(true);
     setCookie(null, 'food.sider.index', index.key, {maxAge: 86400 * 7, path: '/'});
+    router.replace(`${path}`);
   }
 
   return (
     <>
       <S.Sider 
-        theme="light"
+        theme={theme}
         collapsible
         collapsed={collapsed}
         onMouseEnter={SiderHandleEnter}
         onMouseLeave={SiderHandleLeave}
       >
+        <Switch
+          checked={theme === 'dark'}
+          onChange={changeTheme}
+          checkedChildren="Dark"
+          unCheckedChildren="Light"
+        />
         <Menu
-          theme="light"
-          onClick={onClick}
-          /* style={{ backgroundColor: '#F0F2F5' }} */
+          theme={theme}
           selectable
           defaultSelectedKeys={
             foodSiderIndex ? "0" : foodSiderIndex
           }
           mode="inline"
-        >
+          >
           {iconsListAdmin.map(
             ({ text, active, access, icon, path }, index) => (
               <S.MenuItem 
+              onClick={() => onClick(path, index)}
                 key={index}
                 icon={icon}
                 >
-                <Link href={path} passHref >
                   <Tooltip
                     title={
                       active && access ? "" : "Em Desenvolvimento"
@@ -66,7 +88,6 @@ function LeftMenu() {
                   >     
                     <S.Text>{text}</S.Text>
                   </Tooltip>
-                </Link>
               </S.MenuItem>
             )
           )}

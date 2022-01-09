@@ -4,6 +4,7 @@ import { Form, message } from 'antd';
 import { fechtAuthenticationTokenCentralized } from '../../services/FetchFood/merchantAuthorization';
 import { setCookie } from 'nookies';
 import { AuthContext } from '../../contexts/AuthContext';
+/* import { WithPool } from '../../utils/WithPool'; */
 /* import ButtonRegister from '../../atoms/button/index'; */
 
 import { DivCard, DivInputForm, Input, Button, Hr, DivLink, DivButton, Label, SpanLink } from './loginCss';
@@ -17,6 +18,7 @@ export function Login() {
     try {
       const {data} = await fechtAuthenticationTokenCentralized();
       setCookie(null, 'food.token', data.data.accessToken, {maxAge: 86400 * 7, path: '/'})
+      /* WithPool(); */
     } catch (err) {
       console.log('err2 :', err.response);
     }
@@ -24,8 +26,8 @@ export function Login() {
   
   async function handleSubmit(event: any) {
     try {
-      await signIn(event)
-      await getTokenFood()
+      await signIn(event);
+      await getTokenFood();
       message.success("Sucesso Login.");
       window.location.pathname = '/dashboard';
     } catch (err) {

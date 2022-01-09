@@ -1,10 +1,12 @@
 import axios from 'axios'
+import { parseCookies } from "nookies";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
-let tokenIfood
+let tokenIfood = undefined;
 
 if (typeof window !== "undefined") {
-  tokenIfood = localStorage.getItem('tokenIfood')
+  const { 'food.token': token } = parseCookies();
+  tokenIfood = token;
 }
 
 export const APIPOST = axios.create({
@@ -13,3 +15,7 @@ export const APIPOST = axios.create({
     'Authorization': `Bearer ${tokenIfood}`
   }
 });
+
+if (tokenIfood) {
+  APIPOST.defaults.headers['Authorization'] = `Bearer ${tokenIfood}`;
+}
