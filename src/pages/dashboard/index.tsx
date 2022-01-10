@@ -159,7 +159,19 @@ function Dashboard() {
             </Col>
           </Row>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>...</Footer>
+        <Footer style={{ textAlign: 'center', margin: "0px", padding: "0px"}}>
+          <Row>
+            <Col flex="200px">
+              <DivFooter
+                id={"scrollableDiv"}
+              >
+                Relatorio do dia
+              </DivFooter>
+            </Col>
+            
+            <Col flex="auto">Info importante: Dinheiro, Cartão, Observação</Col>
+          </Row>
+        </Footer>
       </Layout>
     </Layout>
   );
