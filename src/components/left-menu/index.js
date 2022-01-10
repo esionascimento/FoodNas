@@ -52,7 +52,9 @@ function LeftMenu() {
 
   return (
     <>
-      <S.Sider 
+      <S.Sider
+        width={'150px'}
+        collapsedWidth={'60px'}
         theme={theme}
         collapsible
         collapsed={collapsed}
