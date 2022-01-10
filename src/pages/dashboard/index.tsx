@@ -10,6 +10,7 @@ import withAuth from '../../utils/withAuth';
 import LeftMenu from "../../components/left-menu/index";
 import Header from "../../components/header";
 import { fechtOrderEventPolling } from '../../services/FetchFood/merchantOrder';
+import { fechtMerchantStatus } from '../../services/FetchFood/merchantMerchant';
 
 import { DivBody, DivFooter } from '../../../styles/dashboardCss';
 import 'antd/dist/antd.css';
@@ -21,7 +22,15 @@ function Dashboard() {
   const [isDestru, setIsDestru] = useState(false);
   const [isMin, setIsMin] = useState(null);
   
-  let aux = null;
+  let aux = 'undefined';
+
+  useEffect(() => {
+    fechtMerchantStatus().then((data) => {
+      console.log('data :', data.data[0]);
+    }).catch((err) => {
+      console.log('err :', err);
+    })
+  }, [pausado]);
   
   useEffect(() => {
     let intervalInfinit = null;
@@ -61,6 +70,7 @@ function Dashboard() {
   
   function initTimer(event: any) {
     aux = event.target.name;
+    console.log('aux :', aux);
     setIsMin(aux);
 
     setIsActive(false);
@@ -72,10 +82,9 @@ function Dashboard() {
       setPausado(true);
     } else {
       if (aux === 'null') {
+        fechtOrderEventPolling();
         setIsActive(true);
         setPausado(false);
-        console.log('else if fetch')
-        fechtOrderEventPolling();
       } else {
         setPausado(true);
         setIsDestru(true);
