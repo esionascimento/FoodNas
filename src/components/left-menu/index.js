@@ -39,15 +39,17 @@ function LeftMenu() {
   function onClick(path, index) {
     if (index === 4) {
       destroyCookie(null, 'food.sider.index');
+      destroyCookie(null, 'food.token');
       destroyCookie(null, 'atlas.id');
       destroyCookie(null, 'atlas.id_store');
       destroyCookie(null, 'atlas.token');
-      destroyCookie(null, 'food.sider.index');
+      destroyCookie(null, 'atlas.username');
+      router.replace(`${path}`);
+    } else {
+      setCollapsed(true);
+      setCookie(null, 'food.sider.index', index, {maxAge: 86400 * 7, path: '/'});
       router.replace(`${path}`);
     }
-    setCollapsed(true);
-    setCookie(null, 'food.sider.index', index.key, {maxAge: 86400 * 7, path: '/'});
-    router.replace(`${path}`);
   }
 
   return (
@@ -71,7 +73,7 @@ function LeftMenu() {
           theme={theme}
           selectable
           defaultSelectedKeys={
-            foodSiderIndex ? "0" : foodSiderIndex
+            foodSiderIndex ? foodSiderIndex : "0"
           }
           mode="inline"
           >
