@@ -64,7 +64,9 @@ function Dashboard() {
 
     setIsActive(false);
 
-    if (isActive === true && aux === 'null') {
+    if (aux === 'closed') {
+      setPausado(true);
+    } else if (isActive === true && aux === 'null') {
       setPausado(true);
     } else {
       if (aux === 'null') {
@@ -115,6 +117,10 @@ function Dashboard() {
                 <h3>Play/Pause - 2 min</h3>
                 <button name="120" onClick={initTimer} type="button">2 min</button>
                 <h4>{pausado ? 'Pausado' : 'Ativo'}</h4>
+              </div>
+              <div>
+                <h3>Play/Pause - Fechar loja</h3>
+                <button name="closed" onClick={initTimer} type="button">Fechar loja</button>
               </div>
               <div>
                 <h3>Autorizar loja.</h3>
