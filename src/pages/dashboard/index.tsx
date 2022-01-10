@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { setCookie } from 'nookies';
+import { Layout, Row, Col, Skeleton, Divider } from 'antd';
+const { Footer } = Layout;
+
 import { fechtCatalogProductList } from '../../services/FetchFood/merchantCatalog';
 import { fechtAuthenticationTokenCentralized } from '../../services/FetchFood/merchantAuthorization';
-import { setCookie } from 'nookies';
-
-import { DivBody } from '../../../styles/dashboardCss';
 import withAuth from '../../utils/withAuth';
 import LeftMenu from "../../components/left-menu/index";
 import Header from "../../components/header";
 import { fechtOrderEventPolling } from '../../services/FetchFood/merchantOrder';
 
-import {Layout} from "antd";
-const { Footer } = Layout;
+import { DivBody, DivFooter } from '../../../styles/dashboardCss';
 import 'antd/dist/antd.css';
 
 function Dashboard() {
@@ -92,6 +93,9 @@ function Dashboard() {
     }
   }
 
+  const loadMoreData = () => {
+
+  };
   return (
     <Layout style={{ minHeight: '100vh' }}>
       {
@@ -101,39 +105,59 @@ function Dashboard() {
       <Layout>
       <Header />
         <Content>
-          <DivBody>
-            <section>
-              <div>
-                <h3>Clique abaixo para pegar codigo de acesso.</h3>
-                <button onClick={generateCode} type="button">Gerar Código</button>
-                <h4>Código gerado: </h4>
-              </div>
-              <div>
-                <h3>Play/Pause - infinito</h3>
-                <button name="null" onClick={initTimer} type="button">Infinito</button>
-                <h4>{pausado ? 'Pausados' : 'Ativo'}</h4>
-              </div>
-              <div>
-                <h3>Play/Pause - 2 min</h3>
-                <button name="120" onClick={initTimer} type="button">2 min</button>
-                <h4>{pausado ? 'Pausado' : 'Ativo'}</h4>
-              </div>
-              <div>
-                <h3>Play/Pause - Fechar loja</h3>
-                <button name="closed" onClick={initTimer} type="button">Fechar loja</button>
-              </div>
-              <div>
-                <h3>Autorizar loja.</h3>
-                <button type="button">Autorizar</button>
-              </div>
-              <div>
-                <h3>Codigo de autorização.</h3>
-                <label>Cole o código de autorização, o mesmo que o Ifood disponibilizou ao autorizar a aplicação.</label>
-                <input type="text" required />
-                <button type="button">Enviar</button>
-              </div>
-            </section>
-          </DivBody>
+          <Row wrap={false}>
+            <Col flex="200px">
+              <DivBody
+                id={"scrollableDiv"}
+              >
+                <InfiniteScroll
+                  dataLength={10}
+                  next={loadMoreData}
+                  hasMore={10 < 50}
+                  loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
+                  endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
+                  scrollableTarget="scrollableDiv"
+                >
+                  ...Nenhum pedido no momento
+                </InfiniteScroll>
+              </DivBody>
+            </Col>
+            <Col flex="auto" >
+              <DivBody>
+                <section>
+                  <div>
+                    <h3>Clique abaixo para pegar codigo de acesso.</h3>
+                    <button onClick={generateCode} type="button">Gerar Código</button>
+                    <h4>Código gerado: </h4>
+                  </div>
+                  <div>
+                    <h3>Play/Pause - infinito</h3>
+                    <button name="null" onClick={initTimer} type="button">Infinito</button>
+                    <h4>{pausado ? 'Pausados' : 'Ativo'}</h4>
+                  </div>
+                  <div>
+                    <h3>Play/Pause - 2 min</h3>
+                    <button name="120" onClick={initTimer} type="button">2 min</button>
+                    <h4>{pausado ? 'Pausado' : 'Ativo'}</h4>
+                  </div>
+                  <div>
+                    <h3>Play/Pause - Fechar loja</h3>
+                    <button name="closed" onClick={initTimer} type="button">Fechar loja</button>
+                  </div>
+                  <div>
+                    <h3>Autorizar loja.</h3>
+                    <button type="button">Autorizar</button>
+                  </div>
+                  <div>
+                    <h3>Codigo de autorização.</h3>
+                    <label>Cole o código de autorização, o mesmo que o Ifood disponibilizou ao autorizar a aplicação.</label>
+                    <input type="text" required />
+                    <button type="button">Enviar</button>
+                  </div>
+                </section>
+              </DivBody>
+            </Col>
+          </Row>
         </Content>
         <Footer style={{ textAlign: 'center' }}>...</Footer>
       </Layout>
