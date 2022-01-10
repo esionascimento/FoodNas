@@ -67,6 +67,7 @@ function Dashboard() {
 
     if (aux === 'closed') {
       setPausado(true);
+      setIsDestru(false);
     } else if (isActive === true && aux === 'null') {
       setPausado(true);
     } else {
