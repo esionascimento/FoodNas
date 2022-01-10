@@ -10,6 +10,7 @@ import withAuth from '../../utils/withAuth';
 import LeftMenu from "../../components/left-menu/index";
 import Header from "../../components/header";
 import { fechtOrderEventPolling } from '../../services/FetchFood/merchantOrder';
+import { fechtMerchantStatus } from '../../services/FetchFood/merchantMerchant';
 
 import { DivBody, DivFooter } from '../../../styles/dashboardCss';
 import 'antd/dist/antd.css';
@@ -23,6 +24,14 @@ function Dashboard() {
   
   let aux = 'undefined';
 
+  useEffect(() => {
+    fechtMerchantStatus().then((data) => {
+      console.log('data :', data.data[0]);
+    }).catch((err) => {
+      console.log('err :', err);
+    })
+  }, [pausado]);
+  
   useEffect(() => {
     let intervalInfinit = null;
     let count = 0;
@@ -61,6 +70,7 @@ function Dashboard() {
   
   function initTimer(event: any) {
     aux = event.target.name;
+    console.log('aux :', aux);
     setIsMin(aux);
 
     setIsActive(false);
