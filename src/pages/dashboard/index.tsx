@@ -21,8 +21,8 @@ function Dashboard() {
   const [isDestru, setIsDestru] = useState(false);
   const [isMin, setIsMin] = useState(null);
   
-  let aux = null;
-  
+  let aux = 'undefined';
+
   useEffect(() => {
     let intervalInfinit = null;
     let count = 0;
@@ -72,10 +72,9 @@ function Dashboard() {
       setPausado(true);
     } else {
       if (aux === 'null') {
+        fechtOrderEventPolling();
         setIsActive(true);
         setPausado(false);
-        console.log('else if fetch')
-        fechtOrderEventPolling();
       } else {
         setPausado(true);
         setIsDestru(true);
