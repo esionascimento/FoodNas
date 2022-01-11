@@ -3,6 +3,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { setCookie } from 'nookies';
 import { Layout, Row, Col, Skeleton, Divider } from 'antd';
 const { Footer } = Layout;
+import { useSelector, useDispatch } from "react-redux";
 
 import { fechtCatalogProductList } from '../../services/FetchFood/merchantCatalog';
 import { fechtAuthenticationTokenCentralized } from '../../services/FetchFood/merchantAuthorization';
@@ -11,66 +12,93 @@ import LeftMenu from "../../components/left-menu/index";
 import Header from "../../components/header";
 import { fechtOrderEventPolling } from '../../services/FetchFood/merchantOrder';
 import { fechtMerchantStatus } from '../../services/FetchFood/merchantMerchant';
+import { StatusLoja } from '../../store/merchantOrder/merchantOrderAction';
 
 import { DivBody, DivFooter } from '../../../styles/dashboardCss';
 import 'antd/dist/antd.css';
 
 function Dashboard() {
+  interface RootState {
+    merchantOrder: {
+      statusLoja: string
+    }
+  }
+  const dispatch = useDispatch()
   const {Content} = Layout;
+  const merchantOrder = (state: RootState) => state.merchantOrder;
+  const isOn = useSelector(merchantOrder);
+  const { statusLoja } = isOn;
   const [pausado, setPausado] = useState(true);
   const [isActive, setIsActive] = useState(false);
   const [isDestru, setIsDestru] = useState(false);
   const [isMin, setIsMin] = useState(null);
+  const [keyPoll, setKeyPoll] = useState(true);
   
   let aux = 'undefined';
 
   useEffect(() => {
-    fechtMerchantStatus().then((data) => {
-      console.log('data :', data.data[0]);
-    }).catch((err) => {
-      console.log('err :', err);
-    })
-  }, [pausado]);
-  
-  useEffect(() => {
-    let intervalInfinit = null;
-    let count = 0;
-
-    if (isActive) {
-      setIsDestru(false);
-      fechtOrderEventPolling();
-      intervalInfinit = setInterval(() => {
-        if (count === 30) {
-          fechtOrderEventPolling();
-          count = 0;
-          return
-        }
-        count += 1;
-      }, 1000);
+    async function fetchData() {
+      fechtMerchantStatus().then((data) => {
+        const {message, state} = data.data[0];
+        dispatch(StatusLoja(message.title));
+        console.log('Status message:', message.title);
+        console.log('Status state:', state);
+      }).catch((err) => {
+        console.log('errStatus :', err);
+      });
     }
-    return () => clearInterval(intervalInfinit);
+    fetchData();
+  }, [keyPoll, dispatch]);
+  
+  async function polling() {
+    await fechtOrderEventPolling();
+    setKeyPoll(prevKeyPoll => !prevKeyPoll)
+  }
+
+  useEffect(() => {
+    async function fetchData() {
+      let intervalInfinit = null;
+      let count = 0;
+
+      if (isActive) {
+        setIsDestru(false);
+        polling();
+        intervalInfinit = setInterval(() => {
+          if (count === 30) {
+            polling();
+            count = 0;
+            return
+          }
+          count += 1;
+        }, 1000);
+      }
+      return () => clearInterval(intervalInfinit);
+    }
+    fetchData();
   }, [isActive, pausado]);
 
   useEffect(() => {
-    let intervalMin = null;
-    let tempMin = 0;
+    async function fetchData() {
+      let intervalMin = null;
+      let tempMin = 0;
 
-    if (isDestru) {
-      intervalMin = setInterval(() => {
-        if (tempMin >= isMin) {
-          setPausado(false);
-          setIsActive(true);
-          return
-        }
-        tempMin += 1;
-      }, 1000);
+      if (isDestru) {
+        intervalMin = setInterval(() => {
+          if (tempMin >= isMin) {
+            setPausado(false);
+            setIsActive(true);
+            return
+          }
+          tempMin += 1;
+        }, 1000);
+      }
+      return () => clearInterval(intervalMin);
     }
-    return () => clearInterval(intervalMin);
+    fetchData();
   }, [isDestru, isMin]);
   
   function initTimer(event: any) {
     aux = event.target.name;
-    console.log('aux :', aux);
     setIsMin(aux);
 
     setIsActive(false);
@@ -82,7 +110,7 @@ function Dashboard() {
       setPausado(true);
     } else {
       if (aux === 'null') {
-        fechtOrderEventPolling();
+        polling();
         setIsActive(true);
         setPausado(false);
       } else {
@@ -113,6 +141,7 @@ function Dashboard() {
         <LeftMenu />
       }
       <Layout>
+        <div>{statusLoja}</div>
       <Header />
         <Content>
           <Row wrap={false}>

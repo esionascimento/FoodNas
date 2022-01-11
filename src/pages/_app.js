@@ -1,5 +1,6 @@
-import '../../styles/globals.css'
-import { AuthProvider } from '../contexts/AuthContext'
+import '../../styles/globals.css';
+import { AuthProvider } from '../contexts/AuthContext';
+import { storeWrapper } from "../store";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -9,4 +10,4 @@ function MyApp({ Component, pageProps }) {
   )
 }
 
-export default MyApp
+export default storeWrapper.withRedux(MyApp);
