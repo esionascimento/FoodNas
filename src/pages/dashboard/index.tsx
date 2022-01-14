@@ -33,9 +33,11 @@ function Dashboard() {
   const [isDestru, setIsDestru] = useState(false);
   const [isMin, setIsMin] = useState(null);
   const [keyPoll, setKeyPoll] = useState(true);
+  const [dataLog, setData] = useState([]);
   
   let aux = 'undefined';
-
+  const dataPedidos = [];
+  
   useEffect(() => {
     async function fetchData() {
       fechtMerchantStatus().then((data) => {
@@ -51,7 +53,17 @@ function Dashboard() {
   }, [keyPoll, dispatch]);
   
   async function polling() {
-    await fechtOrderEventPolling();
+    const resultPolling = await fechtOrderEventPolling();
+    console.log('resultPollingData :', resultPolling.data);
+    if (resultPolling.data.status === 200) {
+      resultPolling.data.data.map((data: any) => {
+        dataPedidos.push(data);
+        setData(dataPedidos)
+      })
+    }
+    //status 401 "message": "token expired"
+    //status 204 no content abrir loja sem retorno
+    //status 200 ok - a pedidos novos
     setKeyPoll(prevKeyPoll => !prevKeyPoll)
   }
 
@@ -157,7 +169,15 @@ function Dashboard() {
                   endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
                   scrollableTarget="scrollableDiv"
                 >
-                  ...Nenhum pedido no momento
+                  {dataLog ?
+                    dataLog.map((dados, index) => (
+                      <button key={index}>{dados.id}</button>
+                    ))
+                    :
+                    dataLog.map((dados, index) => (
+                      <button key={index}>{dados.id}</button>
+                    ))
+                  }
                 </InfiniteScroll>
               </DivBody>
             </Col>
