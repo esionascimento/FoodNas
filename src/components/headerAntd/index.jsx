@@ -1,38 +1,45 @@
 import { useEffect, useState } from 'react';
-import { Layout, Menu } from 'antd';
+import { Layout } from 'antd';
 import { parseCookies } from 'nookies';
 import { useSelector } from "react-redux";
 
 const { Header } = Layout;
+import { Section, Div, DivMenu } from './styled';
 
 export const HeaderAntd = () => {
   const [theme, setTheme] = useState();
   const { 'foodnas.theme': cookieTheme } = parseCookies();
   const { theme: storeTheme } = useSelector(state => state.storeDashboard);
+  const { statusLoja } = useSelector(state => state.merchantOrder);
+  console.log('statusLoja :', statusLoja);
+  
 
   useEffect(() => {
     if (cookieTheme) {
       if (storeTheme === 'light') {
-        return setTheme('light');
+        return setTheme('#fff');
       }
-      setTheme('dark');
+      setTheme('#001529');
     }
   }, [cookieTheme, storeTheme]);
 
+  function onClick(e) {
+    console.log(': ', e.target.name)
+  }
+
   return (
     <Layout>
-      <Header>
-        {/* <div /> */}
-        <Menu
-          theme={theme}
-          mode="horizontal"
-          defaultSelectedKeys={['1']}
-        >
-          {new Array(3).fill(null).map((_, index) => {
-            const key = index + 1;
-            return <Menu.Item key={key}>{`nav ${key}`}</Menu.Item>;
-          })}
-        </Menu>
+      <Header style={{background: theme}}>
+        <Section>
+          <Div>
+            <DivMenu onClick={onClick}>kslfkj</DivMenu>
+            <DivMenu onClick={onClick}>s</DivMenu>
+          </Div>
+          <Div>
+            <Div>{statusLoja}</Div>
+            <DivMenu onClick={onClick}>Pausar/Fechar</DivMenu>
+          </Div>
+        </Section>
       </Header>
     </Layout>
   )
