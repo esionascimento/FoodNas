@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
-import * as S from "./styled";
 import { Tooltip, Menu, Switch } from "antd";
-import { iconsListAdmin } from "./options";
 import { useRouter } from 'next/router';
 import { setCookie, parseCookies, destroyCookie } from 'nookies';
+import { useDispatch } from "react-redux";
+
+import { iconsListAdmin } from "./options";
+import * as S from "./styled";
+
+import { ACTheme } from '../../store/dashboard/dashboardAction';
 
 import 'antd/dist/antd.css';
 
 function LeftMenu() {
+  const dispatch = useDispatch();
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(true);
   const [theme, setTheme] = useState();
@@ -17,6 +22,7 @@ function LeftMenu() {
   
   const changeTheme = value => {
     const aux = value ? 'dark' : 'light';
+    dispatch(ACTheme(aux));
     setCookie(null, 'foodnas.theme', aux, {maxAge: 86400 * 7});
     setTheme(aux);
   };
@@ -25,8 +31,9 @@ function LeftMenu() {
     if (!cookieTheme) {
       return setTheme('light');
     }
+    dispatch(ACTheme(cookieTheme));
     setTheme(cookieTheme);
-  }, [cookieTheme]);
+  }, [cookieTheme, dispatch]);
   
   const SiderHandleEnter = () => {
     setCollapsed(false);
