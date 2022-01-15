@@ -9,9 +9,11 @@ import { fechtCatalogProductList } from '../../services/FetchFood/merchantCatalo
 import { fechtAuthenticationTokenCentralized } from '../../services/FetchFood/merchantAuthorization';
 import withAuth from '../../utils/withAuth';
 import LeftMenu from "../../components/left-menu/index";
-import Header from "../../components/header";
+/* import Header from "../../components/header"; */
+import { HeaderAntd } from '../../components/headerAntd';
 import { fechtOrderEventPolling } from '../../services/FetchFood/merchantOrder';
 import { fechtMerchantStatus } from '../../services/FetchFood/merchantMerchant';
+
 import { StatusLoja } from '../../store/merchantOrder/merchantOrderAction';
 
 import { DivBody, DivFooter } from '../../../styles/dashboardCss';
@@ -23,7 +25,7 @@ function Dashboard() {
       statusLoja: string
     }
   }
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const {Content} = Layout;
   const merchantOrder = (state: RootState) => state.merchantOrder;
   const isOn = useSelector(merchantOrder);
@@ -146,6 +148,7 @@ function Dashboard() {
   const loadMoreData = () => {
 
   };
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       {
@@ -153,14 +156,13 @@ function Dashboard() {
         <LeftMenu />
       }
       <Layout>
-        <div>{statusLoja}</div>
-      <Header />
+      <HeaderAntd />
         <Content>
           <Row wrap={false}>
             <Col flex="200px">
               <DivBody
                 id={"scrollableDiv"}
-              >
+                >
                 <InfiniteScroll
                   dataLength={10}
                   next={loadMoreData}
@@ -168,22 +170,23 @@ function Dashboard() {
                   loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
                   endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
                   scrollableTarget="scrollableDiv"
-                >
+                  >
                   {dataLog ?
                     dataLog.map((dados, index) => (
                       <button key={index}>{dados.id}</button>
-                    ))
+                      ))
                     :
                     dataLog.map((dados, index) => (
                       <button key={index}>{dados.id}</button>
-                    ))
-                  }
+                      ))
+                    }
                 </InfiniteScroll>
               </DivBody>
             </Col>
             <Col flex="auto" >
               <DivBody>
                 <section>
+                  <div>{statusLoja}</div>
                   <div>
                     <h3>Clique abaixo para pegar codigo de acesso.</h3>
                     <button onClick={generateCode} type="button">Gerar Código</button>
