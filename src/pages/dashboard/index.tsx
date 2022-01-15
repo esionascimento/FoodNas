@@ -152,11 +152,12 @@ function Dashboard() {
   return (
     <Layout style={{ minHeight: '100vh' }}>
       {
-        typeof  window  ! ==  'undefined' ? 'null' : 
-        <LeftMenu />
+        typeof  window  ! ==  'undefined' ? 'null' : <LeftMenu />
       }
       <Layout>
-      <HeaderAntd />
+      {
+        typeof  window  ! ==  'undefined' ? 'null' : <HeaderAntd />
+      }
         <Content>
           <Row wrap={false}>
             <Col flex="200px">
