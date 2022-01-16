@@ -28,11 +28,11 @@ export const HeaderAntd = () => {
   }
 
   return (
-    <Header style={{background: theme, height: '40px'}}>
+    <Header style={{background: theme, margin:  '-10px 0'}}>
       <Section>
         <Div>
-          <DivMenu onClick={onClick}>kslfkj</DivMenu>
-          <DivMenu onClick={onClick}>s</DivMenu>
+          <DivMenu onClick={onClick}>FoodNas</DivMenu>
+          <DivMenu onClick={onClick}>0 Pedidos</DivMenu>
         </Div>
         <Div>
           <Div>{statusLoja}</Div>
