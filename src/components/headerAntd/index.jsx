@@ -1,27 +1,23 @@
 import { useEffect, useState } from 'react';
 import { Layout } from 'antd';
-import { parseCookies } from 'nookies';
 import { useSelector } from "react-redux";
-
 const { Header } = Layout;
-import { Section, Div, DivMenu } from './styled';
+
+import { DivBody, Div, DivMenu } from './styled';
 
 export const HeaderAntd = () => {
   const [theme, setTheme] = useState();
-  const { 'foodnas.theme': cookieTheme } = parseCookies();
   const { theme: storeTheme } = useSelector(state => state.storeDashboard);
   const { statusLoja } = useSelector(state => state.merchantOrder);
   console.log('statusLoja :', statusLoja);
   
 
   useEffect(() => {
-    if (cookieTheme) {
-      if (storeTheme === 'light') {
-        return setTheme('#fff');
-      }
-      setTheme('#001529');
+    if (storeTheme === 'light') {
+      return setTheme('#fff');
     }
-  }, [cookieTheme, storeTheme]);
+    setTheme('#001529');
+  }, [ storeTheme]);
 
   function onClick(e) {
     console.log(': ', e.target.name)
@@ -29,7 +25,7 @@ export const HeaderAntd = () => {
 
   return (
     <Header style={{background: theme, margin:  '-10px 0'}}>
-      <Section>
+      <DivBody>
         <Div>
           <DivMenu onClick={onClick}>FoodNas</DivMenu>
           <DivMenu onClick={onClick}>0 Pedidos</DivMenu>
@@ -38,7 +34,7 @@ export const HeaderAntd = () => {
           <Div>{statusLoja}</Div>
           <DivMenu onClick={onClick}>Pausar/Fechar</DivMenu>
         </Div>
-      </Section>
+      </DivBody>
     </Header>
   )
 };
