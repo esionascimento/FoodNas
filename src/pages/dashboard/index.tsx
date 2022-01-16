@@ -54,6 +54,9 @@ function Dashboard() {
     fetchData();
   }, [keyPoll, dispatch]);
   
+  //status 401 "message": "token expired"
+  //status 204 no content abrir loja sem retorno
+  //status 200 ok - a pedidos novos
   async function polling() {
     const resultPolling = await fechtOrderEventPolling();
     console.log('resultPollingData :', resultPolling.data);
@@ -63,9 +66,6 @@ function Dashboard() {
         setData(dataPedidos)
       })
     }
-    //status 401 "message": "token expired"
-    //status 204 no content abrir loja sem retorno
-    //status 200 ok - a pedidos novos
     setKeyPoll(prevKeyPoll => !prevKeyPoll)
   }
 
@@ -152,89 +152,92 @@ function Dashboard() {
   return (
     <Layout style={{ minHeight: '100vh' }}>
       {
-        typeof  window  ! ==  'undefined' ? 'null' : <LeftMenu />
-      }
-      <Layout>
-      {
         typeof  window  ! ==  'undefined' ? 'null' : <HeaderAntd />
       }
-        <Content>
-          <Row wrap={false}>
-            <Col flex="200px">
-              <DivBody
-                id={"scrollableDiv"}
-                >
-                <InfiniteScroll
-                  dataLength={10}
-                  next={loadMoreData}
-                  hasMore={10 < 50}
-                  loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
-                  endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
-                  scrollableTarget="scrollableDiv"
+      <Layout>
+        {
+          typeof  window  ! ==  'undefined' ? 'null' : <LeftMenu />
+        }
+        <Layout>
+          <Content>
+            <Row wrap={false}>
+              <Col flex="200px">
+                <DivBody
+                  id={"scrollableDiv"}
                   >
-                  {dataLog ?
-                    dataLog.map((dados, index) => (
-                      <button key={index}>{dados.id}</button>
-                      ))
-                    :
-                    dataLog.map((dados, index) => (
-                      <button key={index}>{dados.id}</button>
-                      ))
-                    }
-                </InfiniteScroll>
-              </DivBody>
-            </Col>
-            <Col flex="auto" >
-              <DivBody>
-                <section>
-                  <div>{statusLoja}</div>
-                  <div>
-                    <h3>Clique abaixo para pegar codigo de acesso.</h3>
-                    <button onClick={generateCode} type="button">Gerar Código</button>
-                    <h4>Código gerado: </h4>
-                  </div>
-                  <div>
-                    <h3>Play/Pause - infinito</h3>
-                    <button name="null" onClick={initTimer} type="button">Infinito</button>
-                    <h4>{pausado ? 'Pausados' : 'Ativo'}</h4>
-                  </div>
-                  <div>
-                    <h3>Play/Pause - 2 min</h3>
-                    <button name="120" onClick={initTimer} type="button">2 min</button>
-                    <h4>{pausado ? 'Pausado' : 'Ativo'}</h4>
-                  </div>
-                  <div>
-                    <h3>Play/Pause - Fechar loja</h3>
-                    <button name="closed" onClick={initTimer} type="button">Fechar loja</button>
-                  </div>
-                  <div>
-                    <h3>Autorizar loja.</h3>
-                    <button type="button">Autorizar</button>
-                  </div>
-                  <div>
-                    <h3>Codigo de autorização.</h3>
-                    <label>Cole o código de autorização, o mesmo que o Ifood disponibilizou ao autorizar a aplicação.</label>
-                    <input type="text" required />
-                    <button type="button">Enviar</button>
-                  </div>
-                </section>
-              </DivBody>
-            </Col>
-          </Row>
-        </Content>
-        <Footer style={{ textAlign: 'center', margin: "0px", padding: "0px"}}>
-          <Row>
-            <Col flex="200px">
-              <DivFooter
-                id={"scrollableDiv"}
-              >
-                Relatorio do dia
-              </DivFooter>
-            </Col>
-            
-            <Col flex="auto">Info importante: Dinheiro, Cartão, Observação</Col>
-          </Row>
-        </Footer>
+                  <InfiniteScroll
+                    dataLength={10}
+                    next={loadMoreData}
+                    hasMore={10 < 50}
+                    loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
+                    endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
+                    scrollableTarget="scrollableDiv"
+                    >
+                    {dataLog ?
+                      dataLog.map((dados, index) => (
+                        <button key={index}>{dados.id}</button>
+                        ))
+                      :
+                      dataLog.map((dados, index) => (
+                        <button key={index}>{dados.id}</button>
+                        ))
+                      }
+                  </InfiniteScroll>
+                </DivBody>
+              </Col>
+              <Col flex="auto" >
+                <DivBody>
+                  <section>
+                    <div>{statusLoja}</div>
+                    <div>
+                      <h3>Clique abaixo para pegar codigo de acesso.</h3>
+                      <button onClick={generateCode} type="button">Gerar Código</button>
+                      <h4>Código gerado: </h4>
+                    </div>
+                    <div>
+                      <h3>Play/Pause - infinito</h3>
+                      <button name="null" onClick={initTimer} type="button">Infinito</button>
+                      <h4>{pausado ? 'Pausados' : 'Ativo'}</h4>
+                    </div>
+                    <div>
+                      <h3>Play/Pause - 2 min</h3>
+                      <button name="120" onClick={initTimer} type="button">2 min</button>
+                      <h4>{pausado ? 'Pausado' : 'Ativo'}</h4>
+                    </div>
+                    <div>
+                      <h3>Play/Pause - Fechar loja</h3>
+                      <button name="closed" onClick={initTimer} type="button">Fechar loja</button>
+                    </div>
+                    <div>
+                      <h3>Autorizar loja.</h3>
+                      <button type="button">Autorizar</button>
+                    </div>
+                    <div>
+                      <h3>Codigo de autorização.</h3>
+                      <label>Cole o código de autorização, o mesmo que o Ifood disponibilizou ao autorizar a aplicação.</label>
+                      <input type="text" required />
+                      <button type="button">Enviar</button>
+                    </div>
+                  </section>
+                </DivBody>
+              </Col>
+            </Row>
+          </Content>
+          <Footer style={{ textAlign: 'center', margin: "0px", padding: "0px", height: '70px'}}>
+            <Row>
+              <Col flex="200px">
+                <DivFooter>
+                  Relatorio do dia
+                </DivFooter>
+                <DivFooter>
+                  Relatorio do dia
+                </DivFooter>
+              </Col>
+              
+              <Col flex="auto">Info importante: Dinheiro, Cartão, Observação</Col>
+            </Row>
+          </Footer>
+        </Layout>
       </Layout>
     </Layout>
   );
