@@ -28,19 +28,17 @@ export const HeaderAntd = () => {
   }
 
   return (
-    <Layout>
-      <Header style={{background: theme}}>
-        <Section>
-          <Div>
-            <DivMenu onClick={onClick}>kslfkj</DivMenu>
-            <DivMenu onClick={onClick}>s</DivMenu>
-          </Div>
-          <Div>
-            <Div>{statusLoja}</Div>
-            <DivMenu onClick={onClick}>Pausar/Fechar</DivMenu>
-          </Div>
-        </Section>
-      </Header>
-    </Layout>
+    <Header style={{background: theme, margin:  '-10px 0'}}>
+      <Section>
+        <Div>
+          <DivMenu onClick={onClick}>FoodNas</DivMenu>
+          <DivMenu onClick={onClick}>0 Pedidos</DivMenu>
+        </Div>
+        <Div>
+          <Div>{statusLoja}</Div>
+          <DivMenu onClick={onClick}>Pausar/Fechar</DivMenu>
+        </Div>
+      </Section>
+    </Header>
   )
 };
