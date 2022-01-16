@@ -32,21 +32,19 @@ function Dashboard() {
   const { statusLoja } = isOn;
   const [pausado, setPausado] = useState(true);
   const [isActive, setIsActive] = useState(false);
-  const [isDestru, setIsDestru] = useState(false);
+  const [isPausa, setIsPausa] = useState(false);
   const [isMin, setIsMin] = useState(null);
   const [keyPoll, setKeyPoll] = useState(true);
   const [dataLog, setData] = useState([]);
   
   let aux = 'undefined';
-  const dataPedidos = [];
   
   useEffect(() => {
     async function fetchData() {
+      console.log('loja status')
       fechtMerchantStatus().then((data) => {
-        const {message, state} = data.data[0];
+        const { message } = data.data[0];
         dispatch(StatusLoja(message.title));
-        console.log('Status message:', message.title);
-        console.log('Status state:', state);
       }).catch((err) => {
         console.log('errStatus :', err);
       });
@@ -57,27 +55,29 @@ function Dashboard() {
   //status 401 "message": "token expired"
   //status 204 no content abrir loja sem retorno
   //status 200 ok - a pedidos novos
-  async function polling() {
-    const resultPolling = await fechtOrderEventPolling();
-    console.log('resultPollingData :', resultPolling.data);
-    if (resultPolling.data.status === 200) {
-      resultPolling.data.data.map((data: any) => {
-        dataPedidos.push(data);
-        setData(dataPedidos)
-      })
-    }
-    setKeyPoll(prevKeyPoll => !prevKeyPoll)
-  }
-
+  
   useEffect(() => {
     async function fetchData() {
+      async function polling() {
+        console.log('data :');
+        const resultPolling = await fechtOrderEventPolling();
+        console.log('resultPolling :', resultPolling);
+        if (resultPolling.status === 200) {
+          resultPolling.data.data.map((data: any) => {
+            setData(dataLog => [...dataLog, data]);
+          })
+        }
+        setKeyPoll(prevKeyPoll => !prevKeyPoll)
+      }
       let intervalInfinit = null;
       let count = 0;
 
       if (isActive) {
-        setIsDestru(false);
+        console.log("pausa");
+        setIsPausa(false);
         polling();
         intervalInfinit = setInterval(() => {
+          console.log('interval infi')
           if (count === 30) {
             polling();
             count = 0;
@@ -92,11 +92,12 @@ function Dashboard() {
   }, [isActive, pausado]);
 
   useEffect(() => {
+    console.log('useEffect Tempo pausa')
     async function fetchData() {
       let intervalMin = null;
       let tempMin = 0;
 
-      if (isDestru) {
+      if (isPausa) {
         intervalMin = setInterval(() => {
           if (tempMin >= isMin) {
             setPausado(false);
@@ -109,7 +110,7 @@ function Dashboard() {
       return () => clearInterval(intervalMin);
     }
     fetchData();
-  }, [isDestru, isMin]);
+  }, [isPausa, isMin]);
   
   function initTimer(event: any) {
     aux = event.target.name;
@@ -119,17 +120,17 @@ function Dashboard() {
 
     if (aux === 'closed') {
       setPausado(true);
-      setIsDestru(false);
+      setIsPausa(false);
     } else if (isActive === true && aux === 'null') {
       setPausado(true);
     } else {
       if (aux === 'null') {
-        polling();
+        /* polling(); */
         setIsActive(true);
         setPausado(false);
       } else {
         setPausado(true);
-        setIsDestru(true);
+        setIsPausa(true);
       }
     }
   }
@@ -187,7 +188,7 @@ function Dashboard() {
               </Col>
               <Col flex="auto" >
                 <DivBody>
-                  <section>
+                  <div>
                     <div>{statusLoja}</div>
                     <div>
                       <h3>Clique abaixo para pegar codigo de acesso.</h3>
@@ -218,7 +219,7 @@ function Dashboard() {
                       <input type="text" required />
                       <button type="button">Enviar</button>
                     </div>
-                  </section>
+                  </div>
                 </DivBody>
               </Col>
             </Row>

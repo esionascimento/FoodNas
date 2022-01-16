@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Section = styled.section`
+export const DivBody = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 0 10px;
