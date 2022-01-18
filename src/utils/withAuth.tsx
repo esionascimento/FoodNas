@@ -12,8 +12,8 @@ export default function withAuth(WrappedComponent: ElementType) {
     APIATLAS.defaults.headers['Authorization'] = `${token}`;
 
     useEffect(() => {
-      fetchAuthorizationAtlas().then((success) => {
-        console.log('success :', success);
+      fetchAuthorizationAtlas().then(() => {
+
       })
       .catch((error) => {
         console.log('errorWithAuth :', error.response);
