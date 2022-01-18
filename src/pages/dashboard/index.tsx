@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { setCookie } from 'nookies';
+import { setCookie, parseCookies } from 'nookies';
 import { Layout, Row, Col, Skeleton, Divider } from 'antd';
 const { Footer } = Layout;
 import { useSelector, useDispatch } from "react-redux";
@@ -25,41 +25,37 @@ function Dashboard() {
       statusLoja: string
     }
   }
+
   const dispatch = useDispatch();
   const {Content} = Layout;
   const merchantOrder = (state: RootState) => state.merchantOrder;
   const isOn = useSelector(merchantOrder);
   const { statusLoja } = isOn;
+
   const [pausado, setPausado] = useState(true);
   const [isActive, setIsActive] = useState(false);
   const [isPausa, setIsPausa] = useState(false);
   const [isMin, setIsMin] = useState(null);
-  const [keyPoll, setKeyPoll] = useState(true);
   const [dataLog, setData] = useState([]);
   
   let aux = 'undefined';
   
+  //status 401 "message": "token expired"
+  //status 204 no content abrir loja sem retorno
+  //status 200 ok - a pedidos novos
   useEffect(() => {
-    async function fetchData() {
+    async function fetchStatus() {
       console.log('loja status')
       fechtMerchantStatus().then((data) => {
         const { message } = data.data[0];
         dispatch(StatusLoja(message.title));
       }).catch((err) => {
-        console.log('errStatus :', err);
+        console.log('errStatus :', err.response);
       });
     }
-    fetchData();
-  }, [keyPoll, dispatch]);
-  
-  //status 401 "message": "token expired"
-  //status 204 no content abrir loja sem retorno
-  //status 200 ok - a pedidos novos
-  
-  useEffect(() => {
+
     async function fetchData() {
       async function polling() {
-        console.log('data :');
         const resultPolling = await fechtOrderEventPolling();
         console.log('resultPolling :', resultPolling);
         if (resultPolling.status === 200) {
@@ -67,7 +63,7 @@ function Dashboard() {
             setData(dataLog => [...dataLog, data]);
           })
         }
-        setKeyPoll(prevKeyPoll => !prevKeyPoll)
+        fetchStatus();
       }
       let intervalInfinit = null;
       let count = 0;
@@ -89,7 +85,7 @@ function Dashboard() {
       return () => clearInterval(intervalInfinit);
     }
     fetchData();
-  }, [isActive, pausado]);
+  }, [isActive, pausado, dispatch]);
 
   useEffect(() => {
     console.log('useEffect Tempo pausa')
@@ -137,12 +133,12 @@ function Dashboard() {
 
   async function generateCode() {
     try {
-      const {data} = await fechtAuthenticationTokenCentralized();
+      const { data } = await fechtAuthenticationTokenCentralized();
       setCookie(null, 'food.token', data.data.accessToken, {maxAge: 86400 * 7, path: '/'});
       const aux = await fechtCatalogProductList()
       console.log('aux :', aux.data);
     } catch (err) {
-      console.log('err :', err);
+      console.log('errAuthCentrDash :', err.message);
     }
   }
 
