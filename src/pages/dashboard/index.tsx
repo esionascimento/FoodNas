@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { setCookie, parseCookies } from 'nookies';
+import { setCookie } from 'nookies';
 import { Layout, Row, Col, Skeleton, Divider } from 'antd';
 const { Footer } = Layout;
 import { useSelector, useDispatch } from "react-redux";
@@ -53,7 +53,8 @@ function Dashboard() {
         console.log('errStatus :', err.response);
       });
     }
-
+    fetchStatus();
+    
     async function fetchData() {
       async function polling() {
         const resultPolling = await fechtOrderEventPolling();
@@ -121,7 +122,6 @@ function Dashboard() {
       setPausado(true);
     } else {
       if (aux === 'null') {
-        /* polling(); */
         setIsActive(true);
         setPausado(false);
       } else {
