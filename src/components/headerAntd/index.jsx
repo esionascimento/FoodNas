@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react';
 import { Layout } from 'antd';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 const { Header } = Layout;
+
+import { ACVisibleModalPausa } from '../../store/dashboard/dashboardAction';
+import { ModalPausa } from './modalPausa';
 
 import { DivBody, Div, DivMenu } from './styled';
 
 export const HeaderAntd = () => {
+  const dispatch = useDispatch();
   const [theme, setTheme] = useState();
   const { theme: storeTheme } = useSelector(state => state.storeDashboard);
   const { statusLoja } = useSelector(state => state.merchantOrder);
   console.log('statusLoja :', statusLoja);
-  
 
   useEffect(() => {
     if (storeTheme === 'light') {
@@ -23,6 +26,10 @@ export const HeaderAntd = () => {
     console.log(': ', e.target.name)
   }
 
+  function onModal() {
+    dispatch(ACVisibleModalPausa(true));
+  };
+
   return (
     <Header style={{background: theme, margin:  '-10px 0'}}>
       <DivBody>
@@ -32,9 +39,10 @@ export const HeaderAntd = () => {
         </Div>
         <Div>
           <Div>{statusLoja}</Div>
-          <DivMenu onClick={onClick}>Pausar/Fechar</DivMenu>
+          <DivMenu onClick={onModal}>Pausar/Fechar</DivMenu>
         </Div>
       </DivBody>
+      <ModalPausa />
     </Header>
   )
 };
