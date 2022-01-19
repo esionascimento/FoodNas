@@ -4,3 +4,10 @@ export function ACTheme (theme) {
     payload: theme
   }
 };
+
+export function ACVisibleModalPausa (pausa) {
+  return {
+    type: 'VISIBLE_MODAL_PAUSA',
+    payload: pausa
+  }
+}
