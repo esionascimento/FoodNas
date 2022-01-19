@@ -1,7 +1,8 @@
 const INITIAL_STATE = {
   theme: 'light',
   modalPausa: {
-    visibleModalPausa: false
+    visibleModalPausa: false,
+    tempo: -1
   }
 };
 
@@ -19,6 +20,14 @@ export function StoreDashboard (state = INITIAL_STATE, action) {
         modalPausa: {
           ...state.modalPausa,
           visibleModalPausa: action.payload
+        }
+      }
+    case 'PAUSA':
+      return {
+        ...state,
+        modalPausa: {
+          ...state.modalPausa,
+          tempo: action.payload
         }
       }
     default:
