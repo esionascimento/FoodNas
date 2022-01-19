@@ -11,3 +11,10 @@ export function ACVisibleModalPausa (pausa) {
     payload: pausa
   }
 }
+
+export function ACPausaTempo (pausa) {
+  return {
+    type: 'PAUSA',
+    payload: pausa
+  }
+}
