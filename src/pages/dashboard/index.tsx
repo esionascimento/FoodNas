@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { setCookie } from 'nookies';
 import { Layout, Row, Col, Skeleton, Divider } from 'antd';
@@ -25,6 +25,10 @@ function Dashboard() {
   const {Content} = Layout;
   const merchantOrder = (state: RootState) => state.merchantOrder;
   const isOn = useSelector(merchantOrder);
+
+  const [dataPending, setDataPending] = useState([]);
+  const [dataConfirmado, setDataConfirmado] = useState([]);
+  const [dataCanceled, setDataCanceled] = useState([]);
   console.log('isOn :', isOn);
 
   /* async function generateCode() {
@@ -37,6 +41,20 @@ function Dashboard() {
       console.log('errAuthCentrDash :', err.message);
     }
   } */
+
+  useEffect(() => {
+    const aux = JSON.parse(localStorage.getItem('food.orders'));
+    console.log('aux :', aux);
+    if (aux) {
+      aux.data.map((data: any) => {
+        if (data.code === 'PLC') {
+          setDataPending(prev => [...prev, data]);
+        } else if (data.code === 'CAN') {
+          setDataCanceled(prev => [...prev, data]);
+        }
+      });
+    }
+  }, []);
 
   const loadMoreData = () => {
 
@@ -66,15 +84,36 @@ function Dashboard() {
                     endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
                     scrollableTarget="scrollableDiv"
                     >
-                    {/* {dataLog ?
-                      dataLog.map((dados, index) => (
-                        <button key={index}>{dados.id}</button>
-                        ))
-                      :
-                      dataLog.map((dados, index) => (
-                        <button key={index}>{dados.id}</button>
-                        ))
-                      } */}
+                      <div>
+                        <p>Pedidos pendentes</p>
+                        {dataPending.length ?
+                          dataPending.map((dados, index) => (
+                            <button key={index}>{dados.orderId}</button>
+                          ))
+                          :
+                          <p>0 Pedidos Pendentes</p>
+                        }
+                      </div>
+                      <div>
+                        <p>Pedidos Confirmados</p>
+                        {dataConfirmado.length ?
+                          dataConfirmado.map((dados, index) => (
+                            <button key={index}>{dados.orderId}</button>
+                          ))
+                          :
+                          <p>0 Pedidos Confirmados</p>
+                        }
+                      </div>
+                      <div>
+                        <p>Pedidos Cancelados</p>
+                        {dataCanceled.length ?
+                          dataCanceled.map((dados, index) => (
+                            <button key={index}>{dados.orderId}</button>
+                          ))
+                          :
+                          <p>0 Pedidos Cancelados</p>
+                        }
+                      </div>
                   </InfiniteScroll>
                 </DivBody>
               </Col>
