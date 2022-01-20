@@ -4,4 +4,7 @@ export const fechtOrderEventPolling = () => APIPOST.get('/merchant/order/event:p
 
 export const fechtOrderEventAcnowledgment = (data: any) => APIPOST.post('/merchant/order/event/acknowledgment', data);
 
-export const fechtOrderDetails = () => APIPOST.get('/details/order-details');
+export const fechtOrderDetails = (orderId: any) => {
+  APIPOST.defaults.headers['order'] = `${orderId}`;
+  return APIPOST.get('/merchant/order/details');
+};
