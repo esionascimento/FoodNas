@@ -5,12 +5,14 @@ import { Layout, Row, Col, Skeleton, Divider } from 'antd';
 const { Footer } = Layout;
 import { useSelector } from "react-redux";
 
+import { fechtOrderDetails } from '../../services/FetchFood/merchantOrder';
+
 import { fechtCatalogProductList } from '../../services/FetchFood/merchantCatalog';
 import { fechtAuthenticationTokenCentralized } from '../../services/FetchFood/merchantAuthorization';
 import withAuth from '../../utils/withAuth';
 import LeftMenu from "../../components/left-menu/index";
 /* import Header from "../../components/header"; */
-import { HeaderAntd } from '../../components/headerAntd';
+import { HeaderAntd } from '../../components/headerAntd/index';
 
 import { DivBody, DivFooter } from '../../../styles/dashboardCss';
 import 'antd/dist/antd.css';
@@ -44,7 +46,7 @@ function Dashboard() {
 
   useEffect(() => {
     const aux = JSON.parse(localStorage.getItem('food.orders'));
-    console.log('aux :', aux);
+
     if (aux) {
       aux.data.map((data: any) => {
         if (data.code === 'PLC') {
@@ -59,6 +61,12 @@ function Dashboard() {
   const loadMoreData = () => {
 
   };
+
+  function onClickCanceled(e: any) {
+    fechtOrderDetails(e.target.name).then((data) => {
+      console.log('dataFetchOrderDetails :', data.data);
+    })
+  }
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -108,7 +116,7 @@ function Dashboard() {
                         <p>Pedidos Cancelados</p>
                         {dataCanceled.length ?
                           dataCanceled.map((dados, index) => (
-                            <button key={index}>{dados.orderId}</button>
+                            <button name={dados.orderId}key={index} onClick={onClickCanceled}>{dados.orderId}</button>
                           ))
                           :
                           <p>0 Pedidos Cancelados</p>
