@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { setCookie } from 'nookies';
 import { Layout, Row, Col, Skeleton, Divider } from 'antd';
 const { Footer } = Layout;
 import { useSelector } from "react-redux";
 
 import { fechtOrderDetails } from '../../services/FetchFood/merchantOrder';
 
-import { fechtCatalogProductList } from '../../services/FetchFood/merchantCatalog';
-import { fechtAuthenticationTokenCentralized } from '../../services/FetchFood/merchantAuthorization';
 import withAuth from '../../utils/withAuth';
 import LeftMenu from "../../components/left-menu/index";
 /* import Header from "../../components/header"; */
@@ -31,8 +28,11 @@ function Dashboard() {
   const [dataPending, setDataPending] = useState([]);
   const [dataConfirmado, setDataConfirmado] = useState([]);
   const [dataCanceled, setDataCanceled] = useState([]);
-  console.log('isOn :', isOn);
+  const [isSelect, setIsSelect] = useState('null');
+  const [dataLog, setDataLog] = useState() as any;
 
+  console.log('isOn :', isOn);
+  
   /* async function generateCode() {
     try {
       const { data } = await fechtAuthenticationTokenCentralized();
@@ -43,10 +43,10 @@ function Dashboard() {
       console.log('errAuthCentrDash :', err.message);
     }
   } */
-
+  
   useEffect(() => {
     const aux = JSON.parse(localStorage.getItem('food.orders'));
-
+    
     if (aux) {
       aux.data.map((data: any) => {
         if (data.code === 'PLC') {
@@ -57,15 +57,65 @@ function Dashboard() {
       });
     }
   }, []);
-
+  
   const loadMoreData = () => {
-
+    
   };
-
+  
   function onClickCanceled(e: any) {
+    setIsSelect('canceled');
     fechtOrderDetails(e.target.name).then((data) => {
-      console.log('dataFetchOrderDetails :', data.data);
+      console.log('dataFetchOrderDetails :', data);
+      setDataLog(data.data);
     })
+  }
+
+  useEffect(() => {
+    componentBody();
+  }, [dataLog]);
+  
+  function items() {
+    return dataLog.items.map((aux) => {
+      console.log('aux :', aux);
+        return (
+          <>
+            <p key="aux">{`nome: ${aux.name}`}</p>
+            <p key="aux">{`quantidade: ${aux.quantity}`}</p>
+            <p key="aux">{`valor unitario: ${aux.totalPrice}`}</p>
+          </>
+        )
+      })
+  }
+
+  function componentBody() {
+    if (isSelect === 'null') {
+      return (
+        <>
+          <p>opa</p>
+        </>
+      )
+    } else if (isSelect === 'canceled') {
+      console.log('dataLog :', dataLog);
+      return (
+        <>
+          <h2>Pedido Cancelado</h2>
+          <div>
+            <h3>Contato</h3>
+            <p>{`Nome: ${dataLog && dataLog.customer.name}`}</p>
+            <p>{`Telefone: ${dataLog && dataLog.customer.phone.number}`}</p>
+            <p>{`Localizador: ${dataLog && dataLog.customer.phone.localizer}`}</p>
+            <h3>Endereço</h3>
+            <p>{`rua: ${dataLog && dataLog.delivery.deliveryAddress.streetName}`}</p>
+            <p>{`numero: ${dataLog && dataLog.delivery.deliveryAddress.streetNumber}`}</p>
+            <h3>Pagamento</h3>
+            <p>{`metodo pagamento: ${dataLog && dataLog.payments.methods[0].method}`}</p>
+            <p>{`entrega: ${dataLog && dataLog.total.deliveryFee}`}</p>
+            <p>{`total: ${dataLog && dataLog.total.orderAmount}`}</p>
+            {items()}
+          </div>
+        </>
+      )
+    }
   }
 
   return (
@@ -128,7 +178,7 @@ function Dashboard() {
               <Col flex="auto" >
                 <DivBody>
                   <div>
-            
+                    {dataLog ? componentBody() : <p>ops</p>}
                   </div>
                 </DivBody>
               </Col>
