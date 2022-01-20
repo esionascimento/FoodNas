@@ -16,21 +16,36 @@ let intervalInfinit = null;
 let intervalVerifyStatus = null;
 
 export const HeaderAntd = () => {
+  interface RootState {
+    storeDashboard: {
+      theme: string
+    },
+    merchantOrder: {
+      statusLoja: string
+    }
+  }
+  
   const dispatch = useDispatch();
-  const [theme, setTheme] = useState();
+  const [tema, setTema] = useState() as any;
   const [isActive, setIsActive] = useState(true);
-  const [dataLog, setData] = useState([]);
+
   let isOn = true;
-  const { theme: storeTheme } = useSelector(state => state.storeDashboard);
+  const storeDashboard = (state: RootState) => state.storeDashboard;
+  const aux = useSelector(storeDashboard);
+  const { theme } = aux;
+  /* const { theme: storeTheme } = useSelector(state => state.storeDashboard); */
   /* const { modalPausa: { tempo } } = useSelector(state => state.storeDashboard); */
-  const { statusLoja } = useSelector(state => state.merchantOrder);
+  const merchantOrder = (state: RootState) => state.merchantOrder;
+  const isOna = useSelector(merchantOrder);
+  const { statusLoja } = isOna;
+  /* const { statusLoja } = useSelector(state => state.merchantOrder); */
 
   useEffect(() => {
-    if (storeTheme === 'light') {
-      return setTheme('#fff');
+    if (theme === 'light') {
+      return setTema("#fff");
     }
-    setTheme('#001529');
-  }, [storeTheme]);
+    setTema('#001529');
+  }, [theme]);
   
   async function fetchStatus() {
     fechtMerchantStatus().then((data) => {
@@ -58,11 +73,8 @@ export const HeaderAntd = () => {
     const resultPolling = await fechtOrderEventPolling();
     console.log('resultPolling :', resultPolling);
     if (resultPolling.status === 200) {
-      resultPolling.data.data.map((data) => {
-        setData(dataLog => [...dataLog, data]);
-      })
+      localStorage.setItem('food.orders', JSON.stringify({data: resultPolling.data.data}));
     }
-    /* fetchStatus(); */
   }
   
   function initTimer() {
@@ -90,7 +102,8 @@ export const HeaderAntd = () => {
   }
 
   return (
-    <Header style={{background: theme, margin:  '-10px 0'}}>
+    <Header style={{background: tema, margin:  '-10px 0'}}>
+      <section></section>
       <DivBody>
         <Div>
           <DivMenu>FoodNas</DivMenu>
