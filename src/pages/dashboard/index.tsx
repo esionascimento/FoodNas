@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { setCookie, parseCookies } from 'nookies';
+import { setCookie } from 'nookies';
 import { Layout, Row, Col, Skeleton, Divider } from 'antd';
 const { Footer } = Layout;
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { fechtCatalogProductList } from '../../services/FetchFood/merchantCatalog';
 import { fechtAuthenticationTokenCentralized } from '../../services/FetchFood/merchantAuthorization';
@@ -11,10 +11,6 @@ import withAuth from '../../utils/withAuth';
 import LeftMenu from "../../components/left-menu/index";
 /* import Header from "../../components/header"; */
 import { HeaderAntd } from '../../components/headerAntd';
-import { fechtOrderEventPolling } from '../../services/FetchFood/merchantOrder';
-import { fechtMerchantStatus } from '../../services/FetchFood/merchantMerchant';
-
-import { StatusLoja } from '../../store/merchantOrder/merchantOrderAction';
 
 import { DivBody, DivFooter } from '../../../styles/dashboardCss';
 import 'antd/dist/antd.css';
@@ -26,112 +22,12 @@ function Dashboard() {
     }
   }
 
-  const dispatch = useDispatch();
   const {Content} = Layout;
   const merchantOrder = (state: RootState) => state.merchantOrder;
   const isOn = useSelector(merchantOrder);
-  const { statusLoja } = isOn;
+  console.log('isOn :', isOn);
 
-  const [pausado, setPausado] = useState(true);
-  const [isActive, setIsActive] = useState(false);
-  const [isPausa, setIsPausa] = useState(false);
-  const [isMin, setIsMin] = useState(null);
-  const [dataLog, setData] = useState([]);
-  
-  let aux = 'undefined';
-  
-  //status 401 "message": "token expired"
-  //status 204 no content abrir loja sem retorno
-  //status 200 ok - a pedidos novos
-  useEffect(() => {
-    async function fetchStatus() {
-      console.log('loja status')
-      fechtMerchantStatus().then((data) => {
-        const { message } = data.data[0];
-        dispatch(StatusLoja(message.title));
-      }).catch((err) => {
-        console.log('errStatus :', err.response);
-      });
-    }
-
-    async function fetchData() {
-      async function polling() {
-        const resultPolling = await fechtOrderEventPolling();
-        console.log('resultPolling :', resultPolling);
-        if (resultPolling.status === 200) {
-          resultPolling.data.data.map((data: any) => {
-            setData(dataLog => [...dataLog, data]);
-          })
-        }
-        fetchStatus();
-      }
-      let intervalInfinit = null;
-      let count = 0;
-
-      if (isActive) {
-        console.log("pausa");
-        setIsPausa(false);
-        polling();
-        intervalInfinit = setInterval(() => {
-          console.log('interval infi')
-          if (count === 30) {
-            polling();
-            count = 0;
-            return
-          }
-          count += 1;
-        }, 1000);
-      }
-      return () => clearInterval(intervalInfinit);
-    }
-    fetchData();
-  }, [isActive, pausado, dispatch]);
-
-  useEffect(() => {
-    console.log('useEffect Tempo pausa')
-    async function fetchData() {
-      let intervalMin = null;
-      let tempMin = 0;
-
-      if (isPausa) {
-        intervalMin = setInterval(() => {
-          if (tempMin >= isMin) {
-            setPausado(false);
-            setIsActive(true);
-            return
-          }
-          tempMin += 1;
-        }, 1000);
-      }
-      return () => clearInterval(intervalMin);
-    }
-    fetchData();
-  }, [isPausa, isMin]);
-  
-  function initTimer(event: any) {
-    aux = event.target.name;
-    setIsMin(aux);
-
-    setIsActive(false);
-
-    if (aux === 'closed') {
-      setPausado(true);
-      setIsPausa(false);
-    } else if (isActive === true && aux === 'null') {
-      setPausado(true);
-    } else {
-      if (aux === 'null') {
-        /* polling(); */
-        setIsActive(true);
-        setPausado(false);
-      } else {
-        setPausado(true);
-        setIsPausa(true);
-      }
-    }
-  }
-
-  async function generateCode() {
+  /* async function generateCode() {
     try {
       const { data } = await fechtAuthenticationTokenCentralized();
       setCookie(null, 'food.token', data.data.accessToken, {maxAge: 86400 * 7, path: '/'});
@@ -140,7 +36,7 @@ function Dashboard() {
     } catch (err) {
       console.log('errAuthCentrDash :', err.message);
     }
-  }
+  } */
 
   const loadMoreData = () => {
 
@@ -170,7 +66,7 @@ function Dashboard() {
                     endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
                     scrollableTarget="scrollableDiv"
                     >
-                    {dataLog ?
+                    {/* {dataLog ?
                       dataLog.map((dados, index) => (
                         <button key={index}>{dados.id}</button>
                         ))
@@ -178,43 +74,14 @@ function Dashboard() {
                       dataLog.map((dados, index) => (
                         <button key={index}>{dados.id}</button>
                         ))
-                      }
+                      } */}
                   </InfiniteScroll>
                 </DivBody>
               </Col>
               <Col flex="auto" >
                 <DivBody>
                   <div>
-                    <div>{statusLoja}</div>
-                    <div>
-                      <h3>Clique abaixo para pegar codigo de acesso.</h3>
-                      <button onClick={generateCode} type="button">Gerar Código</button>
-                      <h4>Código gerado: </h4>
-                    </div>
-                    <div>
-                      <h3>Play/Pause - infinito</h3>
-                      <button name="null" onClick={initTimer} type="button">Infinito</button>
-                      <h4>{pausado ? 'Pausados' : 'Ativo'}</h4>
-                    </div>
-                    <div>
-                      <h3>Play/Pause - 2 min</h3>
-                      <button name="120" onClick={initTimer} type="button">2 min</button>
-                      <h4>{pausado ? 'Pausado' : 'Ativo'}</h4>
-                    </div>
-                    <div>
-                      <h3>Play/Pause - Fechar loja</h3>
-                      <button name="closed" onClick={initTimer} type="button">Fechar loja</button>
-                    </div>
-                    <div>
-                      <h3>Autorizar loja.</h3>
-                      <button type="button">Autorizar</button>
-                    </div>
-                    <div>
-                      <h3>Codigo de autorização.</h3>
-                      <label>Cole o código de autorização, o mesmo que o Ifood disponibilizou ao autorizar a aplicação.</label>
-                      <input type="text" required />
-                      <button type="button">Enviar</button>
-                    </div>
+            
                   </div>
                 </DivBody>
               </Col>
