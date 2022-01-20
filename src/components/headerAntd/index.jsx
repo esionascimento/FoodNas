@@ -11,15 +11,16 @@ import { fechtOrderEventPolling } from '../../services/FetchFood/merchantOrder';
 import { fechtMerchantStatus } from '../../services/FetchFood/merchantMerchant';
 
 import { DivBody, Div, DivMenu } from './styled';
+
 let intervalInfinit = null;
+let intervalVerifyStatus = null;
 
 export const HeaderAntd = () => {
   const dispatch = useDispatch();
   const [theme, setTheme] = useState();
   const [isActive, setIsActive] = useState(true);
   const [dataLog, setData] = useState([]);
-  console.log('dataLog :', dataLog);
-  
+  let isOn = true;
   const { theme: storeTheme } = useSelector(state => state.storeDashboard);
   /* const { modalPausa: { tempo } } = useSelector(state => state.storeDashboard); */
   const { statusLoja } = useSelector(state => state.merchantOrder);
@@ -29,15 +30,30 @@ export const HeaderAntd = () => {
       return setTheme('#fff');
     }
     setTheme('#001529');
-  }, [ storeTheme]);
-
+  }, [storeTheme]);
+  
   async function fetchStatus() {
     fechtMerchantStatus().then((data) => {
       const { message } = data.data[0];
-      dispatch(ACStatusLoja(message.title));
+      if (message.title != statusLoja) {
+        isOn = false;
+        dispatch(ACStatusLoja(message.title));
+        onVerifyStatus();
+      }
     })
   }
-  
+
+  async function onVerifyStatus() {
+    if (isOn) {
+      intervalVerifyStatus = setInterval(() => {
+        fetchStatus();
+      }, 2000);
+    } else {
+      isOn = true;
+      clearInterval(intervalVerifyStatus);
+    }
+  }
+
   async function polling() {
     const resultPolling = await fechtOrderEventPolling();
     console.log('resultPolling :', resultPolling);
@@ -46,16 +62,15 @@ export const HeaderAntd = () => {
         setData(dataLog => [...dataLog, data]);
       })
     }
-    fetchStatus();
+    /* fetchStatus(); */
   }
   
   function initTimer() {
     if (isActive) {
       polling();
-      let count = 0
+      let count = 0;
       intervalInfinit = setInterval(() => {
-        console.log('count :', count);
-        if (count === 30) {
+        if (count === 29) {
           polling();
           count = 0;
           return
@@ -64,14 +79,15 @@ export const HeaderAntd = () => {
       }, 1000);
     } else {
       clearInterval(intervalInfinit);
-      fetchStatus();
     }
+
+    onVerifyStatus();
     setIsActive(prev => !prev);
   }
   
   function onModal() {
     dispatch(ACVisibleModalPausa(true));
-  };
+  }
 
   return (
     <Header style={{background: theme, margin:  '-10px 0'}}>
