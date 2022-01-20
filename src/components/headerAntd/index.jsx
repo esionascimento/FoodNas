@@ -19,7 +19,7 @@ export const HeaderAntd = () => {
   const dispatch = useDispatch();
   const [theme, setTheme] = useState();
   const [isActive, setIsActive] = useState(true);
-  const [dataLog, setData] = useState([]);
+
   let isOn = true;
   const { theme: storeTheme } = useSelector(state => state.storeDashboard);
   /* const { modalPausa: { tempo } } = useSelector(state => state.storeDashboard); */
@@ -58,11 +58,8 @@ export const HeaderAntd = () => {
     const resultPolling = await fechtOrderEventPolling();
     console.log('resultPolling :', resultPolling);
     if (resultPolling.status === 200) {
-      resultPolling.data.data.map((data) => {
-        setData(dataLog => [...dataLog, data]);
-      })
+      localStorage.setItem('food.orders', JSON.stringify({data: resultPolling.data.data}));
     }
-    /* fetchStatus(); */
   }
   
   function initTimer() {
