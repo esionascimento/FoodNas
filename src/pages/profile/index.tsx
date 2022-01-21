@@ -4,19 +4,25 @@ import {Layout} from "antd";
 const { /* Header, Content, */ Footer/* , Sider */ } = Layout;
 import 'antd/dist/antd.css';
 import withAuth from '../../utils/withAuth';
+import { HeaderAntd } from '../../components/headerAntd';
 
 function Profile() {
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      {typeof  window  ! ==  'undefined' ? 'null' : 
-        <LeftMenu />
+    <Layout>
+      {
+        typeof  window  ! ==  'undefined' ? 'null' : <HeaderAntd />
       }
-      <Layout>
-        <div>
-          Profile
-        </div>
-        <Footer style={{ textAlign: 'center' }}>...</Footer>
+      <Layout style={{ minHeight: '100vh' }}>
+        {typeof  window  ! ==  'undefined' ? 'null' : 
+          <LeftMenu />
+        }
+        <Layout>
+          <div>
+            Profile
+          </div>
+          <Footer style={{ textAlign: 'center' }}>...</Footer>
+        </Layout>
       </Layout>
     </Layout>
   );
