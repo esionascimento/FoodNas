@@ -3,7 +3,8 @@ const INITIAL_STATE = {
   modalPausa: {
     visibleModalPausa: false,
     tempo: -1
-  }
+  },
+  dataLog: []
 };
 
 
@@ -29,6 +30,11 @@ export function StoreDashboard (state = INITIAL_STATE, action) {
           ...state.modalPausa,
           tempo: action.payload
         }
+      }
+    case 'LOAD_DATA_PEDIDO':
+      return {
+        ...state,
+        dataLog: action.payload
       }
     default:
       return state;

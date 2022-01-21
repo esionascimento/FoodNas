@@ -18,3 +18,10 @@ export function ACPausaTempo (pausa) {
     payload: pausa
   }
 }
+
+export function ACDataPedido (pedido) {
+  return {
+    type: 'LOAD_DATA_PEDIDO',
+    payload: pedido
+  }
+}

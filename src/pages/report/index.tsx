@@ -4,19 +4,25 @@ import {Layout} from "antd";
 const { Footer } = Layout;
 import 'antd/dist/antd.css';
 import withAuth from '../../utils/withAuth';
+import { HeaderAntd } from '../../components/headerAntd';
 
 function Report() {
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      {typeof  window  ! ==  'undefined' ? 'null' : 
-        <LeftMenu />
+    <Layout>
+      {
+        typeof  window  ! ==  'undefined' ? 'null' : <HeaderAntd />
       }
-      <Layout>
-        <div>
-          Report
-        </div>
-        <Footer style={{ textAlign: 'center' }}>...</Footer>
+      <Layout style={{ minHeight: '100vh' }}>
+        {typeof  window  ! ==  'undefined' ? 'null' : 
+          <LeftMenu />
+        }
+        <Layout>
+          <div>
+            Report
+          </div>
+          <Footer style={{ textAlign: 'center' }}>...</Footer>
+        </Layout>
       </Layout>
     </Layout>
   );
