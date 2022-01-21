@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Layout, Row, Col, Skeleton, Divider } from 'antd';
 const { Footer } = Layout;
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { fechtOrderDetails } from '../../services/FetchFood/merchantOrder';
 
@@ -10,11 +10,13 @@ import withAuth from '../../utils/withAuth';
 import LeftMenu from "../../components/left-menu/index";
 /* import Header from "../../components/header"; */
 import { HeaderAntd } from '../../components/headerAntd/index';
+import { ACDataPedido } from '../../store/dashboard/dashboardAction';
 
 import { DivBody, DivFooter } from '../../../styles/dashboardCss';
 import 'antd/dist/antd.css';
 
 function Dashboard() {
+  const dispatch = useDispatch();
   interface RootState {
     merchantOrder: {
       statusLoja: string
@@ -70,18 +72,28 @@ function Dashboard() {
     })
   }
 
+  function onClickPending(e: any) {
+    setIsSelect('pending');
+    fechtOrderDetails(e.target.name).then((data) => {
+      console.log('dataFetchOrderDetails :', data);
+      dispatch(ACDataPedido(data.data));
+      setDataLog(data.data);
+    })
+  }
+
   useEffect(() => {
     componentBody();
   }, [dataLog]);
   
   function items() {
-    return dataLog.items.map((aux) => {
-      console.log('aux :', aux);
+    return dataLog.items.map((aux, index) => {
         return (
           <>
+            <p>{index + 1}</p>
             <p key="aux">{`nome: ${aux.name}`}</p>
             <p key="aux">{`quantidade: ${aux.quantity}`}</p>
-            <p key="aux">{`valor unitario: ${aux.totalPrice}`}</p>
+            <p key="aux">{`valor unitario: ${aux.unitPrice !== 0 ? aux.unitPrice : aux.optionsPrice}`}</p>
+            <p key="aux">{`Valor Total: ${aux.totalPrice}`}</p>
           </>
         )
       })
@@ -100,6 +112,30 @@ function Dashboard() {
         <>
           <h2>Pedido Cancelado</h2>
           <div>
+          <h3>Contato</h3>
+            <p>{`Nome: ${dataLog && dataLog.customer.name}`}</p>
+            <p>{`Telefone: ${dataLog && dataLog.customer.phone.number}`}</p>
+            <p>{`Localizador: ${dataLog && dataLog.customer.phone.localizer}`}</p>
+            <h3>Endereço</h3>
+            <p>{`rua: ${dataLog && dataLog.delivery.deliveryAddress.streetName}`}</p>
+            <p>{`numero: ${dataLog && dataLog.delivery.deliveryAddress.streetNumber}`}</p>
+            <h3>Pagamento</h3>
+            <p>{`metodo pagamento: ${dataLog && dataLog.payments.methods[0].method}`}</p>
+            <p>{`subTotal: ${dataLog.total.subTotal}`}</p>
+            <p>{`entrega: ${dataLog && dataLog.total.deliveryFee}`}</p>
+            <p>{`total: ${dataLog && dataLog.total.orderAmount}`}</p>
+            <p>{`troco: ${dataLog.payments.methods[0].cash.changeFor }`}</p>
+            <h3>Pedido(s)</h3>
+            {items()}
+          </div>
+        </>
+      )
+    } else if (isSelect === 'pending') {
+      console.log('dataLog :', dataLog);
+      return (
+        <>
+          <h2>Pedido Pendente</h2>
+          <div>
             <h3>Contato</h3>
             <p>{`Nome: ${dataLog && dataLog.customer.name}`}</p>
             <p>{`Telefone: ${dataLog && dataLog.customer.phone.number}`}</p>
@@ -109,8 +145,11 @@ function Dashboard() {
             <p>{`numero: ${dataLog && dataLog.delivery.deliveryAddress.streetNumber}`}</p>
             <h3>Pagamento</h3>
             <p>{`metodo pagamento: ${dataLog && dataLog.payments.methods[0].method}`}</p>
+            <p>{`subTotal: ${dataLog.total.subTotal}`}</p>
             <p>{`entrega: ${dataLog && dataLog.total.deliveryFee}`}</p>
             <p>{`total: ${dataLog && dataLog.total.orderAmount}`}</p>
+            <p>{`troco: ${dataLog.payments.methods[0].cash.changeFor }`}</p>
+            <h3>Pedido(s)</h3>
             {items()}
           </div>
         </>
@@ -146,7 +185,7 @@ function Dashboard() {
                         <p>Pedidos pendentes</p>
                         {dataPending.length ?
                           dataPending.map((dados, index) => (
-                            <button key={index}>{dados.orderId}</button>
+                            <button name={dados.orderId} key={index} onClick={onClickPending}>{dados.orderId}</button>
                           ))
                           :
                           <p>0 Pedidos Pendentes</p>
@@ -166,7 +205,7 @@ function Dashboard() {
                         <p>Pedidos Cancelados</p>
                         {dataCanceled.length ?
                           dataCanceled.map((dados, index) => (
-                            <button name={dados.orderId}key={index} onClick={onClickCanceled}>{dados.orderId}</button>
+                            <button name={dados.orderId} key={index} onClick={onClickCanceled}>{dados.orderId}</button>
                           ))
                           :
                           <p>0 Pedidos Cancelados</p>
@@ -178,7 +217,7 @@ function Dashboard() {
               <Col flex="auto" >
                 <DivBody>
                   <div>
-                    {dataLog ? componentBody() : <p>ops</p>}
+                    {dataLog ? componentBody() : <p>Bem vindo de volta</p>}
                   </div>
                 </DivBody>
               </Col>
