@@ -21,10 +21,10 @@ function LeftMenu() {
   const { 'foodnas.theme': cookieTheme } = parseCookies();
   
   const changeTheme = value => {
-    const aux = value ? 'dark' : 'light';
-    dispatch(ACTheme(aux));
-    setCookie(null, 'foodnas.theme', aux, {maxAge: 86400 * 7});
-    setTheme(aux);
+    const valueTheme = value ? 'dark' : 'light';
+    dispatch(ACTheme(valueTheme));
+    setCookie(null, 'foodnas.theme', valueTheme, {maxAge: 86400 * 7});
+    setTheme(valueTheme);
   };
   
   useEffect(() => {

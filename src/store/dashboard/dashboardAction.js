@@ -25,3 +25,17 @@ export function ACDataPedido (pedido) {
     payload: pedido
   }
 }
+
+export function ACIsLoja (isLoja) {
+  return {
+    type: 'IS_LOJA',
+    payload: isLoja
+  }
+}
+
+export function ACSelectPedido (selectPedido) {
+  return {
+    type: 'SELECT_PEDIDO',
+    payload: selectPedido
+  }
+}
