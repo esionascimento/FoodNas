@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Layout } from 'antd';
 import { useSelector, useDispatch } from "react-redux";
+import { parseCookies, setCookie } from 'nookies';
 const { Header } = Layout;
 
-import { ACVisibleModalPausa } from '../../store/dashboard/dashboardAction';
+import { ACVisibleModalPausa, ACIsLoja } from '../../store/dashboard/dashboardAction';
 import { ACStatusLoja } from '../../store/merchantOrder/merchantOrderAction';
 import { ModalPausa } from './modalPausa';
 
@@ -18,7 +19,8 @@ let intervalVerifyStatus = null;
 export const HeaderAntd = () => {
   interface RootState {
     storeDashboard: {
-      theme: string
+      theme: string,
+      isLoja: string
     },
     merchantOrder: {
       statusLoja: string
@@ -26,26 +28,32 @@ export const HeaderAntd = () => {
   }
   
   const dispatch = useDispatch();
+  const { 'food.isLoja': isLojaCookie } = parseCookies();
   const [tema, setTema] = useState() as any;
   const [isActive, setIsActive] = useState(true);
 
   let isOn = true;
   const storeDashboard = (state: RootState) => state.storeDashboard;
-  const aux = useSelector(storeDashboard);
-  const { theme } = aux;
-  /* const { theme: storeTheme } = useSelector(state => state.storeDashboard); */
-  /* const { modalPausa: { tempo } } = useSelector(state => state.storeDashboard); */
   const merchantOrder = (state: RootState) => state.merchantOrder;
+  const sDashboard = useSelector(storeDashboard);
   const isOna = useSelector(merchantOrder);
+  const { theme, isLoja } = sDashboard;
   const { statusLoja } = isOna;
-  /* const { statusLoja } = useSelector(state => state.merchantOrder); */
 
   useEffect(() => {
     if (theme === 'light') {
       return setTema("#fff");
+    } else {
+      setTema('#001529');
     }
-    setTema('#001529');
-  }, [theme]);
+    if (isLojaCookie === 'Abrir Loja') {
+      dispatch(ACIsLoja('Fechar Loja'));
+      setCookie(null, 'food.isLoja', 'Fechar Loja', {maxAge: 86400 * 7, path: '/'});
+    } else {
+      dispatch(ACIsLoja('Abrir Loja'));
+      setCookie(null, 'food.isLoja', 'Abrir Loja', {maxAge: 86400 * 7, path: '/'});
+    }
+  }, [theme, isLojaCookie, dispatch]);
   
   async function fetchStatus() {
     fechtMerchantStatus().then((data) => {
@@ -78,6 +86,14 @@ export const HeaderAntd = () => {
   }
   
   function initTimer() {
+    if (isLoja === 'Abrir Loja') {
+      dispatch(ACIsLoja('Fechar Loja'));
+      setCookie(null, 'food.isLoja', 'Fechar Loja', {maxAge: 86400 * 7, path: '/'});
+    } else {
+      dispatch(ACIsLoja('Abrir Loja'));
+      setCookie(null, 'food.isLoja', 'Abrir Loja', {maxAge: 86400 * 7, path: '/'});
+    }
+
     if (isActive) {
       polling();
       let count = 0;
@@ -111,7 +127,7 @@ export const HeaderAntd = () => {
         </Div>
         <Div>
           <Div>{statusLoja}</Div>
-          <DivMenu onClick={initTimer}>Abrir Loja</DivMenu>
+          <DivMenu onClick={initTimer}>{isLoja}</DivMenu>
           <DivMenu onClick={onModal}>Pausar/Fechar</DivMenu>
         </Div>
       </DivBody>
