@@ -4,7 +4,8 @@ const INITIAL_STATE = {
     visibleModalPausa: false,
     tempo: -1
   },
-  dataLog: []
+  dataLog: [],
+  isLoja: 'Abrir Loja'
 };
 
 
@@ -35,6 +36,11 @@ export function StoreDashboard (state = INITIAL_STATE, action) {
       return {
         ...state,
         dataLog: action.payload
+      }
+    case 'IS_LOJA':
+      return {
+        ...state,
+        isLoja: action.payload
       }
     default:
       return state;
