@@ -35,22 +35,11 @@ function Dashboard() {
 
   console.log('isOn :', isOn);
   
-  /* async function generateCode() {
-    try {
-      const { data } = await fechtAuthenticationTokenCentralized();
-      setCookie(null, 'food.token', data.data.accessToken, {maxAge: 86400 * 7, path: '/'});
-      const aux = await fechtCatalogProductList()
-      console.log('aux :', aux.data);
-    } catch (err) {
-      console.log('errAuthCentrDash :', err.message);
-    }
-  } */
-  
   useEffect(() => {
-    const aux = JSON.parse(localStorage.getItem('food.orders'));
+    const storageFoodOrders = JSON.parse(localStorage.getItem('food.orders'));
     
-    if (aux) {
-      aux.data.map((data: any) => {
+    if (storageFoodOrders) {
+      storageFoodOrders.data.map((data: any) => {
         if (data.code === 'PLC') {
           setDataPending(prev => [...prev, data]);
         } else if (data.code === 'CAN') {
@@ -88,13 +77,13 @@ function Dashboard() {
   function items() {
     return dataLog.items.map((aux, index) => {
         return (
-          <>
+          <div key={index}>
             <p>{index + 1}</p>
-            <p key="aux">{`nome: ${aux.name}`}</p>
-            <p key="aux">{`quantidade: ${aux.quantity}`}</p>
-            <p key="aux">{`valor unitario: ${aux.unitPrice !== 0 ? aux.unitPrice : aux.optionsPrice}`}</p>
-            <p key="aux">{`Valor Total: ${aux.totalPrice}`}</p>
-          </>
+            <p>{`nome: ${aux.name}`}</p>
+            <p>{`quantidade: ${aux.quantity}`}</p>
+            <p>{`valor unitario: ${aux.unitPrice !== 0 ? aux.unitPrice : aux.optionsPrice}`}</p>
+            <p>{`Valor Total: ${aux.totalPrice}`}</p>
+          </div>
         )
       })
   }
