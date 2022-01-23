@@ -32,3 +32,10 @@ export function ACIsLoja (isLoja) {
     payload: isLoja
   }
 }
+
+export function ACSelectPedido (selectPedido) {
+  return {
+    type: 'SELECT_PEDIDO',
+    payload: selectPedido
+  }
+}
