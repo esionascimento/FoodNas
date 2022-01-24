@@ -4,13 +4,12 @@ import { Layout, Row, Col, Skeleton, Divider } from 'antd';
 const { Footer } = Layout;
 import { useSelector, useDispatch } from "react-redux";
 
-import { fechtOrderDetails } from '../../services/FetchFood/merchantOrder';
-
-import withAuth from '../../utils/withAuth';
 import LeftMenu from "../../components/left-menu/index";
 /* import Header from "../../components/header"; */
 import { HeaderAntd } from '../../components/headerAntd/index';
-import { ACDataPedido } from '../../store/dashboard/dashboardAction';
+import { ComponentBody } from '../../components/layoutContent';
+import withAuth from '../../utils/withAuth';
+import { ACSelectPedido, ACSelectOrderId } from '../../store/dashboard/dashboardAction';
 
 import { DivBody, DivFooter } from '../../../styles/dashboardCss';
 import 'antd/dist/antd.css';
@@ -30,8 +29,7 @@ function Dashboard() {
   const [dataPending, setDataPending] = useState([]);
   const [dataConfirmado, setDataConfirmado] = useState([]);
   const [dataCanceled, setDataCanceled] = useState([]);
-  const [isSelect, setIsSelect] = useState('null');
-  const [dataLog, setDataLog] = useState() as any;
+  const [aux, setAux] = useState();
 
   console.log('isOn :', isOn);
   
@@ -54,96 +52,15 @@ function Dashboard() {
   };
   
   function onClickCanceled(e: any) {
-    setIsSelect('canceled');
-    fechtOrderDetails(e.target.name).then((data) => {
-      console.log('dataFetchOrderDetails :', data);
-      setDataLog(data.data);
-    })
+    setAux(e.target.name);
+    dispatch(ACSelectPedido('canceled'));
+    dispatch(ACSelectOrderId(e.target.name));
   }
 
   function onClickPending(e: any) {
-    setIsSelect('pending');
-    fechtOrderDetails(e.target.name).then((data) => {
-      console.log('dataFetchOrderDetails :', data);
-      dispatch(ACDataPedido(data.data));
-      setDataLog(data.data);
-    })
-  }
-
-  useEffect(() => {
-    componentBody();
-  }, [dataLog]);
-  
-  function items() {
-    return dataLog.items.map((aux, index) => {
-        return (
-          <div key={index}>
-            <p>{index + 1}</p>
-            <p>{`nome: ${aux.name}`}</p>
-            <p>{`quantidade: ${aux.quantity}`}</p>
-            <p>{`valor unitario: ${aux.unitPrice !== 0 ? aux.unitPrice : aux.optionsPrice}`}</p>
-            <p>{`Valor Total: ${aux.totalPrice}`}</p>
-          </div>
-        )
-      })
-  }
-
-  function componentBody() {
-    if (isSelect === 'null') {
-      return (
-        <>
-          <p>opa</p>
-        </>
-      )
-    } else if (isSelect === 'canceled') {
-      console.log('dataLog :', dataLog);
-      return (
-        <>
-          <h2>Pedido Cancelado</h2>
-          <div>
-          <h3>Contato</h3>
-            <p>{`Nome: ${dataLog && dataLog.customer.name}`}</p>
-            <p>{`Telefone: ${dataLog && dataLog.customer.phone.number}`}</p>
-            <p>{`Localizador: ${dataLog && dataLog.customer.phone.localizer}`}</p>
-            <h3>Endereço</h3>
-            <p>{`rua: ${dataLog && dataLog.delivery.deliveryAddress.streetName}`}</p>
-            <p>{`numero: ${dataLog && dataLog.delivery.deliveryAddress.streetNumber}`}</p>
-            <h3>Pagamento</h3>
-            <p>{`metodo pagamento: ${dataLog && dataLog.payments.methods[0].method}`}</p>
-            <p>{`subTotal: ${dataLog.total.subTotal}`}</p>
-            <p>{`entrega: ${dataLog && dataLog.total.deliveryFee}`}</p>
-            <p>{`total: ${dataLog && dataLog.total.orderAmount}`}</p>
-            <p>{`troco: ${dataLog.payments.methods[0].cash.changeFor }`}</p>
-            <h3>Pedido(s)</h3>
-            {items()}
-          </div>
-        </>
-      )
-    } else if (isSelect === 'pending') {
-      console.log('dataLog :', dataLog);
-      return (
-        <>
-          <h2>Pedido Pendente</h2>
-          <div>
-            <h3>Contato</h3>
-            <p>{`Nome: ${dataLog && dataLog.customer.name}`}</p>
-            <p>{`Telefone: ${dataLog && dataLog.customer.phone.number}`}</p>
-            <p>{`Localizador: ${dataLog && dataLog.customer.phone.localizer}`}</p>
-            <h3>Endereço</h3>
-            <p>{`rua: ${dataLog && dataLog.delivery.deliveryAddress.streetName}`}</p>
-            <p>{`numero: ${dataLog && dataLog.delivery.deliveryAddress.streetNumber}`}</p>
-            <h3>Pagamento</h3>
-            <p>{`metodo pagamento: ${dataLog && dataLog.payments.methods[0].method}`}</p>
-            <p>{`subTotal: ${dataLog.total.subTotal}`}</p>
-            <p>{`entrega: ${dataLog && dataLog.total.deliveryFee}`}</p>
-            <p>{`total: ${dataLog && dataLog.total.orderAmount}`}</p>
-            <p>{`troco: ${dataLog.payments.methods[0].cash.changeFor }`}</p>
-            <h3>Pedido(s)</h3>
-            {items()}
-          </div>
-        </>
-      )
-    }
+    setAux(e.target.name);
+    dispatch(ACSelectPedido('pending'));
+    dispatch(ACSelectOrderId(e.target.name));
   }
 
   return (
@@ -175,7 +92,7 @@ function Dashboard() {
                         {dataPending.length ?
                           dataPending.map((dados, index) => (
                             <button name={dados.orderId} key={index} onClick={onClickPending}>{dados.orderId}</button>
-                          ))
+                            ))
                           :
                           <p>0 Pedidos Pendentes</p>
                         }
@@ -195,10 +112,10 @@ function Dashboard() {
                         {dataCanceled.length ?
                           dataCanceled.map((dados, index) => (
                             <button name={dados.orderId} key={index} onClick={onClickCanceled}>{dados.orderId}</button>
-                          ))
-                          :
-                          <p>0 Pedidos Cancelados</p>
-                        }
+                            ))
+                            :
+                            <p>0 Pedidos Cancelados</p>
+                          }
                       </div>
                   </InfiniteScroll>
                 </DivBody>
@@ -206,7 +123,7 @@ function Dashboard() {
               <Col flex="auto" >
                 <DivBody>
                   <div>
-                    {dataLog ? componentBody() : <p>Bem vindo de volta</p>}
+                    {aux ? <ComponentBody /> : 'Bem vindo de volta!!'}
                   </div>
                 </DivBody>
               </Col>

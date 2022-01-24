@@ -39,3 +39,10 @@ export function ACSelectPedido (selectPedido) {
     payload: selectPedido
   }
 }
+
+export function ACSelectOrderId (selectOrderId) {
+  return {
+    type: 'SELECT_ORDER_ID',
+    payload: selectOrderId
+  }
+}
