@@ -129,7 +129,7 @@ export const HeaderAntd = () => {
   return (
     <Header style={{background: tema, margin:  '-10px 0'}}>
       <section></section>
-      <DivBody>
+      <DivBody isTheme={tema === '#001529' ? true : false}>
         <Div>
           <DivMenu>FoodNas</DivMenu>
           <DivMenu>0 Pedidos</DivMenu>
