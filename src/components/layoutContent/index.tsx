@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { fechtOrderDetails } from '../../services/FetchFood/merchantOrder';
+
+import { ACDataOrderDetails } from '../../store/dashboard/dashboardAction';
 
 import { DivContact } from './styled';
 
@@ -13,17 +15,19 @@ export function ComponentBody() {
     }
   }
   
+  const dispatch = useDispatch();
   const { selectPedido, selectOrderId } = useSelector((state: RootState) => state.storeDashboard);
   const [dataLog, setDataLog] = useState() as any;
 
   useEffect(() => {
     function detailsOrderId() {
       fechtOrderDetails(selectOrderId).then((data) => {
+        dispatch(ACDataOrderDetails(data));
         setDataLog(data.data);
       })
     }
     detailsOrderId();
-  }, [selectOrderId])
+  }, [selectOrderId, dispatch])
 
   function items() {
     return dataLog.items.map((aux: any, index: any) => {
