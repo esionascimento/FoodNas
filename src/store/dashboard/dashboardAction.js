@@ -53,3 +53,10 @@ export function ACDataOrderDetails (orderDetails) {
     payload: orderDetails
   }
 }
+
+export function ACDataOrderPending (orderPending) {
+  return {
+    type: 'DATA_ORDER_PENDING',
+    payload: orderPending
+  }
+}

@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   selectPedido: '',
   selectOrderId: '',
   dataOrderDetails: {},
+  dataOrderPending: []
 };
 
 
@@ -59,6 +60,11 @@ export function StoreDashboard (state = INITIAL_STATE, action) {
       return {
         ...state,
         dataOrderDetails: action.payload
+      }
+    case 'DATA_ORDER_PENDING':
+      return {
+        ...state,
+        dataOrderPending: action.payload
       }
     default:
       return state;
