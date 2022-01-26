@@ -19,18 +19,23 @@ function Dashboard() {
   interface RootState {
     merchantOrder: {
       statusLoja: string
+    },
+    storeDashboard: {
+      dataOrderPending: []
     }
   }
 
   const {Content} = Layout;
   const merchantOrder = (state: RootState) => state.merchantOrder;
+  const { dataOrderPending } = useSelector((state: RootState) => state.storeDashboard);
+  console.log('dataOrderPendingasdfasdfas- :', dataOrderPending);
   const isOn = useSelector(merchantOrder);
-
+  
   const [dataPending, setDataPending] = useState([]);
   const [dataConfirmado, setDataConfirmado] = useState([]);
   const [dataCanceled, setDataCanceled] = useState([]);
   const [aux, setAux] = useState();
-
+  
   console.log('isOn :', isOn);
   
   useEffect(() => {
@@ -46,6 +51,12 @@ function Dashboard() {
       });
     }
   }, []);
+  
+  useEffect(() => {
+    if (dataOrderPending.length) {
+      setDataPending(dataOrderPending);
+    }
+  }, [dataOrderPending])
   
   const loadMoreData = () => {
     
@@ -81,18 +92,20 @@ function Dashboard() {
                     endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
                     scrollableTarget="scrollableDiv"
                     >
+                      {dataPending.length ?
+                        <div>
+                          <h3>Pedidos pendentes</h3>
+                            {dataPending.length &&
+                              dataPending.map((dados, index) => (
+                                <button id="pending" name={dados.orderId} key={index} onClick={handlerOrderByStatus}>{dados.orderId}</button>
+                              ))
+                            }
+                        </div>
+                        :
+                        null
+                      }
                       <div>
-                        <p>Pedidos pendentes</p>
-                        {dataPending.length ?
-                          dataPending.map((dados, index) => (
-                            <button id="pending" name={dados.orderId} key={index} onClick={handlerOrderByStatus}>{dados.orderId}</button>
-                            ))
-                          :
-                          <p>0 Pedidos Pendentes</p>
-                        }
-                      </div>
-                      <div>
-                        <p>Pedidos Confirmados</p>
+                        <h3>Pedidos Confirmados</h3>
                         {dataConfirmado.length ?
                           dataConfirmado.map((dados, index) => (
                             <button key={index}>{dados.orderId}</button>
@@ -102,7 +115,7 @@ function Dashboard() {
                         }
                       </div>
                       <div>
-                        <p>Pedidos Cancelados</p>
+                        <h3>Pedidos Cancelados</h3>
                         {dataCanceled.length ?
                           dataCanceled.map((dados, index) => (
                             <button id="canceled" name={dados.orderId} key={index} onClick={handlerOrderByStatus}>{dados.orderId}</button>
