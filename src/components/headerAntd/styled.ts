@@ -4,6 +4,7 @@ export const DivBody = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 0 10px;
+  color: ${(props: { isTheme: boolean }) => props.isTheme ? "#F0F2F5" : "black"};
 `;
 
 export const Div = styled.div`
