@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { parseCookies, setCookie } from 'nookies';
 const { Header } = Layout;
 
-import { ACVisibleModalPausa, ACIsLoja } from '../../store/dashboard/dashboardAction';
+import { ACVisibleModalPausa, ACIsLoja, ACDataOrderPending } from '../../store/dashboard/dashboardAction';
 import { ACStatusLoja } from '../../store/merchantOrder/merchantOrderAction';
 import { ModalPausa } from './modalPausa';
 
@@ -82,9 +82,15 @@ export const HeaderAntd = () => {
 
   async function polling() {
     const resultPolling = await fechtOrderEventPolling();
-    console.log('resultPolling :', resultPolling);
+    const array = [];
     if (resultPolling.status === 200) {
       localStorage.setItem('food.orders', JSON.stringify({data: resultPolling.data.data}));
+      resultPolling.data.data.map((data: any) => {
+        if (data['code'] === 'PLC') {
+          array.push(data);
+        }
+      });
+      dispatch(ACDataOrderPending(array));
     }
   }
   
