@@ -12,7 +12,6 @@ export function ComponentPending(dataLog: any) {
           <div>
             <p>{`nome: ${aux.name}`}</p>
             <p>{`quantidade: ${aux.quantity}`}</p>
-            <p>{`valor unitario: ${aux.unitPrice !== 0 ? aux.unitPrice : aux.optionsPrice}`}</p>
             <p>{`Valor Total: ${aux.totalPrice}`}</p>
           </div>
         </DivContact>
