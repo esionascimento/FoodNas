@@ -46,3 +46,10 @@ export function ACSelectOrderId (selectOrderId) {
     payload: selectOrderId
   }
 }
+
+export function ACDataOrderDetails (orderDetails) {
+  return {
+    type: 'DATA_ORDER_DETAILS',
+    payload: orderDetails
+  }
+}
