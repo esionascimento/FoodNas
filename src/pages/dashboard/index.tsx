@@ -50,16 +50,10 @@ function Dashboard() {
   const loadMoreData = () => {
     
   };
-  
-  function onClickCanceled(e: any) {
-    setAux(e.target.name);
-    dispatch(ACSelectPedido('canceled'));
-    dispatch(ACSelectOrderId(e.target.name));
-  }
 
-  function onClickPending(e: any) {
+  function handlerOrderByStatus(e: any) {
     setAux(e.target.name);
-    dispatch(ACSelectPedido('pending'));
+    dispatch(ACSelectPedido(e.target.id));
     dispatch(ACSelectOrderId(e.target.name));
   }
 
@@ -91,7 +85,7 @@ function Dashboard() {
                         <p>Pedidos pendentes</p>
                         {dataPending.length ?
                           dataPending.map((dados, index) => (
-                            <button name={dados.orderId} key={index} onClick={onClickPending}>{dados.orderId}</button>
+                            <button id="pending" name={dados.orderId} key={index} onClick={handlerOrderByStatus}>{dados.orderId}</button>
                             ))
                           :
                           <p>0 Pedidos Pendentes</p>
@@ -111,7 +105,7 @@ function Dashboard() {
                         <p>Pedidos Cancelados</p>
                         {dataCanceled.length ?
                           dataCanceled.map((dados, index) => (
-                            <button name={dados.orderId} key={index} onClick={onClickCanceled}>{dados.orderId}</button>
+                            <button id="canceled" name={dados.orderId} key={index} onClick={handlerOrderByStatus}>{dados.orderId}</button>
                             ))
                             :
                             <p>0 Pedidos Cancelados</p>

@@ -46,14 +46,17 @@ export const HeaderAntd = () => {
     } else {
       setTema('#001529');
     }
-    if (isLojaCookie === 'Abrir Loja') {
+  }, [theme]);
+  
+  useEffect(() => {
+    if (isLojaCookie === 'Fechar Loja') {
       dispatch(ACIsLoja('Fechar Loja'));
       setCookie(null, 'food.isLoja', 'Fechar Loja', {maxAge: 86400 * 7, path: '/'});
     } else {
       dispatch(ACIsLoja('Abrir Loja'));
       setCookie(null, 'food.isLoja', 'Abrir Loja', {maxAge: 86400 * 7, path: '/'});
     }
-  }, [theme, isLojaCookie, dispatch]);
+  }, [isLojaCookie, dispatch])
   
   async function fetchStatus() {
     fechtMerchantStatus().then((data) => {
