@@ -1,6 +1,12 @@
 import styled from "styled-components";
 import { Layout, Menu as AntMenu } from "antd";
 
+export const DivLoadingSwitch = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 export const Sider = styled(Layout.Sider)`
     /* padding: 40px 0 0 0; */
     /* justify-content: space-between; */
