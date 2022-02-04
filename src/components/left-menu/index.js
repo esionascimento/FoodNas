@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Tooltip, Menu, Switch } from "antd";
+import { Tooltip, Menu, Switch, Spin } from "antd";
 import { useRouter } from 'next/router';
 import { setCookie, parseCookies, destroyCookie } from 'nookies';
 import { useDispatch } from "react-redux";
@@ -16,7 +16,8 @@ function LeftMenu() {
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(true);
   const [theme, setTheme] = useState();
-  
+  const [loading, setLoading] = useState(false);
+
   const { 'food.sider.index': foodSiderIndex } = parseCookies();
   const { 'foodnas.theme': cookieTheme } = parseCookies();
   
@@ -44,6 +45,7 @@ function LeftMenu() {
   };
 
   function onClick(path, index) {
+    setLoading(true);
     if (index === 4) {
       destroyCookie(null, 'food.sider.index');
       destroyCookie(null, 'food.token');
@@ -51,12 +53,11 @@ function LeftMenu() {
       destroyCookie(null, 'atlas.id_store');
       destroyCookie(null, 'atlas.token');
       destroyCookie(null, 'atlas.username');
-      router.replace(`${path}`);
     } else {
       setCollapsed(true);
       setCookie(null, 'food.sider.index', index, {maxAge: 86400 * 7, path: '/'});
-      router.replace(`${path}`);
     }
+    router.push(`${path}`);
   }
 
   return (
@@ -70,12 +71,15 @@ function LeftMenu() {
         onMouseEnter={SiderHandleEnter}
         onMouseLeave={SiderHandleLeave}
       >
-        <Switch
-          checked={theme === 'dark'}
-          onChange={changeTheme}
-          checkedChildren="Dark"
-          unCheckedChildren="Light"
-        />
+        <S.DivLoadingSwitch>
+          <Spin spinning={loading} />
+          <Switch
+            checked={theme === 'dark'}
+            onChange={changeTheme}
+            checkedChildren="Dark"
+            unCheckedChildren="Light"
+          />
+        </S.DivLoadingSwitch>
         <Menu
           theme={theme}
           selectable
