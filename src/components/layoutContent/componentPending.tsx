@@ -1,4 +1,4 @@
-import { DivContact } from './styled';
+import { DivContact, DivButton, DivBody } from './styled';
 
 export function ComponentPending(dataLog: any) {
 
@@ -21,18 +21,24 @@ export function ComponentPending(dataLog: any) {
 
   return (
     <>
-      <h2>Pedido Pendente</h2>
-      <div>
-        <h3>Contato</h3>
-        <DivContact>
-          <p>{`Telefone: ${dataLog && dataLog.customer.phone.number}`}</p>
-          <p>{`Localizador: ${dataLog && dataLog.customer.phone.localizer}`}</p>
-        </DivContact>
-        <h3>Endereço</h3>
-        <p>{`Rua: ${dataLog && dataLog.delivery.deliveryAddress.streetName}`}</p>
-        <h3>Pedido(s)</h3>
-        {dataLog ? items() : ''}
-      </div>
+      <DivButton>
+        <button>Cancelar</button>
+        <button>Confirmar</button>
+      </DivButton>
+      <DivBody>
+        <h2>Pedido Pendente</h2>
+        <div>
+          <h3>Contato</h3>
+          <DivContact>
+            <p>{`Telefone: ${dataLog && dataLog.customer.phone.number}`}</p>
+            <p>{`Localizador: ${dataLog && dataLog.customer.phone.localizer}`}</p>
+          </DivContact>
+          <h3>Endereço</h3>
+          <p>{`Rua: ${dataLog && dataLog.delivery.deliveryAddress.streetName}`}</p>
+          <h3>Pedido(s)</h3>
+          {dataLog ? items() : ''}
+        </div>
+      </DivBody>
     </>
   )
 }
