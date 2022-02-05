@@ -147,7 +147,11 @@ function Dashboard() {
                 </DivFooter>
               </Col>
               
-              <Col flex="auto">Info importante: Dinheiro, Cartão, Observação</Col>
+              <Col
+                flex="auto"
+              >
+                Info importante: Dinheiro, Cartão, Observação
+              </Col>
             </Row>
           </Footer>
         </Layout>
