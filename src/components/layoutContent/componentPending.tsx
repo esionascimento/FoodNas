@@ -1,6 +1,9 @@
+import { fechtOrderEventAcnowledgment, fechtOrderConfirmed } from '../../services/FetchFood/merchantOrder';
+
 import { DivContact, DivButton, DivBody } from './styled';
 
-export function ComponentPending(dataLog: any) {
+export function ComponentPending(dataLog: any, dataOrderAck: any) {
+  console.log('dataOrderAck :', dataOrderAck);
 
   function items() {
     return dataLog.items.map((aux: any, index: any) => {
@@ -19,11 +22,20 @@ export function ComponentPending(dataLog: any) {
     })
   }
 
+  async function handleConfirmed() {
+    await fechtOrderEventAcnowledgment('');
+    await fechtOrderConfirmed('');
+  }
+
+  async function handlerCanceled() {
+    await fechtOrderEventAcnowledgment('');
+  }
+
   return (
     <>
       <DivButton>
-        <button>Cancelar</button>
-        <button>Confirmar</button>
+        <button onClick={handlerCanceled}>Cancelar</button>
+        <button onClick={handleConfirmed}>Confirmar</button>
       </DivButton>
       <DivBody>
         <h2>Pedido Pendente</h2>
