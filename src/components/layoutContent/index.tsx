@@ -13,11 +13,16 @@ export function ComponentBody() {
     storeDashboard: {
       selectPedido: string,
       selectOrderId: string
+    },
+    storeDataOrder: {
+      dataOrderAck: {}
     }
   }
   
   const dispatch = useDispatch();
   const { selectPedido, selectOrderId } = useSelector((state: RootState) => state.storeDashboard);
+  const { dataOrderAck } = useSelector((state: RootState) => state.storeDataOrder);
+  
   const [dataLog, setDataLog] = useState() as any;
 
   useEffect(() => {
@@ -46,7 +51,7 @@ export function ComponentBody() {
     } else if (selectPedido === 'pending') {
       return (
         <>
-          {ComponentPending(dataLog)}
+          {ComponentPending(dataLog, dataOrderAck)}
         </>
       )
     }

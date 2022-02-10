@@ -8,3 +8,8 @@ export const fechtOrderDetails = (orderId: any) => {
   APIPOST.defaults.headers['order'] = `${orderId}`;
   return APIPOST.get('/merchant/order/details');
 };
+
+export const fechtOrderConfirmed = (orderId: any) => {
+  APIPOST.defaults.headers['order'] = `${orderId}`;
+  return APIPOST.get('/merchant/order/actions/confirm');
+}

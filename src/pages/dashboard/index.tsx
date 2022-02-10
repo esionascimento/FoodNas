@@ -10,6 +10,7 @@ import { HeaderAntd } from '../../components/headerAntd/index';
 import { ComponentBody } from '../../components/layoutContent';
 import withAuth from '../../utils/withAuth';
 import { ACSelectPedido, ACSelectOrderId } from '../../store/dashboard/dashboardAction';
+import { ACDataOrderAck } from '../../store/dataOrder/dataOrderAction';
 
 import { DivBody, DivFooter } from '../../../styles/dashboardCss';
 import 'antd/dist/antd.css';
@@ -62,8 +63,9 @@ function Dashboard() {
     
   };
 
-  function handlerOrderByStatus(e: any) {
+  function handlerOrderByStatus(e: any, dados: any) {
     setAux(e.target.name);
+    dispatch(ACDataOrderAck(dados));
     dispatch(ACSelectPedido(e.target.id));
     dispatch(ACSelectOrderId(e.target.name));
   }
@@ -97,7 +99,7 @@ function Dashboard() {
                           <h3>Pedidos pendentes</h3>
                             {dataPending.length &&
                               dataPending.map((dados, index) => (
-                                <button id="pending" name={dados.orderId} key={index} onClick={handlerOrderByStatus}>{dados.orderId}</button>
+                                <button id="pending" name={dados.orderId} key={index} onClick={(e) => handlerOrderByStatus(e, dados)}>{dados.orderId}</button>
                               ))
                             }
                         </div>
@@ -118,7 +120,7 @@ function Dashboard() {
                         <h3>Pedidos Cancelados</h3>
                         {dataCanceled.length ?
                           dataCanceled.map((dados, index) => (
-                            <button id="canceled" name={dados.orderId} key={index} onClick={handlerOrderByStatus}>{dados.orderId}</button>
+                            <button id="canceled" name={dados.orderId} key={index} onClick={(e) => handlerOrderByStatus(e, dados)}>{dados.orderId}</button>
                             ))
                             :
                             <p>0 Pedidos Cancelados</p>
@@ -147,7 +149,11 @@ function Dashboard() {
                 </DivFooter>
               </Col>
               
-              <Col flex="auto">Info importante: Dinheiro, Cartão, Observação</Col>
+              <Col
+                flex="auto"
+              >
+                Info importante: Dinheiro, Cartão, Observação
+              </Col>
             </Row>
           </Footer>
         </Layout>
