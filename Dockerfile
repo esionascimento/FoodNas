@@ -7,7 +7,7 @@ ENV PATH /app/node_modules/.bin:$PATH
 
 COPY package.json /app/package.json
 RUN npm install
-ENV REACT_APP_BASE_URL=http://localhost:3001/
+ENV REACT_APP_BASE_URL=
 
 # Inicializa a aplicação
 CMD ["npm", "start"]
