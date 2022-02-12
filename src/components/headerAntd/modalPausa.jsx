@@ -24,7 +24,6 @@ export const ModalPausa = () => {
   };
 
   function onClick(e) {
-    console.log('name: ', e.target.name);
     dispatch(ACPausaTempo(e.target.name));
     dispatch(ACVisibleModalPausa(false));
   }

@@ -83,11 +83,19 @@ export const HeaderAntd = () => {
   async function polling() {
     const resultPolling = await fechtOrderEventPolling();
     const array = [];
+    let arrayLocal = [];
     if (resultPolling.status === 200) {
-      localStorage.setItem('food.orders', JSON.stringify({data: resultPolling.data.data}));
+      const storageFoodOrders = JSON.parse(localStorage.getItem('food.orders'));
+
+      if (storageFoodOrders) {
+        arrayLocal = [...storageFoodOrders.data];
+      }
+
       resultPolling.data.data.map((data: any) => {
         if (data['code'] === 'PLC') {
           array.push(data);
+          arrayLocal.push(data);
+          localStorage.setItem('food.orders', JSON.stringify({data: arrayLocal}));
         }
       });
       dispatch(ACDataOrderPending(array));

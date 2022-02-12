@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { fechtOrderEventPolling } from '../services/FetchFood/merchantOrder';
 
 export const WithPool = () => {
-  console.log('count :');
   const Wrapper = () => {
     const [count, setCount] = useState(0);
 

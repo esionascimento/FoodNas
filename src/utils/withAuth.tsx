@@ -2,7 +2,7 @@ import { ElementType, useEffect } from "react";
 import { useRouter } from 'next/router';
 import { parseCookies } from "nookies";
 import { fetchAuthorizationAtlas } from '../services/FetchAtlas';
-import { APIATLAS } from '../services/FetchAtlas/utilsAtlas';
+import { APIATLAS } from '../services/FetchAtlas/utilsPostgres';
 
 export default function withAuth(WrappedComponent: ElementType) {
   const Wrapper = (props: unknown) => {
@@ -13,10 +13,8 @@ export default function withAuth(WrappedComponent: ElementType) {
 
     useEffect(() => {
       fetchAuthorizationAtlas().then(() => {
-
       })
       .catch((error) => {
-        console.log('errorWithAuth :', error.response);
         router.replace('/');
       });
     }, [router]);

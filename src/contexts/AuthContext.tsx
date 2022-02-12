@@ -1,6 +1,6 @@
 import { createContext, /* useEffect, */ useState } from 'react'
 import { fetchLogin/* , fetchAuthorizationAtlas */ } from '../services/FetchAtlas'
-import { APIATLAS } from '../services/FetchAtlas/utilsAtlas';
+import { APIATLAS } from '../services/FetchAtlas/utilsPostgres';
 import { setCookie/* , parseCookies */ } from 'nookies';
 
 type User = {
@@ -44,7 +44,7 @@ export function AuthProvider({ children }) {
     });
     setCookie(null, 'atlas.token', data.token, {maxAge: 86400 * 7, path: '/'});
     setCookie(null, 'atlas.id_store', data.id_store, {maxAge: 86400 * 7, path: '/'});
-    setCookie(null, 'atlas.username', data.username, {maxAge: 86400 * 7, path: '/'});
+    setCookie(null, 'atlas.first_name', data.first_name, {maxAge: 86400 * 7, path: '/'});
     setCookie(null, 'atlas.id', data.id, {maxAge: 86400 * 7, path: '/'});
 
     setCookie(null, 'food.isLoja', 'Abrir Loja', {maxAge: 86400 * 7, path: '/'});

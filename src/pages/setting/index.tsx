@@ -5,6 +5,7 @@ const { Footer } = Layout;
 import 'antd/dist/antd.css';
 import withAuth from '../../utils/withAuth';
 import { HeaderAntd } from '../../components/headerAntd';
+import { Config } from '../../components/config';
 
 function Setting() {
 
@@ -20,6 +21,9 @@ function Setting() {
         <Layout>
           <div>
             Configuração
+          </div>
+          <div>
+            <Config />
           </div>
           <Footer style={{ textAlign: 'center' }}>...</Footer>
         </Layout>
