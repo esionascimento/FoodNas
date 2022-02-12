@@ -52,7 +52,7 @@ function LeftMenu() {
       destroyCookie(null, 'atlas.id');
       destroyCookie(null, 'atlas.id_store');
       destroyCookie(null, 'atlas.token');
-      destroyCookie(null, 'atlas.username');
+      destroyCookie(null, 'atlas.first_name');
     } else {
       setCollapsed(true);
       setCookie(null, 'food.sider.index', index, {maxAge: 86400 * 7, path: '/'});
