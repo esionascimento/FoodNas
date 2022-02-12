@@ -9,8 +9,11 @@ import LeftMenu from "../../components/left-menu/index";
 import { HeaderAntd } from '../../components/headerAntd/index';
 import { ComponentBody } from '../../components/layoutContent';
 import withAuth from '../../utils/withAuth';
-import { ACSelectPedido, ACSelectOrderId } from '../../store/dashboard/dashboardAction';
+
+import { ACSelectPedido, ACSelectOrderId, ACDataOrderPending } from '../../store/dashboard/dashboardAction';
 import { ACDataOrderAck } from '../../store/dataOrder/dataOrderAction';
+
+import { fechtOrderEventAcnowledgment } from '../../services/FetchFood/merchantOrder';
 
 import { DivBody, DivFooter } from '../../../styles/dashboardCss';
 import 'antd/dist/antd.css';
@@ -28,8 +31,7 @@ function Dashboard() {
 
   const {Content} = Layout;
   const merchantOrder = (state: RootState) => state.merchantOrder;
-  const { dataOrderPending } = useSelector((state: RootState) => state.storeDashboard);
-  console.log('dataOrderPendingasdfasdfas- :', dataOrderPending);
+  const { dataOrderPending: apiPending } = useSelector((state: RootState) => state.storeDashboard);
   const isOn = useSelector(merchantOrder);
   
   const [dataPending, setDataPending] = useState([]);
@@ -54,10 +56,26 @@ function Dashboard() {
   }, []);
   
   useEffect(() => {
-    if (dataOrderPending.length) {
-      setDataPending(dataOrderPending);
+    console.log('=================================');
+    async function aaaa() {
+      if (apiPending.length) {
+        let auxDataPending = [...dataPending];
+        let auxApiPending = [...apiPending];
+  
+        for (let i = 0; i < auxApiPending.length;i++) {
+          let index = auxDataPending.map((item) => item["id"]).indexOf(auxApiPending[i]["id"]);
+          if (index > -1) {
+            auxDataPending.splice(index, 1);
+          }
+        }
+        const aoba = [...auxApiPending, ...auxDataPending];
+        setDataPending(aoba);
+        dispatch(ACDataOrderPending([]));
+        await fechtOrderEventAcnowledgment(apiPending);
+      }
     }
-  }, [dataOrderPending])
+    aaaa();
+  }, [apiPending, dispatch]) // eslint-disable-line
   
   const loadMoreData = () => {
     
@@ -99,7 +117,7 @@ function Dashboard() {
                           <h3>Pedidos pendentes</h3>
                             {dataPending.length &&
                               dataPending.map((dados, index) => (
-                                <button id="pending" name={dados.orderId} key={index} onClick={(e) => handlerOrderByStatus(e, dados)}>{dados.orderId}</button>
+                                <button id="pending" name={dados.orderId} key={index} onClick={(e) => handlerOrderByStatus(e, dados)}>{dados.id}</button>
                               ))
                             }
                         </div>
@@ -120,7 +138,7 @@ function Dashboard() {
                         <h3>Pedidos Cancelados</h3>
                         {dataCanceled.length ?
                           dataCanceled.map((dados, index) => (
-                            <button id="canceled" name={dados.orderId} key={index} onClick={(e) => handlerOrderByStatus(e, dados)}>{dados.orderId}</button>
+                            <button id="canceled" name={dados.orderId} key={index} onClick={(e) => handlerOrderByStatus(e, dados)}>{dados.id}</button>
                             ))
                             :
                             <p>0 Pedidos Cancelados</p>
