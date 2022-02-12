@@ -22,9 +22,9 @@ export default function Register() {
   }
 
   function handleSubmit(cadastro) {
-    const { username, email, password, id_store } = cadastro
+    const { first_name, email, password, id_store } = cadastro
     if (checkPassword(cadastro)) {
-      newRegister({ username, email, password, id_store })
+      newRegister({ first_name, email, password, id_store })
         .then(() => {
           message.success("Sucesso: Usuario criado com sucesso.");
           onClickRedirect();
@@ -49,7 +49,7 @@ export default function Register() {
           <Label>*Nome</Label>
           <Form.Item
             {...layoutFormItem}
-            name="username"
+            name="first_name"
             rules={[
               { required: true, message: "Por favor insira o nome!" },
             ]}
