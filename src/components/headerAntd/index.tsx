@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 import { Layout } from 'antd';
 import { useSelector, useDispatch } from "react-redux";
 import { parseCookies, setCookie } from 'nookies';
 const { Header } = Layout;
 
-import { ACVisibleModalPausa, ACIsLoja, ACDataOrderPending } from '../../store/dashboard/dashboardAction';
+import { ACVisibleModalPausa, ACIsLoja } from '../../store/dashboard/dashboardAction';
+import { ACDataOrderPending } from '../../store/dataOrder/dataOrderAction';
 import { ACStatusLoja } from '../../store/merchantOrder/merchantOrderAction';
-import { ModalPausa } from './modalPausa';
+import ModalPausa from './modalPausa';
 
 import { fechtOrderEventPolling } from '../../services/FetchFood/merchantOrder';
 import { fechtMerchantStatus } from '../../services/FetchFood/merchantMerchant';
@@ -16,7 +17,7 @@ import { DivBody, Div, DivMenu } from './styled';
 let intervalInfinit = null;
 let intervalVerifyStatus = null;
 
-export const HeaderAntd = () => {
+function HeaderAntd() {
   interface RootState {
     storeDashboard: {
       theme: string,
@@ -33,12 +34,9 @@ export const HeaderAntd = () => {
   const [isActive, setIsActive] = useState(true);
 
   let isOn = true;
-  const storeDashboard = (state: RootState) => state.storeDashboard;
-  const merchantOrder = (state: RootState) => state.merchantOrder;
-  const sDashboard = useSelector(storeDashboard);
-  const isOna = useSelector(merchantOrder);
-  const { theme, isLoja } = sDashboard;
-  const { statusLoja } = isOna;
+  const theme = useSelector((state: RootState) => state.storeDashboard.theme);
+  const isLoja = useSelector((state: RootState) => state.storeDashboard.isLoja);
+  const statusLoja = useSelector((state: RootState) => state.merchantOrder.statusLoja);
 
   useEffect(() => {
     if (theme === 'light') {
@@ -56,7 +54,7 @@ export const HeaderAntd = () => {
       dispatch(ACIsLoja('Abrir Loja'));
       setCookie(null, 'food.isLoja', 'Abrir Loja', {maxAge: 86400 * 7, path: '/'});
     }
-  }, [isLojaCookie, dispatch])
+  }, [isLojaCookie, dispatch]);
   
   async function fetchStatus() {
     fechtMerchantStatus().then((data) => {
@@ -152,3 +150,5 @@ export const HeaderAntd = () => {
     </Header>
   )
 };
+
+export default memo(HeaderAntd);
