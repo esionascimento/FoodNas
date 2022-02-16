@@ -1,11 +1,12 @@
 const INITIAL_STATE = {
   dataOrderAck: {},
   dataOrderDetails: {},
-  dataOrderPending: []
-};
+  dataOrderPending: [],
+  dataOrderConfirmed: []
+}
 
-export function StoreDataOrder (state = INITIAL_STATE, action) {
-  switch(action.type) {
+export function StoreDataOrder (state = INITIAL_STATE, action: { type: string; payload: unknown }) {
+  switch (action.type) {
     case 'DATA_ORDER_ACK':
       return {
         ...state,
@@ -21,7 +22,12 @@ export function StoreDataOrder (state = INITIAL_STATE, action) {
         ...state,
         dataOrderPending: action.payload
       }
+    case 'DATA_ORDER_CONFIRMED':
+      return {
+        ...state,
+        dataOrderConfirmed: action.payload
+      }
     default:
-      return state;
+      return state
   }
-};
+}
