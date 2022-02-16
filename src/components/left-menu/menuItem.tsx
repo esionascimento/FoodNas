@@ -1,57 +1,50 @@
-import React, { useCallback, useState } from "react";
-import { setCookie, destroyCookie } from 'nookies';
-import { Tooltip, Spin } from "antd";
-import { useRouter } from 'next/router';
+import React, { useCallback, useState, memo } from 'react'
+import { setCookie, destroyCookie } from 'nookies'
+import { Tooltip, Spin } from 'antd'
+import { useRouter } from 'next/router'
 
-import { iconsListAdmin } from "./options";
+import 'antd/dist/antd.css'
+import * as S from './styled'
 
-import 'antd/dist/antd.css';
-import * as S from "./styled";
+const MenuItem = ({ data }) => {
+  const { text, active, access, icon, path, id } = data
+  const router = useRouter()
+  const [loading, setLoading] = useState(false)
 
-function MenuItem() {
-  const router = useRouter();
-  const [collapsed, setCollapsed] = useState(true);
-  const [loading, setLoading] = useState(false);
-
-  const selectItem = useCallback((path, index) => {
-    setLoading(true);
-    if (index === 4) {
-      destroyCookie(null, 'food.sider.index');
-      destroyCookie(null, 'food.token');
-      destroyCookie(null, 'atlas.id');
-      destroyCookie(null, 'atlas.id_store');
-      destroyCookie(null, 'atlas.token');
-      destroyCookie(null, 'atlas.first_name');
+  const selectItem = (path, index) => {
+    setLoading(true)
+    if (index === 5) {
+      destroyCookie(null, 'food.sider.index')
+      destroyCookie(null, 'food.token')
+      destroyCookie(null, 'atlas.id')
+      destroyCookie(null, 'atlas.id_store')
+      destroyCookie(null, 'atlas.token')
+      destroyCookie(null, 'atlas.first_name')
     } else {
-      setCollapsed(true);
-      setCookie(null, 'food.sider.index', index, {maxAge: 86400 * 7, path: '/'});
+      setCookie(null, 'food.sider.index', index, { maxAge: 86400 * 7, path: '/' })
     }
-    router.push(`${path}`);
-  }, [router]);
-  
+    router.push(`${path}`)
+  }
+
   return (
     <>
-      <Spin spinning={loading} />
-      {iconsListAdmin.map(
-        ({ text, active, access, icon, path }, index) => (
-          <S.MenuItem 
-            onClick={() => selectItem(path, index)}
-            key={index}
-            icon={icon}
+      {/* <Spin spinning={loading} /> */}
+        <S.MenuItem
+          onClick={useCallback(() => selectItem(path, id), [])}
+          key={id}
+          icon={icon}
+          >
+            <Tooltip
+              title={
+                active && access ? '' : 'Em Desenvolvimento'
+              }
+              placement="right"
             >
-              <Tooltip
-                title={
-                  active && access ? "" : "Em Desenvolvimento"
-                }
-                placement="right"
-              >     
-                <S.Text>{text}</S.Text>
-              </Tooltip>
-          </S.MenuItem>
-        )
-      )}
+              <S.Text>{text}</S.Text>
+            </Tooltip>
+        </S.MenuItem>
     </>
-  );
+  )
 }
 
-export default MenuItem;
+export default memo(MenuItem)
