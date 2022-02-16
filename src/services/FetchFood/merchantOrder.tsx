@@ -1,15 +1,35 @@
-import { APIPOST } from "./utilsFood";
+import { APIPOST } from './utilsFood'
+import { HeadersDefaults } from 'axios'
+import { parseCookies } from 'nookies'
 
-export const fechtOrderEventPolling = () => APIPOST.get('/merchant/order/event:polling');
+interface CommonHeaderProperties extends HeadersDefaults {
+  order: string;
+  authorization: unknown
+}
 
-export const fechtOrderEventAcnowledgment = (data: any) => APIPOST.post('/merchant/order/event/acknowledgment', data);
+function headers(orderId: string) {
+  const { 'food.token': token } = parseCookies()
+  APIPOST.defaults.headers = {
+    authorization: `Bearer ${token}`,
+    order: `${orderId}`
+  } as CommonHeaderProperties
+}
 
-export const fechtOrderDetails = (orderId: any) => {
-  APIPOST.defaults.headers['order'] = `${orderId}`;
-  return APIPOST.get('/merchant/order/details');
-};
+export const fechtOrderEventPolling = () => APIPOST.get('/merchant/order/event:polling')
 
-export const fechtOrderConfirmed = (orderId: any) => {
-  APIPOST.defaults.headers['order'] = `${orderId}`;
-  return APIPOST.get('/merchant/order/actions/confirm');
+export const fechtOrderEventAcnowledgment = (data: Array<string>) => APIPOST.post('/merchant/order/event/acknowledgment', data)
+
+export const fechtOrderDetails = (orderId: string) => {
+  headers(orderId)
+  return APIPOST.get('/merchant/order/details')
+}
+
+export const fechtOrderConfirmed = (orderId: string) => {
+  headers(orderId)
+  return APIPOST.get('/merchant/order/actions/confirm')
+}
+
+export const fechtOrderDispatch = (orderId: string) => {
+  headers(orderId)
+  return APIPOST.get('/merchant/order/dispatch')
 }
