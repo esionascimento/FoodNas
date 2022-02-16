@@ -1,5 +1,7 @@
 const INITIAL_STATE = {
-  dataOrderAck: {}
+  dataOrderAck: {},
+  dataOrderDetails: {},
+  dataOrderPending: []
 };
 
 export function StoreDataOrder (state = INITIAL_STATE, action) {
@@ -8,6 +10,16 @@ export function StoreDataOrder (state = INITIAL_STATE, action) {
       return {
         ...state,
         dataOrderAck: action.payload
+      }
+    case 'DATA_ORDER_DETAILS':
+      return {
+        ...state,
+        dataOrderDetails: action.payload
+      }
+    case 'DATA_ORDER_PENDING':
+      return {
+        ...state,
+        dataOrderPending: action.payload
       }
     default:
       return state;
