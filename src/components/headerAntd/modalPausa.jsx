@@ -4,9 +4,9 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { ACVisibleModalPausa, ACPausaTempo } from '../../store/dashboard/dashboardAction';
 
-export const ModalPausa = () => {
+const ModalPausa = () => {
   const dispatch = useDispatch();
-  const { modalPausa: { visibleModalPausa } } = useSelector(state => state.storeDashboard);
+  const { visibleModalPausa } = useSelector(state => state.storeDashboard.modalPausa);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
@@ -45,3 +45,5 @@ export const ModalPausa = () => {
     </>
   );
 };
+
+export default ModalPausa;

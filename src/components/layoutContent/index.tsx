@@ -3,12 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { fechtOrderDetails } from '../../services/FetchFood/merchantOrder';
 
-import { ACDataOrderDetails } from '../../store/dashboard/dashboardAction';
+import { ACDataOrderDetails } from '../../store/dataOrder/dataOrderAction';
 
 import { ComponentPending } from './componentPending';
 import { ComponentCanceled } from './componentCanceled';
 
-export function ComponentBody() {
+function ComponentBody() {
   interface RootState {
     storeDashboard: {
       selectPedido: string,
@@ -20,8 +20,9 @@ export function ComponentBody() {
   }
   
   const dispatch = useDispatch();
-  const { selectPedido, selectOrderId } = useSelector((state: RootState) => state.storeDashboard);
-  const { dataOrderAck } = useSelector((state: RootState) => state.storeDataOrder);
+  const selectPedido = useSelector((state: RootState) => state.storeDashboard.selectPedido);
+  const selectOrderId = useSelector((state: RootState) => state.storeDashboard.selectOrderId);
+  const dataOrderAck = useSelector((state: RootState) => state.storeDataOrder.dataOrderAck);
   
   const [dataLog, setDataLog] = useState() as any;
 
@@ -63,3 +64,5 @@ export function ComponentBody() {
     </>
   )
 }
+
+export default ComponentBody;

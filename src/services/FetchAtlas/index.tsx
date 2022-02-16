@@ -9,6 +9,5 @@ export const fetchAuthorizationAtlas = () => APIATLAS.get('/authorization')
 
 export const fetchRegisterUpdate = (first_name: any) => {
   const { 'atlas.id': id } = parseCookies();
-  
   return APIATLAS.put(`/register/${id}`, first_name);
 }

@@ -4,7 +4,7 @@ import {Layout} from "antd";
 const { /* Header, Content, */ Footer/* , Sider */ } = Layout;
 import 'antd/dist/antd.css';
 import withAuth from '../../utils/withAuth';
-import { HeaderAntd } from '../../components/headerAntd';
+import HeaderAntd from '../../components/headerAntd';
 
 function Profile() {
 
