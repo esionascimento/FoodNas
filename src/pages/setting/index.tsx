@@ -1,22 +1,22 @@
-import React from 'react';
-import LeftMenu from "../../components/left-menu/index";
-import {Layout} from "antd";
-const { Footer } = Layout;
-import 'antd/dist/antd.css';
-import withAuth from '../../utils/withAuth';
-import HeaderAntd from '../../components/headerAntd';
-import { Config } from '../../components/config';
+import React from 'react'
+import { Layout } from 'antd'
+import 'antd/dist/antd.css'
+import withAuth from '../../utils/withAuth'
+import LeftMenu from '../../components/left-menu/index'
+import HeaderAntd from '../../components/headerAntd'
+import { Config } from '../../components/config'
+const { Footer } = Layout
 
 function Setting() {
-
   return (
     <Layout>
-      {
-        typeof  window  ! ==  'undefined' ? 'null' : <HeaderAntd />
-      }
+        {typeof window ! === 'undefined'
+          ? 'null'
+          : <LeftMenu />
+        }
       <Layout style={{ minHeight: '100vh' }}>
-        {typeof  window  ! ==  'undefined' ? 'null' : 
-          <LeftMenu />
+        {
+          typeof window ! === 'undefined' ? 'null' : <HeaderAntd />
         }
         <Layout>
           <div>
@@ -29,7 +29,7 @@ function Setting() {
         </Layout>
       </Layout>
     </Layout>
-  );
+  )
 }
 
-export default withAuth(Setting);
+export default withAuth(Setting)
