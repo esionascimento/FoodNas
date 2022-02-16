@@ -1,6 +1,5 @@
-import styled from "styled-components";
-import { Button as AndtButton } from "antd";
-
+import styled from 'styled-components'
+import { Button as AndtButton } from 'antd'
 
 export const Button = styled(AndtButton)`
     display: flex;
@@ -11,7 +10,7 @@ export const Button = styled(AndtButton)`
     background: #A9A9A9;
     /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25); Box shadow causing a line under the element */
     border-radius: 5px;
-    
+
 
     :focus,
     :hover {
@@ -26,7 +25,7 @@ export const Button = styled(AndtButton)`
         margin-left: 5px;
     }
 
-`;
+`
 
 export const Text = styled.span`
     font-family: Poppins;
@@ -39,8 +38,7 @@ export const Text = styled.span`
 
     /* identical to box height */
 
-`;
-
+`
 
 export const Span = styled.span`
     ::selection {
