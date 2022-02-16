@@ -8,11 +8,10 @@ const INITIAL_STATE = {
   isLoja: 'Abrir Loja',
   selectPedido: '',
   selectOrderId: ''
-};
-
+}
 
 export function StoreDashboard (state = INITIAL_STATE, action) {
-  switch(action.type) {
+  switch (action.type) {
     case 'THEME':
       return {
         ...state,
@@ -55,6 +54,6 @@ export function StoreDashboard (state = INITIAL_STATE, action) {
         selectOrderId: action.payload
       }
     default:
-      return state;
+      return state
   }
-};
+}
