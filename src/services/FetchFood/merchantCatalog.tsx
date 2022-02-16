@@ -1,3 +1,3 @@
-import { APIPOST } from "./utilsFood"
+import { APIPOST } from './utilsFood'
 
-export const fechtCatalogProductList = () => APIPOST.get('/merchant/catalog/list_products');
+export const fechtCatalogProductList = () => APIPOST.get('/merchant/catalog/list_products')
