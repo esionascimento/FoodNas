@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { Modal } from 'antd';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react'
+import { Modal } from 'antd'
+import { useSelector, useDispatch } from 'react-redux'
 
-import { ACVisibleModalPausa, ACPausaTempo } from '../../store/dashboard/dashboardAction';
+import { ACVisibleModalPausa, ACPausaTempo } from '../../store/dashboard/dashboardAction'
 
 const ModalPausa = () => {
-  const dispatch = useDispatch();
-  const { visibleModalPausa } = useSelector(state => state.storeDashboard.modalPausa);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const dispatch = useDispatch()
+  const { visibleModalPausa } = useSelector(state => state.storeDashboard.modalPausa)
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
   useEffect(() => {
-    setIsModalVisible(visibleModalPausa);
-  }, [visibleModalPausa]);
+    setIsModalVisible(visibleModalPausa)
+  }, [visibleModalPausa])
 
   const handleOk = () => {
-    dispatch(ACVisibleModalPausa(false));
-    setIsModalVisible(false);
-  };
+    dispatch(ACVisibleModalPausa(false))
+    setIsModalVisible(false)
+  }
 
   const handleCancel = () => {
-    dispatch(ACVisibleModalPausa(false));
-    setIsModalVisible(false);
-  };
+    dispatch(ACVisibleModalPausa(false))
+    setIsModalVisible(false)
+  }
 
   function onClick(e) {
-    dispatch(ACPausaTempo(e.target.name));
-    dispatch(ACVisibleModalPausa(false));
+    dispatch(ACPausaTempo(e.target.name))
+    dispatch(ACVisibleModalPausa(false))
   }
 
   return (
@@ -43,7 +43,7 @@ const ModalPausa = () => {
         </div>
       </Modal>
     </>
-  );
-};
+  )
+}
 
-export default ModalPausa;
+export default ModalPausa
