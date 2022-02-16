@@ -1,8 +1,8 @@
-import React from 'react';
-import withAuthLogin from '../utils/withAuthLogin';
-import { Login } from '../components/login';
+import React from 'react'
+import withAuthLogin from '../utils/withAuthLogin'
+import { Login } from '../components/login'
 
-import { DivBox, FooterRodape, DivContainer, DivRight, DivLeft } from '../../styles/indexCss';
+import { DivBox, FooterRodape, DivContainer, DivRight, DivLeft } from '../../styles/indexCss'
 
 function Home() {
   return (
@@ -21,7 +21,7 @@ function Home() {
         Web site desenvolvido por Esio Rodrigues
       </FooterRodape>
     </div>
-  );
+  )
 }
 
-export default withAuthLogin(Home);
+export default withAuthLogin(Home)
