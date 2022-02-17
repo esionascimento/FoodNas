@@ -1,5 +1,5 @@
 const INITIAL_STATE = {
-  theme: 'light',
+  theme: 'dark',
   modalPausa: {
     visibleModalPausa: false,
     tempo: -1
