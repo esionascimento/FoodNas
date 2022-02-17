@@ -55,7 +55,6 @@ function ContentBody() {
   useEffect(() => {
     async function newResultPolling() {
       if (apiPending.length) {
-        console.log('apiPending :', apiPending)
         const auxDataPending = [...dataPending]
         const auxApiPending: Array<{ id: string }> = [...apiPending]
 
@@ -95,6 +94,7 @@ function ContentBody() {
 
   const loadMoreData = () => {
     console.log('')
+    setDataCanceled([])
   }
 
   const handlerOrderByStatus = useCallback((e, dados) => {
@@ -106,7 +106,7 @@ function ContentBody() {
 
   return (
     <>
-      <Layout>
+      <Layout style={{ background: 'silver' }}>
         <Content>
           <Row wrap={false}>
             <Col flex="200px">
@@ -169,7 +169,7 @@ function ContentBody() {
             </Col>
           </Row>
         </Content>
-        <Footer style={{ textAlign: 'center', margin: '0px', padding: '0px', height: '70px' }}>
+        <Footer style={{ background: 'silver', textAlign: 'center', margin: '0px', padding: '0px', height: '70px' }}>
           <Row>
             <Col flex="200px">
               <DivFooter>
