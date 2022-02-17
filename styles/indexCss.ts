@@ -1,11 +1,11 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const DivBox = styled.div`
   padding: 45px 0;
   @media(max-width: 800px) {
     padding-top: 20px;
   }
-`;
+`
 
 export const FooterRodape = styled.footer`
   text-align: center;
@@ -13,7 +13,7 @@ export const FooterRodape = styled.footer`
   bottom: 0;
   background-color: rgb(52, 41, 128);
   width: 100%;
-`;
+`
 
 export const DivContainer = styled.div`
   display: flex;
@@ -23,7 +23,7 @@ export const DivContainer = styled.div`
     flex-direction: column;
     text-align: center;
   }
-`;
+`
 
 export const DivRight = styled.div`
   width: 400px;
@@ -37,7 +37,7 @@ export const DivRight = styled.div`
     margin: 20px auto;
     width: 75%;
   }
-`;
+`
 
 export const DivLeft = styled.div`
   text-align: center;
@@ -46,4 +46,4 @@ export const DivLeft = styled.div`
     margin: 0 auto;
     padding: 10px;
   }
-`;
+`

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Button = styled.button`
   padding: 5px;
@@ -7,4 +7,4 @@ export const Button = styled.button`
   &:hover {
     background-color: slateblue;
   }
-`;
+`
