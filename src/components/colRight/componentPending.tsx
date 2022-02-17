@@ -17,7 +17,7 @@ interface interMapData {
   name: string, quantity: number, totalPrice: number
 }
 
-export function ComponentPending(dataLog: interDataLog, dataOrderAck: unknown, selectOrderId: unknown) {
+export function ComponentPending(dataLog: interDataLog, dataOrderAck: unknown, selectOrderId: string) {
   console.log('dataOrderAck :', dataOrderAck)
   function items() {
     return dataLog.items.map((aux: interMapData, index: number) => {
