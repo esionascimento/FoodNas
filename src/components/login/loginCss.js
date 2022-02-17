@@ -1,9 +1,9 @@
-import styled from 'styled-components';
-import { Input as AntInput } from "antd";
+import styled from 'styled-components'
+import { Input as AntInput } from 'antd'
 
 export const DivCard = styled.div`
   margin: 10px;
-`;
+`
 
 export const DivInputForm = styled.div`
   display: flex;
@@ -12,11 +12,11 @@ export const DivInputForm = styled.div`
   @media(max-width: 450px) {
     width: 100%;
   }
-`;
+`
 
 export const H3 = styled.h3`
   color: black;
-`;
+`
 
 export const Button = styled.button`
   padding: 12px 80px;
@@ -29,15 +29,15 @@ export const Button = styled.button`
     margin: 10px auto;
     padding: 6px 40px;
   }
-`;
+`
 
 export const Hr = styled.hr`
   margin: 5px;
-`;
+`
 
 export const Label = styled.label`
   font-weight: bold;
-`;
+`
 
 export const DivButton = styled.div`
   display: flex;
@@ -47,7 +47,7 @@ export const DivButton = styled.div`
   @media(max-width: 450px) {
     width: 100%;
   }
-`;
+`
 
 export const DivLink = styled.div`
   display: flex;
@@ -56,11 +56,11 @@ export const DivLink = styled.div`
   @media(max-width: 800px) {
     flex-direction: column;
   }
-`;
+`
 
 export const SpanLink = styled.span`
   color: blue;
-`;
+`
 
 export const Input = styled(AntInput)`
     width: 100%;
@@ -90,4 +90,4 @@ export const Input = styled(AntInput)`
     ::placeholder {
         font-family: "Poppins", Arial, Helvetica, sans-serif;
     }
-`;
+`
