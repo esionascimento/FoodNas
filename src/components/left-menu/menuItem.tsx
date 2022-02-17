@@ -11,7 +11,7 @@ const MenuItem = ({ data }) => {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
 
-  const selectItem = (path, index) => {
+  const selectItem = (path: string, index: number) => {
     setLoading(true)
     if (index === 5) {
       destroyCookie(null, 'food.sider.index')
@@ -21,14 +21,14 @@ const MenuItem = ({ data }) => {
       destroyCookie(null, 'atlas.token')
       destroyCookie(null, 'atlas.first_name')
     } else {
-      setCookie(null, 'food.sider.index', index, { maxAge: 86400 * 7, path: '/' })
+      setCookie(null, 'food.sider.index', index.toString(), { maxAge: 86400 * 7, path: '/' })
     }
     router.push(`${path}`)
   }
 
   return (
     <>
-      {/* <Spin spinning={loading} /> */}
+      <Spin spinning={loading} />
         <S.MenuItem
           onClick={useCallback(() => selectItem(path, id), [])}
           key={id}
