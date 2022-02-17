@@ -1,4 +1,5 @@
-import { GetServerSideProps } from "next"
+import React from 'react'
+import { GetServerSideProps } from 'next'
 
 export default function PrivateSSR() {
   return (
@@ -9,7 +10,7 @@ export default function PrivateSSR() {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const { token } = req.cookies;
+  const { token } = req.cookies
 
   if (!token) {
     return {
@@ -22,7 +23,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      
+
     }
   }
 }
