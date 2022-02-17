@@ -1,89 +1,117 @@
-import React, { useCallback, useEffect, useState, useMemo, memo } from 'react';
-import { Layout, Row, Col, Skeleton, Divider } from 'antd';
-const { Footer } = Layout;
-import { useSelector, useDispatch } from "react-redux";
+import React, { useCallback, useEffect, useState, useMemo, memo } from 'react'
+import { Layout, Row, Col, Skeleton, Divider } from 'antd'
+import { useSelector, useDispatch } from 'react-redux'
 
-import InfiniteScroll from 'react-infinite-scroll-component';
-import ComponentContent from '../../components/layoutContent';
+import InfiniteScroll from 'react-infinite-scroll-component'
+import ColRight from '../colRight'
 
-import { ACSelectPedido, ACSelectOrderId } from '../../store/dashboard/dashboardAction';
-import { ACDataOrderPending } from '../../store/dataOrder/dataOrderAction';
-import { ACDataOrderAck } from '../../store/dataOrder/dataOrderAction';
+import { ACSelectPedido, ACSelectOrderId } from '../../store/dashboard/dashboardAction'
+import { ACDataOrderConfirmed, ACDataOrderAck, ACDataOrderPending } from '../../store/dataOrder/dataOrderAction'
 
-import { fechtOrderEventAcnowledgment } from '../../services/FetchFood/merchantOrder';
+import { fechtOrderEventAcnowledgment } from '../../services/FetchFood/merchantOrder'
 
-import 'antd/dist/antd.css';
-import { DivBody, DivFooter } from '../../../styles/dashboardCss';
+import 'antd/dist/antd.css'
+import { DivBody, DivFooter } from '../../../styles/dashboardCss'
+const { Footer } = Layout
 
 function ContentBody() {
   interface RootState {
     storeDataOrder: {
-      dataOrderPending: []
+      dataOrderPending: [],
+      dataOrderConfirmed: []
     }
   }
-  const dispatch = useDispatch();
-  const {Content} = Layout;
-  const apiPending = useSelector((state: RootState) => state.storeDataOrder.dataOrderPending);
-  
-  const [dataPending, setDataPending] = useState([]);
-  const [dataConfirmado, setDataConfirmado] = useState([]);
-  const [dataCanceled, setDataCanceled] = useState([]);
-  const [aux, setAux] = useState();
-  
+  const dispatch = useDispatch()
+  const { Content } = Layout
+  const apiPending = useSelector((state: RootState) => state.storeDataOrder.dataOrderPending)
+  const apiConfirmed = useSelector((state: RootState) => state.storeDataOrder.dataOrderConfirmed)
+
+  const [dataPending, setDataPending] = useState([])
+  const [dataConfirmado, setDataConfirmado] = useState([])
+  console.log('dataConfirmado :', dataConfirmado)
+  const [dataCanceled, setDataCanceled] = useState([])
+  const [aux, setAux] = useState()
+
   useMemo(() => {
-    const storageFoodOrders = JSON.parse(localStorage.getItem('food.orders'));
-    
+    const storageFoodOrders = JSON.parse(localStorage.getItem('food.orders'))
+    const storageOrderConfirmed = JSON.parse(localStorage.getItem('foodOrderConfirmed'))
+
     if (storageFoodOrders) {
-      storageFoodOrders.data.map((data: any) => {
+      storageFoodOrders.data.forEach((data: { code: string }) => {
         if (data.code === 'PLC') {
-          setDataPending(prev => [...prev, data]);
-        } else if (data.code === 'CAN') {
-          setDataCanceled(prev => [...prev, data]);
+          setDataPending(prev => [...prev, data])
         }
-      });
+      })
     }
-  }, []);
-  
+    if (storageOrderConfirmed) {
+      storageOrderConfirmed.data.forEach((data: { code: string }) => {
+        if (data.code === 'CFM') {
+          setDataConfirmado(prev => [...prev, data])
+        }
+      })
+    }
+  }, [])
+
   useEffect(() => {
-    async function aaaa() {
+    async function newResultPolling() {
       if (apiPending.length) {
-        let auxDataPending = [...dataPending];
-        let auxApiPending = [...apiPending];
-  
-        for (let i = 0; i < auxApiPending.length;i++) {
-          let index = auxDataPending.map((item) => item["id"]).indexOf(auxApiPending[i]["id"]);
+        const auxDataPending = [...dataPending]
+        const auxApiPending: Array<{ id: string }> = [...apiPending]
+
+        for (let i = 0; i < auxApiPending.length; i++) {
+          const id = auxApiPending[i].id
+          const index = auxDataPending.map((item) => item.id).indexOf(id)
           if (index > -1) {
-            auxDataPending.splice(index, 1);
+            auxDataPending.splice(index, 1)
           }
         }
-        const aoba = [...auxApiPending, ...auxDataPending];
-        setDataPending(aoba);
-        dispatch(ACDataOrderPending([]));
-        await fechtOrderEventAcnowledgment(apiPending);
+        const aoba = [...auxApiPending, ...auxDataPending]
+        setDataPending(aoba)
+        dispatch(ACDataOrderPending([]))
+        await fechtOrderEventAcnowledgment(apiPending)
       }
     }
-    aaaa();
-  }, [apiPending, dispatch]) // eslint-disable-line
-  
-  const loadMoreData = () => {
-    
-  };
+    newResultPolling()
+  }, [apiPending, dispatch])
 
-  const handlerOrderByStatus = useCallback((e: any, dados: any) => {
-    setAux(e.target.name);
-    dispatch(ACDataOrderAck(dados));
-    dispatch(ACSelectPedido(e.target.id));
-    dispatch(ACSelectOrderId(e.target.name));
-  },[dispatch]);
+  useEffect(() => {
+    async function newResultConfirmed() {
+      if (apiConfirmed.length) {
+        console.log('apiConfirmed :', apiConfirmed)
+        const auxDataConfirmed = [...dataConfirmado]
+
+        apiConfirmed.forEach((data) => {
+          auxDataConfirmed.push(data)
+        })
+
+        setDataConfirmado(auxDataConfirmed)
+        dispatch(ACDataOrderConfirmed([]))
+        await fechtOrderEventAcnowledgment(apiConfirmed)
+      }
+    }
+    newResultConfirmed()
+  }, [apiConfirmed, dispatch])
+
+  const loadMoreData = () => {
+    console.log('')
+    setDataCanceled([])
+  }
+
+  const handlerOrderByStatus = useCallback((e, dados) => {
+    setAux(e.target.name)
+    dispatch(ACDataOrderAck(dados))
+    dispatch(ACSelectPedido(e.target.id))
+    dispatch(ACSelectOrderId(e.target.name))
+  }, [dispatch])
 
   return (
     <>
-      <Layout>
+      <Layout style={{ background: 'silver' }}>
         <Content>
           <Row wrap={false}>
             <Col flex="200px">
               <DivBody
-                id={"scrollableDiv"}
+                id={'scrollableDiv'}
                 >
                 <InfiniteScroll
                   dataLength={10}
@@ -93,8 +121,8 @@ function ContentBody() {
                   endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
                   scrollableTarget="scrollableDiv"
                   >
-                    {dataPending.length ?
-                      <div>
+                    {dataPending.length
+                      ? <div>
                         <h3>Pedidos pendentes</h3>
                           {dataPending.length &&
                             dataPending.map((dados, index) => (
@@ -109,27 +137,24 @@ function ContentBody() {
                             ))
                           }
                       </div>
-                      :
-                      null
+                      : null
                     }
                     <div>
                       <h3>Pedidos Confirmados</h3>
-                      {dataConfirmado.length ?
-                        dataConfirmado.map((dados, index) => (
-                          <button key={index}>{dados.orderId}</button>
+                      {dataConfirmado.length
+                        ? dataConfirmado.map((dados, index) => (
+                          <button id="confirmed" name={dados.orderId} key={index}>{dados.id}</button>
                         ))
-                        :
-                        <p>0 Pedidos Confirmados</p>
+                        : <p>0 Pedidos Confirmados</p>
                       }
                     </div>
                     <div>
                       <h3>Pedidos Cancelados</h3>
-                      {dataCanceled.length ?
-                        dataCanceled.map((dados, index) => (
+                      {dataCanceled.length
+                        ? dataCanceled.map((dados, index) => (
                           <button id="canceled" name={dados.orderId} key={index} onClick={(e) => handlerOrderByStatus(e, dados)}>{dados.id}</button>
-                          ))
-                          :
-                          <p>0 Pedidos Cancelados</p>
+                        ))
+                        : <p>0 Pedidos Cancelados</p>
                         }
                     </div>
                 </InfiniteScroll>
@@ -138,13 +163,13 @@ function ContentBody() {
             <Col flex="auto" >
               <DivBody>
                 <div>
-                  {aux ? <ComponentContent /> : 'Bem vindo de volta!!'}
+                  {aux ? <ColRight /> : 'Bem vindo de volta!!'}
                 </div>
               </DivBody>
             </Col>
           </Row>
         </Content>
-        <Footer style={{ textAlign: 'center', margin: "0px", padding: "0px", height: '70px'}}>
+        <Footer style={{ background: 'silver', textAlign: 'center', margin: '0px', padding: '0px', height: '70px' }}>
           <Row>
             <Col flex="200px">
               <DivFooter>
@@ -154,7 +179,7 @@ function ContentBody() {
                 Relatorio do dia
               </DivFooter>
             </Col>
-            
+
             <Col
               flex="auto"
             >
@@ -164,7 +189,7 @@ function ContentBody() {
         </Footer>
       </Layout>
     </>
-  );
+  )
 }
 
-export default memo(ContentBody);
+export default memo(ContentBody)

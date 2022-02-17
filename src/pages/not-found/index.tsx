@@ -4,7 +4,7 @@ import { Button } from '../../../styles/notFoundCss'
 
 export default function NotFound() {
   function onClick() {
-    window.location.pathname = '/';
+    window.location.pathname = '/'
   }
 
   return (
@@ -13,4 +13,4 @@ export default function NotFound() {
       <Button onClick={onClick}>Voltar para Tela Inicial</Button>
     </div>
   )
-};
+}

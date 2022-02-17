@@ -1,4 +1,5 @@
-import withAuth from "../utils/withAuth"
+import React from 'react'
+import withAuth from '../utils/withAuth'
 
 function PrivateClient() {
   return (
@@ -8,4 +9,4 @@ function PrivateClient() {
   )
 }
 
-export default withAuth(PrivateClient);
+export default withAuth(PrivateClient)

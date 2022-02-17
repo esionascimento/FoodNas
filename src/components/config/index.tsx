@@ -1,23 +1,30 @@
-import React from "react";
-import { message, Form } from "antd";
-import { fetchRegisterUpdate } from '../../services/FetchAtlas';
+import React from 'react'
+import { message, Form } from 'antd'
+import { fetchRegisterUpdate } from '../../services/FetchAtlas'
 
 import {
-  H2, Button, Label, DivBody, layoutFormItem, Input, DivButton, DivForm,
-} from "../register/registerCss";
+  H2,
+  Button,
+  Label,
+  DivBody,
+  layoutFormItem,
+  Input,
+  DivButton,
+  DivForm
+} from '../register/registerCss'
 
 export const Config: React.FC = () => {
-  const [form] = Form.useForm();
+  const [form] = Form.useForm()
 
-  function handleSubmit(cadastro: any) {
-    const { first_name } = cadastro;
-    fetchRegisterUpdate({first_name})
-    .then(() => {
-      message.success("Sucesso: Usuario editado com sucesso.");
-    })
-    .catch(() => {
-      message.error("Erro: Usuario nao editado.");
-    })
+  function handleSubmit(cadastro: { firstName: string }) {
+    const { firstName } = cadastro
+    fetchRegisterUpdate({ first_name: firstName })
+      .then(() => {
+        message.success('Sucesso: Usuario editado com sucesso.')
+      })
+      .catch(() => {
+        message.error('Erro: Usuario nao editado.')
+      })
   }
 
   return (
@@ -29,12 +36,10 @@ export const Config: React.FC = () => {
             <Label>Primeiro Nome</Label>
             <Form.Item
               {...layoutFormItem}
-              name="first_name"
-              rules={[
-                { required: true, message: "Por favor insira o nome!" },
-              ]}
+              name="firstName"
+              rules={[{ required: true, message: 'Por favor insira o nome!' }]}
             >
-              <Input type="text" placeholder=""/>
+              <Input type="text" placeholder="" />
             </Form.Item>
           </DivForm>
           <DivForm>

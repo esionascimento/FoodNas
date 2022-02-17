@@ -1,12 +1,26 @@
-import { fechtOrderEventAcnowledgment, fechtOrderConfirmed } from '../../services/FetchFood/merchantOrder';
+import React from 'react'
+import { fechtOrderConfirmed, fechtOrderDispatch } from '../../services/FetchFood/merchantOrder'
+import Notification from '../notification/index'
 
-import { DivContact, DivButton, DivBody } from './styled';
+import { DivContact, DivButton, DivBody } from './styled'
 
-export function ComponentPending(dataLog: any, dataOrderAck: any) {
-  console.log('dataOrderAck :', dataOrderAck);
+interface interDataLog {
+  items: [],
+  customer: { phone: {
+    number: unknown;
+    localizer: unknown
+  }},
+  delivery: { deliveryAddress: { streetName: unknown } }
+}
 
+interface interMapData {
+  name: string, quantity: number, totalPrice: number
+}
+
+export function ComponentPending(dataLog: interDataLog, dataOrderAck: unknown, selectOrderId: string) {
+  console.log('dataOrderAck :', dataOrderAck)
   function items() {
-    return dataLog.items.map((aux: any, index: any) => {
+    return dataLog.items.map((aux: interMapData, index: number) => {
       return (
         <DivContact key={index}>
           <div>
@@ -23,12 +37,12 @@ export function ComponentPending(dataLog: any, dataOrderAck: any) {
   }
 
   async function handleConfirmed() {
-    await fechtOrderEventAcnowledgment('');
-    await fechtOrderConfirmed('');
+    await fechtOrderConfirmed(selectOrderId)
+    Notification(false)
   }
 
   async function handlerCanceled() {
-    await fechtOrderEventAcnowledgment('');
+    await fechtOrderDispatch(selectOrderId)
   }
 
   return (

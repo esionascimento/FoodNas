@@ -18,3 +18,10 @@ export function ACDataOrderPending (orderPending) {
     payload: orderPending
   }
 }
+
+export function ACDataOrderConfirmed (orderConfirmed) {
+  return {
+    type: 'DATA_ORDER_CONFIRMED',
+    payload: orderConfirmed
+  }
+}

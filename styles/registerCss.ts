@@ -1,19 +1,19 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const DivBody = styled.div`
   display: flex;
   flex-direction: column;
-`;
+`
 
 export const Label = styled.label`
   width: 150px;
   text-align: start;
-`;
+`
 
 export const H2 = styled.h2`
   text-align: center;
   margin: 20px;
-`;
+`
 
 export const Button = styled.button`
   padding: 5px;
@@ -27,7 +27,7 @@ export const Button = styled.button`
   @media(max-width: 450px) {
     margin: 5px;
   }
-`;
+`
 
 export const Form1 = styled.form`
   width: 500px;
@@ -36,7 +36,7 @@ export const Form1 = styled.form`
     width: 250px;
     margin: 0 auto;
   }
-`;
+`
 
 export const DivInput = styled.div`
   margin: 0 auto;
@@ -50,7 +50,7 @@ export const DivInput = styled.div`
     width: 200px;
     padding: 5px 10px;
   }
-`;
+`
 
 export const Input = styled.input`
   border-radius: 5px;
@@ -68,7 +68,7 @@ export const Input = styled.input`
   @media(max-width: 450px) {
     height: 35px;
   }
-`;
+`
 
 export const DivForm = styled.div`
   display: flex;
@@ -83,7 +83,7 @@ export const DivForm = styled.div`
     flex-direction: column;
     width: 90%;
   }
-`;
+`
 
 export const DivButton = styled.div`
   margin-top: 10px;
@@ -96,19 +96,19 @@ export const DivButton = styled.div`
   @media(max-width: 450px) {
     width: 400px;
   }
-`;
+`
 
 export const layoutFormItem = {
   style: {
-    boder: "red",
-    display: "flex",
-    width: "100%",
-    margin: "auto 0",
+    boder: 'red',
+    display: 'flex',
+    width: '100%',
+    margin: 'auto 0'
   }
 }
 
 export const layoutForm = {
   style: {
-    margin: "0px"
+    margin: '0px'
   }
 }

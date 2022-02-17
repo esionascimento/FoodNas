@@ -1,21 +1,21 @@
-import React from 'react';
-import LeftMenu from "../../components/left-menu/index";
-import {Layout} from "antd";
-const { /* Header, Content, */ Footer/* , Sider */ } = Layout;
-import 'antd/dist/antd.css';
-import withAuth from '../../utils/withAuth';
-import HeaderAntd from '../../components/headerAntd';
+import React from 'react'
+import LeftMenu from '../../components/left-menu/index'
+import { Layout } from 'antd'
+import 'antd/dist/antd.css'
+import withAuth from '../../utils/withAuth'
+import HeaderAntd from '../../components/headerAntd'
+const { Footer } = Layout
 
 function Profile() {
-
   return (
     <Layout>
-      {
-        typeof  window  ! ==  'undefined' ? 'null' : <HeaderAntd />
+      {typeof window ! === 'undefined'
+        ? 'null'
+        : <LeftMenu />
       }
       <Layout style={{ minHeight: '100vh' }}>
-        {typeof  window  ! ==  'undefined' ? 'null' : 
-          <LeftMenu />
+        {
+          typeof window ! === 'undefined' ? 'null' : <HeaderAntd />
         }
         <Layout>
           <div>
@@ -25,7 +25,7 @@ function Profile() {
         </Layout>
       </Layout>
     </Layout>
-  );
+  )
 }
 
-export default withAuth(Profile);
+export default withAuth(Profile)

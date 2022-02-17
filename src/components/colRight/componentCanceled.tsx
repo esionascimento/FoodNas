@@ -1,9 +1,29 @@
-import { DivContact } from './styled';
+import React from 'react'
+import { DivContact } from './styled'
 
-export function ComponentCanceled(dataLog: any) {
+interface interDataLog {
+  items: [],
+  customer: {
+    name: string
+    phone: {
+      number: unknown;
+      localizer: unknown
+    }
+  },
+  delivery: { deliveryAddress: { streetName: unknown, streetNumber: string } },
+  payments: {
+    methods: [ { method?: never } ]
+  },
+  total?: { deliveryFee: string, orderAmount: number }
+}
 
+interface interMapData {
+  name: string, quantity: number, totalPrice: number, unitPrice: number, optionsPrice: string
+}
+
+export function ComponentCanceled(dataLog: interDataLog) {
   function items() {
-    return dataLog.items.map((aux: any, index: any) => {
+    return dataLog.items.map((aux: interMapData, index: number) => {
       return (
         <DivContact key={index}>
           <div>
@@ -19,7 +39,7 @@ export function ComponentCanceled(dataLog: any) {
       )
     })
   }
-  
+
   return (
     <>
       <h2>Pedido Cancelado</h2>

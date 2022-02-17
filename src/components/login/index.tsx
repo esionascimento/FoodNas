@@ -1,35 +1,34 @@
-import React, { useContext } from 'react';
-import Link from 'next/link';
-import { Form, message } from 'antd';
-import { fechtAuthenticationTokenCentralized } from '../../services/FetchFood/merchantAuthorization';
-import { setCookie } from 'nookies';
-import { AuthContext } from '../../contexts/AuthContext';
-/* import ButtonRegister from '../../atoms/button/index'; */
+import React, { useContext } from 'react'
+import Link from 'next/link'
+import { Form, message } from 'antd'
+import { fechtAuthenticationTokenCentralized } from '../../services/FetchFood/merchantAuthorization'
+import { setCookie } from 'nookies'
+import { AuthContext } from '../../contexts/AuthContext'
 
-import { DivCard, DivInputForm, Input, Button, Hr, DivLink, DivButton, Label, SpanLink } from './loginCss';
-import 'antd/dist/antd.css';
+import { DivCard, DivInputForm, Input, Button, Hr, DivLink, DivButton, Label, SpanLink } from './loginCss'
+import 'antd/dist/antd.css'
 
 export function Login() {
-  const [form] = Form.useForm();
+  const [form] = Form.useForm()
   const { signIn } = useContext(AuthContext)
-  
+
   async function getTokenFood() {
     try {
-      const {data} = await fechtAuthenticationTokenCentralized();
-      setCookie(null, 'food.token', data.data.accessToken, {maxAge: 86400 * 7, path: '/'})
+      const { data } = await fechtAuthenticationTokenCentralized()
+      setCookie(null, 'food.token', data.data.accessToken, { maxAge: 86400 * 7, path: '/' })
     } catch (err) {
-      console.log('err2 :', err.response);
+      console.log('err2 :', err.response)
     }
   }
-  
-  async function handleSubmit(event: any) {
+
+  async function handleSubmit(event: never) {
     try {
-      await signIn(event);
-      await getTokenFood();
-      message.success("Sucesso Login.");
-      window.location.pathname = '/dashboard';
+      await signIn(event)
+      await getTokenFood()
+      message.success('Sucesso Login.')
+      window.location.pathname = '/dashboard'
     } catch (err) {
-      message.error("Error: Informações incorretas ou não existe.");
+      message.error('Error: Informações incorretas ou não existe.')
     }
   }
 
@@ -41,7 +40,7 @@ export function Login() {
           <Form.Item
             name="email"
             rules={[
-              { required: true, message: "Por favor insira o email!" },
+              { required: true, message: 'Por favor insira o email!' }
             ]}
           >
             <Input type="email" placeholder="email@email.com"/>
@@ -52,7 +51,7 @@ export function Login() {
           <Form.Item
             name="password"
             rules={[
-              { required: true, message: "Por favor insira a senha!" },
+              { required: true, message: 'Por favor insira a senha!' }
             ]}
           >
             <Input type="password" placeholder="******"/>
@@ -63,7 +62,7 @@ export function Login() {
             Entrar
           </Button>
           {/* <ButtonRegister text="Entrar" /> */}
-          
+
         </DivButton>
         <Hr/>
         <DivLink>
@@ -75,5 +74,5 @@ export function Login() {
         </div> */}
       </Form>
     </DivCard>
-  );
+  )
 }

@@ -1,11 +1,11 @@
-import styled from "styled-components";
-import { Layout, Menu as AntMenu } from "antd";
+import styled from 'styled-components'
+import { Layout, Menu as AntMenu } from 'antd'
 
 export const DivLoadingSwitch = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
+`
 
 export const Sider = styled(Layout.Sider)`
     /* padding: 40px 0 0 0; */
@@ -23,8 +23,8 @@ export const Sider = styled(Layout.Sider)`
 
     }
     max-width: 200px; */
-    
-`;
+
+`
 
 export const SiderShadow = styled(Layout.Sider)`
     /* padding: 55px 30px 0 0;
@@ -32,7 +32,7 @@ export const SiderShadow = styled(Layout.Sider)`
     background-color: black;
     width: 0px; */
 
-`;
+`
 
 export const Menu = styled(AntMenu)`
     /* height: calc(75vh - 85px);
@@ -83,14 +83,14 @@ export const Menu = styled(AntMenu)`
             }
         }
     } */
-`;
+`
 
 export const MenuItem = styled(AntMenu.Item)`
   /* .ant-menu.ant-menu-inline-collapsed > .ant-menu-item, .ant-menu.ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-item, .ant-menu.ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title {
     padding: 0px;
   } */
 
-`;
+`
 
 export const LinkContainer = styled.div`
     /* display: flex;
@@ -130,7 +130,7 @@ export const LinkContainer = styled.div`
                 brightness(93%) contrast(83%);
         }
     } */
-`;
+`
 
 export const UserAndExitContainer = styled.div`
     /* display: flex;
@@ -138,7 +138,7 @@ export const UserAndExitContainer = styled.div`
     align-items: center;
     justify-content: end;
     height: 25vh; */
-`;
+`
 
 export const LogOut = styled.div`
     /* display: flex;
@@ -154,12 +154,11 @@ export const LogOut = styled.div`
         width: 30px;
         height: 30px;
     } */
-`;
-
+`
 
 export const Text = styled.span`
     /* color: white;
     font-family: "Poppins";
     font-size: 12px;
     width: 100%; */
-`;
+`

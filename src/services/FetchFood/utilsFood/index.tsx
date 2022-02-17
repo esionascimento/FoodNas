@@ -1,21 +1,27 @@
-import axios from 'axios'
-import { parseCookies } from "nookies";
+import axios, { HeadersDefaults } from 'axios'
+import { parseCookies } from 'nookies'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
-let tokenIfood = undefined;
+let tokenIfood
 
-if (typeof window !== "undefined") {
-  const { 'food.token': token } = parseCookies();
-  tokenIfood = token;
+interface CommonHeaderProperties extends HeadersDefaults {
+  authorization: string;
+}
+
+if (typeof window !== 'undefined') {
+  const { 'food.token': token } = parseCookies()
+  tokenIfood = token
 }
 
 export const APIPOST = axios.create({
   baseURL: BASE_URL,
   headers: {
-    'Authorization': `Bearer ${tokenIfood}`
+    authorization: `Bearer ${tokenIfood}`
   }
-});
+})
 
 if (tokenIfood) {
-  APIPOST.defaults.headers['Authorization'] = `Bearer ${tokenIfood}`;
+  APIPOST.defaults.headers = {
+    authorization: `Bearer ${tokenIfood}`
+  } as CommonHeaderProperties
 }

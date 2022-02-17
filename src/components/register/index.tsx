@@ -1,22 +1,22 @@
-import React from "react"
-import { message, Form } from "antd"
-import { newRegister } from "../../services/FetchAtlas"
+import React from 'react'
+import { message, Form } from 'antd'
+import { newRegister } from '../../services/FetchAtlas'
 
 import 'antd/dist/antd.css'
 
 import {
-  H2, Button, Label, DivBody, layoutFormItem, Input, DivButton, DivForm,
-} from "./registerCss";
+  H2, Button, Label, DivBody, layoutFormItem, Input, DivButton, DivForm
+} from './registerCss'
 
 export function Register() {
-  const [form] = Form.useForm();
+  const [form] = Form.useForm()
 
   function checkPassword(cadastro) {
-    const { password, password2 } = cadastro;
+    const { password, password2 } = cadastro
     if (password === password2) {
-      return true;
+      return true
     }
-    return false;
+    return false
   }
 
   function handleSubmit(cadastro) {
@@ -24,19 +24,19 @@ export function Register() {
     if (checkPassword(cadastro)) {
       newRegister({ name, email, password, idStore })
         .then(() => {
-          message.success("Sucesso: Usuario criado com sucesso.");
-          onClickRedirect();
+          message.success('Sucesso: Usuario criado com sucesso.')
+          onClickRedirect()
         })
         .catch(() => {
-          message.error("Erro: Usuario nao cadastrado.");
-        });
+          message.error('Erro: Usuario nao cadastrado.')
+        })
     } else {
-      message.error("Erro: Senha não confere.");
+      message.error('Erro: Senha não confere.')
     }
   }
 
   function onClickRedirect() {
-    window.location.pathname = "/";
+    window.location.pathname = '/'
   }
 
   return (
@@ -49,7 +49,7 @@ export function Register() {
             {...layoutFormItem}
             name="name"
             rules={[
-              { required: true, message: "Por favor insira o nome!" },
+              { required: true, message: 'Por favor insira o nome!' }
             ]}
           >
             <Input type="text" placeholder="nome"/>
@@ -61,7 +61,7 @@ export function Register() {
             {...layoutFormItem}
             name="email"
             rules={[
-              { required: true, message: "Por favor insira o email!" },
+              { required: true, message: 'Por favor insira o email!' }
             ]}
           >
             <Input type="email" placeholder="email@email.com"/>
@@ -73,7 +73,7 @@ export function Register() {
             {...layoutFormItem}
             name="password"
             rules={[
-              { required: true, message: "Por favor insira uma senha!" },
+              { required: true, message: 'Por favor insira uma senha!' }
             ]}
           >
             <Input type="password" placeholder="******"/>
@@ -85,7 +85,7 @@ export function Register() {
             {...layoutFormItem}
             name="password2"
             rules={[
-              { required: true, message: "Por favor insira a senha novamente!" },
+              { required: true, message: 'Por favor insira a senha novamente!' }
             ]}
           >
             <Input type="password" placeholder="******"/>
@@ -97,7 +97,7 @@ export function Register() {
             {...layoutFormItem}
             name="idStore"
             rules={[
-              { required: true, message: "Por favor insira id da loja!" },
+              { required: true, message: 'Por favor insira id da loja!' }
             ]}
           >
             <Input type="text" placeholder=""/>
@@ -113,5 +113,5 @@ export function Register() {
         </DivForm>
       </Form>
     </DivBody>
-  );
-};
+  )
+}
