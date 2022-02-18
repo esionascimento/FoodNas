@@ -25,3 +25,24 @@ export function ACDataOrderConfirmed (orderConfirmed) {
     payload: orderConfirmed
   }
 }
+
+export function ACDataOrderCanceled (orderCanceled) {
+  return {
+    type: 'DATA_ORDER_CANCELED',
+    payload: orderCanceled
+  }
+}
+
+export function ACDataOrderDispatch (orderDispatch) {
+  return {
+    type: 'DATA_ORDER_DISPATCH',
+    payload: orderDispatch
+  }
+}
+
+export function ACDataOrderConcluded (orderConcluded) {
+  return {
+    type: 'DATA_ORDER_CONCLUDED',
+    payload: orderConcluded
+  }
+}

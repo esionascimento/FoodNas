@@ -5,8 +5,8 @@ import { fechtOrderDetails } from '../../services/FetchFood/merchantOrder'
 
 import { ACDataOrderDetails } from '../../store/dataOrder/dataOrderAction'
 
-import { ComponentPending } from './componentPending'
-import { ComponentCanceled } from './componentCanceled'
+import { CompPending } from './compPending'
+import { CompRender } from './compRender'
 
 function ComponentBody() {
   interface RootState {
@@ -43,16 +43,16 @@ function ComponentBody() {
           <p>error</p>
         </>
       )
-    } else if (selectPedido === 'canceled') {
-      return (
-        <>
-          {ComponentCanceled(dataLog)}
-        </>
-      )
     } else if (selectPedido === 'pending') {
       return (
         <>
-          {ComponentPending(dataLog, dataOrderAck, selectOrderId)}
+          {CompPending(dataLog, dataOrderAck, selectOrderId)}
+        </>
+      )
+    } else {
+      return (
+        <>
+          {CompRender(dataLog, selectPedido)}
         </>
       )
     }

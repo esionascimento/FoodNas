@@ -4,10 +4,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import { parseCookies, setCookie } from 'nookies'
 
 import { ACVisibleModalPausa, ACIsLoja } from '../../store/dashboard/dashboardAction'
-import { ACDataOrderPending, ACDataOrderConfirmed } from '../../store/dataOrder/dataOrderAction'
 import { ACStatusLoja } from '../../store/merchantOrder/merchantOrderAction'
 import ModalPausa from './modalPausa'
-import Notification from '../../components/notification/index'
+import PollOk from './pollOk'
+import { ACDataOrderPending, ACDataOrderConfirmed, ACDataOrderDispatch, ACDataOrderConcluded, ACDataOrderCanceled } from '../../store/dataOrder/dataOrderAction'
+/* import Notification from '../../components/notification/index' */
 
 import { fechtOrderEventPolling } from '../../services/FetchFood/merchantOrder'
 import { fechtMerchantStatus } from '../../services/FetchFood/merchantMerchant'
@@ -81,29 +82,42 @@ function HeaderAntd() {
 
   async function polling() {
     const resultPolling = await fechtOrderEventPolling()
-    const array = []
-    let arrayLocal = []
+    const placedAr = []
     const confirmedAr = []
+    const dispatchedAr = []
+    const concludedAr = []
+    const canceledAr = []
+
     if (resultPolling.status === 200) {
-      const storageFoodOrders = JSON.parse(localStorage.getItem('food.orders'))
-
-      if (storageFoodOrders) {
-        arrayLocal = [...storageFoodOrders.data]
-      }
-
-      resultPolling.data.data.forEach((data: { code: string }) => {
+      resultPolling.data.data.forEach((data: { code: string; fullCode: string, orderId: string }) => {
+        const result = PollOk(data)
         if (data.code === 'PLC') {
-          Notification(true)
-          array.push(data)
-          arrayLocal.push(data)
-          localStorage.setItem('food.orders', JSON.stringify({ data: arrayLocal }))
+          if (result) {
+            placedAr.push(result)
+            dispatch(ACDataOrderPending(placedAr))
+          }
         } else if (data.code === 'CFM') {
-          confirmedAr.push(data)
-          localStorage.setItem('foodOrderConfirmed', JSON.stringify({ data: confirmedAr }))
+          if (result) {
+            confirmedAr.push(result)
+            dispatch(ACDataOrderConfirmed(confirmedAr))
+          }
+        } else if (data.code === 'DSP') {
+          if (result) {
+            dispatchedAr.push(result)
+            dispatch(ACDataOrderDispatch(dispatchedAr))
+          }
+        } else if (data.code === 'CON') {
+          if (result) {
+            concludedAr.push(result)
+            dispatch(ACDataOrderConcluded(concludedAr))
+          }
+        } else if (data.code === 'CAN') {
+          if (result) {
+            canceledAr.push(result)
+            dispatch(ACDataOrderCanceled(canceledAr))
+          }
         }
       })
-      dispatch(ACDataOrderPending(array))
-      dispatch(ACDataOrderConfirmed(confirmedAr))
     }
   }
 

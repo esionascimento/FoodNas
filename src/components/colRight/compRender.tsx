@@ -21,7 +21,7 @@ interface interMapData {
   name: string, quantity: number, totalPrice: number, unitPrice: number, optionsPrice: string
 }
 
-export function ComponentCanceled(dataLog: interDataLog) {
+export function CompRender(dataLog: interDataLog, select: string) {
   function items() {
     return dataLog.items.map((aux: interMapData, index: number) => {
       return (
@@ -42,7 +42,10 @@ export function ComponentCanceled(dataLog: interDataLog) {
 
   return (
     <>
-      <h2>Pedido Cancelado</h2>
+      {select === 'confirmed' && <h2>Pedido Confirmado</h2>}
+      {select === 'dispatched' && <h2>Pedido Despachado</h2>}
+      {select === 'concluded' && <h2>Pedido Concluído</h2>}
+      {select === 'cancelled' && <h2>Pedido Cancelado</h2>}
       <div>
         <h3>Contato</h3>
         <p>{`Nome: ${dataLog && dataLog.customer.name}`}</p>
