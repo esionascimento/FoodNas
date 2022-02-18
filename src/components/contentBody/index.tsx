@@ -176,7 +176,7 @@ function ContentBody() {
                       <h3>Pedidos Confirmados</h3>
                       {dataConfirmado.length
                         ? dataConfirmado.map((dados, index) => (
-                          <button id="confirmed" name={dados.orderId} key={index}>{dados.id}</button>
+                          <button id="confirmed" name={dados.orderId} key={index} onClick={(e) => handlerOrderByStatus(e, dados)}>{dados.id}</button>
                         ))
                         : <p>0 Pedidos Confirmados</p>
                       }
