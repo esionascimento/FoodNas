@@ -6,7 +6,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import ColRight from '../colRight'
 
 import { ACSelectPedido, ACSelectOrderId } from '../../store/dashboard/dashboardAction'
-import { ACDataOrderConfirmed, ACDataOrderAck, ACDataOrderPending } from '../../store/dataOrder/dataOrderAction'
+import { ACDataOrderConfirmed, ACDataOrderAck, ACDataOrderPending, ACDataOrderCanceled } from '../../store/dataOrder/dataOrderAction'
 
 import { fechtOrderEventAcnowledgment } from '../../services/FetchFood/merchantOrder'
 
@@ -18,36 +18,53 @@ function ContentBody() {
   interface RootState {
     storeDataOrder: {
       dataOrderPending: [],
-      dataOrderConfirmed: []
+      dataOrderConfirmed: [],
+      dataOrderCanceled: []
     }
   }
   const dispatch = useDispatch()
   const { Content } = Layout
   const apiPending = useSelector((state: RootState) => state.storeDataOrder.dataOrderPending)
   const apiConfirmed = useSelector((state: RootState) => state.storeDataOrder.dataOrderConfirmed)
+  const apiCanceled = useSelector((state: RootState) => state.storeDataOrder.dataOrderCanceled)
 
   const [dataPending, setDataPending] = useState([])
   const [dataConfirmado, setDataConfirmado] = useState([])
-  console.log('dataConfirmado :', dataConfirmado)
   const [dataCanceled, setDataCanceled] = useState([])
+  const [dataDispatched, setDataDispatched] = useState([])
+  const [dataConcluded, setDataConcluded] = useState([])
   const [aux, setAux] = useState()
 
   useMemo(() => {
-    const storageFoodOrders = JSON.parse(localStorage.getItem('food.orders'))
-    const storageOrderConfirmed = JSON.parse(localStorage.getItem('foodOrderConfirmed'))
+    const storagePlaced = JSON.parse(localStorage.getItem('orderPLACED'))
+    const storageConfirmed = JSON.parse(localStorage.getItem('orderCONFIRMED'))
+    const storageCanceled = JSON.parse(localStorage.getItem('orderCANCELLED'))
+    const storageDispatched = JSON.parse(localStorage.getItem('orderDISPATCHED'))
+    const storageConcluded = JSON.parse(localStorage.getItem('orderCONCLUDED'))
 
-    if (storageFoodOrders) {
-      storageFoodOrders.data.forEach((data: { code: string }) => {
-        if (data.code === 'PLC') {
-          setDataPending(prev => [...prev, data])
-        }
+    if (storagePlaced) {
+      storagePlaced.data.forEach((data: { code: string }) => {
+        setDataPending(prev => [...prev, data])
       })
     }
-    if (storageOrderConfirmed) {
-      storageOrderConfirmed.data.forEach((data: { code: string }) => {
-        if (data.code === 'CFM') {
-          setDataConfirmado(prev => [...prev, data])
-        }
+    if (storageConfirmed) {
+      storageConfirmed.data.forEach((data: { code: string }) => {
+        setDataConfirmado(prev => [...prev, data])
+      })
+    }
+    if (storageCanceled) {
+      storageCanceled.data.forEach((data: { code: string }) => {
+        setDataCanceled(prev => [...prev, data])
+      })
+    }
+    if (storageConcluded) {
+      storageConcluded.data.forEach((data: { code: string }) => {
+        setDataConcluded(prev => [...prev, data])
+      })
+    }
+    if (storageDispatched) {
+      storageDispatched.data.forEach((data: { code: string }) => {
+        setDataDispatched(prev => [...prev, data])
       })
     }
   }, [])
@@ -92,8 +109,24 @@ function ContentBody() {
     newResultConfirmed()
   }, [apiConfirmed, dispatch])
 
+  useEffect(() => {
+    async function newResultConfirmed() {
+      if (apiCanceled.length) {
+        const auxDataConfirmed = [...dataCanceled]
+
+        apiCanceled.forEach((data) => {
+          auxDataConfirmed.push(data)
+        })
+
+        setDataCanceled(auxDataConfirmed)
+        dispatch(ACDataOrderCanceled([]))
+        await fechtOrderEventAcnowledgment(apiCanceled)
+      }
+    }
+    newResultConfirmed()
+  }, [apiCanceled, dispatch])
+
   const loadMoreData = () => {
-    console.log('')
     setDataCanceled([])
   }
 
@@ -147,6 +180,24 @@ function ContentBody() {
                         ))
                         : <p>0 Pedidos Confirmados</p>
                       }
+                    </div>
+                    <div>
+                      <h3>Pedidos Despachados</h3>
+                      {dataDispatched.length
+                        ? dataDispatched.map((dados, index) => (
+                          <button id="dispatched" name={dados.orderId} key={index} onClick={(e) => handlerOrderByStatus(e, dados)}>{dados.id}</button>
+                        ))
+                        : <p>0 Pedidos Despachados</p>
+                        }
+                    </div>
+                    <div>
+                      <h3>Pedidos Concluidos</h3>
+                      {dataConcluded.length
+                        ? dataConcluded.map((dados, index) => (
+                          <button id="concluded" name={dados.orderId} key={index} onClick={(e) => handlerOrderByStatus(e, dados)}>{dados.id}</button>
+                        ))
+                        : <p>0 Pedidos Concluídos</p>
+                        }
                     </div>
                     <div>
                       <h3>Pedidos Cancelados</h3>
