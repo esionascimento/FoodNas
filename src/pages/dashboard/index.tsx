@@ -10,21 +10,21 @@ import 'antd/dist/antd.css'
 
 function Dashboard() {
   return (
+
     <Layout style={{ minHeight: '100vh' }}>
       {
         typeof window ! === 'undefined' ? 'null' : <LeftMenu />
       }
       <Layout>
         {
-      typeof window ! === 'undefined' ? 'null' : <HeaderAntd />
+          typeof window ! === 'undefined' ? 'null' : <HeaderAntd />
         }
-        <Layout>
-          {
-            typeof window ! === 'undefined' ? 'null' : <ContentBody />
-          }
-        </Layout>
+        {
+          typeof window ! === 'undefined' ? 'null' : <ContentBody />
+        }
       </Layout>
     </Layout>
+
   )
 }
 
