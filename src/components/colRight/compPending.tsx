@@ -1,5 +1,5 @@
 import React from 'react'
-import { fechtOrderConfirmed, fechtOrderDispatch } from '../../services/FetchFood/merchantOrder'
+import { fechtOrderConfirmed } from '../../services/FetchFood/merchantOrder'
 import Notification from '../notification/index'
 
 import { DivContact, DivButton, DivBody } from './styled'
@@ -42,7 +42,7 @@ export function CompPending(dataLog: interDataLog, dataOrderAck: unknown, select
   }
 
   async function handlerCanceled() {
-    await fechtOrderDispatch(selectOrderId)
+    console.log('cancelled')
   }
 
   return (
