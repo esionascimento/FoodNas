@@ -139,106 +139,101 @@ function ContentBody() {
 
   return (
     <>
-      <Layout style={{ background: 'silver' }}>
-        <Content>
-          <Row wrap={false}>
-            <Col flex="200px">
-              <DivBody
-                id={'scrollableDiv'}
+      <Content style={{ background: 'silver' }}>
+        <Row wrap={false}>
+          <Col flex="200px">
+            <DivBody
+              id={'scrollableDiv'}
+              >
+              <InfiniteScroll
+                dataLength={10}
+                next={loadMoreData}
+                hasMore={10 < 50}
+                loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
+                endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
+                scrollableTarget="scrollableDiv"
                 >
-                <InfiniteScroll
-                  dataLength={10}
-                  next={loadMoreData}
-                  hasMore={10 < 50}
-                  loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
-                  endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
-                  scrollableTarget="scrollableDiv"
-                  >
-                    {dataPending.length
-                      ? <div>
-                        <h3>Pedidos pendentes</h3>
-                          {dataPending.length &&
-                            dataPending.map((dados, index) => (
-                              <button
-                                id="pending"
-                                name={dados.orderId}
-                                key={index}
-                                onClick={(e) => handlerOrderByStatus(e, dados)}
-                              >
-                                {dados.id}
-                              </button>
-                            ))
-                          }
-                      </div>
-                      : null
+                  {dataPending.length
+                    ? <div>
+                      <h3>Pedidos pendentes</h3>
+                        {dataPending.length &&
+                          dataPending.map((dados, index) => (
+                            <button
+                              id="pending"
+                              name={dados.orderId}
+                              key={index}
+                              onClick={(e) => handlerOrderByStatus(e, dados)}
+                            >
+                              {dados.id}
+                            </button>
+                          ))
+                        }
+                    </div>
+                    : null
+                  }
+                  <div>
+                    <h3>Pedidos Confirmados</h3>
+                    {dataConfirmado.length
+                      ? dataConfirmado.map((dados, index) => (
+                        <button id="confirmed" name={dados.orderId} key={index} onClick={(e) => handlerOrderByStatus(e, dados)}>{dados.id}</button>
+                      ))
+                      : <p>0 Pedidos Confirmados</p>
                     }
-                    <div>
-                      <h3>Pedidos Confirmados</h3>
-                      {dataConfirmado.length
-                        ? dataConfirmado.map((dados, index) => (
-                          <button id="confirmed" name={dados.orderId} key={index} onClick={(e) => handlerOrderByStatus(e, dados)}>{dados.id}</button>
-                        ))
-                        : <p>0 Pedidos Confirmados</p>
+                  </div>
+                  <div>
+                    <h3>Pedidos Despachados</h3>
+                    {dataDispatched.length
+                      ? dataDispatched.map((dados, index) => (
+                        <button id="dispatched" name={dados.orderId} key={index} onClick={(e) => handlerOrderByStatus(e, dados)}>{dados.id}</button>
+                      ))
+                      : <p>0 Pedidos Despachados</p>
                       }
-                    </div>
-                    <div>
-                      <h3>Pedidos Despachados</h3>
-                      {dataDispatched.length
-                        ? dataDispatched.map((dados, index) => (
-                          <button id="dispatched" name={dados.orderId} key={index} onClick={(e) => handlerOrderByStatus(e, dados)}>{dados.id}</button>
-                        ))
-                        : <p>0 Pedidos Despachados</p>
-                        }
-                    </div>
-                    <div>
-                      <h3>Pedidos Concluidos</h3>
-                      {dataConcluded.length
-                        ? dataConcluded.map((dados, index) => (
-                          <button id="concluded" name={dados.orderId} key={index} onClick={(e) => handlerOrderByStatus(e, dados)}>{dados.id}</button>
-                        ))
-                        : <p>0 Pedidos Concluídos</p>
-                        }
-                    </div>
-                    <div>
-                      <h3>Pedidos Cancelados</h3>
-                      {dataCanceled.length
-                        ? dataCanceled.map((dados, index) => (
-                          <button id="canceled" name={dados.orderId} key={index} onClick={(e) => handlerOrderByStatus(e, dados)}>{dados.id}</button>
-                        ))
-                        : <p>0 Pedidos Cancelados</p>
-                        }
-                    </div>
-                </InfiniteScroll>
-              </DivBody>
-            </Col>
-            <Col flex="auto" >
-              <DivBody>
-                <div>
-                  {aux ? <ColRight /> : 'Bem vindo de volta!!'}
-                </div>
-              </DivBody>
-            </Col>
-          </Row>
-        </Content>
-        <Footer style={{ background: 'silver', textAlign: 'center', margin: '0px', padding: '0px', height: '70px' }}>
-          <Row>
-            <Col flex="200px">
-              <DivFooter>
-                Relatorio do dia
-              </DivFooter>
-              <DivFooter>
-                Relatorio do dia
-              </DivFooter>
-            </Col>
+                  </div>
+                  <div>
+                    <h3>Pedidos Concluidos</h3>
+                    {dataConcluded.length
+                      ? dataConcluded.map((dados, index) => (
+                        <button id="concluded" name={dados.orderId} key={index} onClick={(e) => handlerOrderByStatus(e, dados)}>{dados.id}</button>
+                      ))
+                      : <p>0 Pedidos Concluídos</p>
+                      }
+                  </div>
+                  <div>
+                    <h3>Pedidos Cancelados</h3>
+                    {dataCanceled.length
+                      ? dataCanceled.map((dados, index) => (
+                        <button id="canceled" name={dados.orderId} key={index} onClick={(e) => handlerOrderByStatus(e, dados)}>{dados.id}</button>
+                      ))
+                      : <p>0 Pedidos Cancelados</p>
+                      }
+                  </div>
+              </InfiniteScroll>
+            </DivBody>
+          </Col>
+          <Col flex="auto" >
+            <DivBody>
+              <div>
+                {aux ? <ColRight /> : 'Bem vindo de volta!!'}
+              </div>
+            </DivBody>
+          </Col>
+        </Row>
+      </Content>
+      <Footer >
+        <Row>
+          <Col flex="200px">
+            <DivFooter>
+              Relatorio do dia
+            </DivFooter>
+          </Col>
 
-            <Col
-              flex="auto"
-            >
-              Info importante: Dinheiro, Cartão, Observação
-            </Col>
-          </Row>
-        </Footer>
-      </Layout>
+          <Col
+            flex="auto"
+          >
+            Info importante: Dinheiro, Cartão, Observação
+          </Col>
+        </Row>
+      </Footer>
     </>
   )
 }
