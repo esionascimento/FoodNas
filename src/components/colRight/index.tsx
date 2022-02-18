@@ -52,7 +52,7 @@ function ComponentBody() {
     } else {
       return (
         <>
-          {CompRender(dataLog, selectPedido)}
+          {CompRender(dataLog, selectPedido, selectOrderId)}
         </>
       )
     }
