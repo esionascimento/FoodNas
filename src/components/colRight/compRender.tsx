@@ -1,4 +1,6 @@
 import React from 'react'
+import { fechtOrderDispatch } from '../../services/FetchFood/merchantOrder'
+
 import { DivContact } from './styled'
 
 interface interDataLog {
@@ -21,7 +23,7 @@ interface interMapData {
   name: string, quantity: number, totalPrice: number, unitPrice: number, optionsPrice: string
 }
 
-export function CompRender(dataLog: interDataLog, select: string) {
+export function CompRender(dataLog: interDataLog, select: string, selectOrderId: string) {
   function items() {
     return dataLog.items.map((aux: interMapData, index: number) => {
       return (
@@ -40,9 +42,20 @@ export function CompRender(dataLog: interDataLog, select: string) {
     })
   }
 
+  async function handlerDispatched() {
+    await fechtOrderDispatch(selectOrderId)
+  }
+
   return (
     <>
-      {select === 'confirmed' && <h2>Pedido Confirmado</h2>}
+      {select === 'confirmed' &&
+        <>
+          <div>
+            <button onClick={handlerDispatched}>Despachar</button>
+          </div>
+          <h2>Pedido Confirmado</h2>
+        </>
+      }
       {select === 'dispatched' && <h2>Pedido Despachado</h2>}
       {select === 'concluded' && <h2>Pedido Concluído</h2>}
       {select === 'cancelled' && <h2>Pedido Cancelado</h2>}

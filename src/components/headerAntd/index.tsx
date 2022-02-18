@@ -1,5 +1,6 @@
 import React, { useEffect, useState, memo } from 'react'
-import { Layout } from 'antd'
+import { Layout, Spin } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
 import { useSelector, useDispatch } from 'react-redux'
 import { parseCookies, setCookie } from 'nookies'
 
@@ -9,6 +10,7 @@ import ModalPausa from './modalPausa'
 import PollOk from './pollOk'
 import { ACDataOrderPending, ACDataOrderConfirmed, ACDataOrderDispatch, ACDataOrderConcluded, ACDataOrderCanceled } from '../../store/dataOrder/dataOrderAction'
 /* import Notification from '../../components/notification/index' */
+import Interval2 from './interval2'
 
 import { fechtOrderEventPolling } from '../../services/FetchFood/merchantOrder'
 import { fechtMerchantStatus } from '../../services/FetchFood/merchantMerchant'
@@ -30,15 +32,18 @@ function HeaderAntd() {
     }
   }
 
+  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
   const dispatch = useDispatch()
   const { 'food.isLoja': isLojaCookie } = parseCookies()
   const [tema, setTema] = useState('')
   const [isActive, setIsActive] = useState(true)
+  const [sLoja, setSLoja] = useState('')
 
   let isOn = true
   const theme = useSelector((state: RootState) => state.storeDashboard.theme)
   const isLoja = useSelector((state: RootState) => state.storeDashboard.isLoja)
   const statusLoja = useSelector((state: RootState) => state.merchantOrder.statusLoja)
+  console.log('statusLoja :', statusLoja)
 
   useEffect(() => {
     if (theme === 'light') {
@@ -57,6 +62,10 @@ function HeaderAntd() {
       setCookie(null, 'food.isLoja', 'Abrir Loja', { maxAge: 86400 * 7, path: '/' })
     }
   }, [isLojaCookie, dispatch])
+
+  useEffect(() => {
+    setSLoja(statusLoja)
+  }, [statusLoja])
 
   async function fetchStatus() {
     fechtMerchantStatus().then((data) => {
@@ -121,13 +130,15 @@ function HeaderAntd() {
     }
   }
 
-  function initTimer() {
+  async function initTimer() {
     if (isLoja === 'Abrir Loja') {
+      setSLoja('Loja aberta')
       dispatch(ACIsLoja('Fechar Loja'))
-      setCookie(null, 'food.isLoja', 'Fechar Loja', { maxAge: 86400 * 7, path: '/' })
+      /* setCookie(null, 'food.isLoja', 'Fechar Loja', { maxAge: 86400 * 7, path: '/' }) */
     } else {
+      setSLoja('Loja fechada')
       dispatch(ACIsLoja('Abrir Loja'))
-      setCookie(null, 'food.isLoja', 'Abrir Loja', { maxAge: 86400 * 7, path: '/' })
+      /* setCookie(null, 'food.isLoja', 'Abrir Loja', { maxAge: 86400 * 7, path: '/' }) */
     }
 
     if (isActive) {
@@ -144,8 +155,7 @@ function HeaderAntd() {
     } else {
       clearInterval(intervalInfinit)
     }
-
-    onVerifyStatus()
+    Interval2(statusLoja, dispatch)
     setIsActive(prev => !prev)
   }
 
@@ -154,16 +164,37 @@ function HeaderAntd() {
   }
 
   return (
-    <Header style={{ background: tema, margin: '-10px 0' }}>
+    <Header style={{ width: '100%', margin: '0 auto' }}>
+        {/* <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
+          <Menu.Item key={0} >
+            A
+          </Menu.Item>
+          <Menu.Item key={1} >
+            B
+          </Menu.Item>
+          <Menu.Item style={{ width: '180px' }}>
+            <span>Esio</span>
+            <span>sddd</span>
+          </Menu.Item>
+          <Space size={0} >
+            <div></div>
+            <div></div>
+          </Space>
+        </Menu> */}
+
       <DivBody isTheme={tema === '#001529'}>
         <Div>
-          <DivMenu>FoodNas</DivMenu>
-          <DivMenu>0 Pedidos</DivMenu>
+          <DivMenu title="Nome da Loja" >FoodNas</DivMenu>
+          <DivMenu title="Quantidade de Pedidos no dia" >0 Pedidos</DivMenu>
         </Div>
         <Div>
-          <Div>{statusLoja}</Div>
-          <DivMenu onClick={initTimer}>{isLoja}</DivMenu>
-          <DivMenu onClick={onModal}>Pausar/Fechar</DivMenu>
+          <Div title="Status da Loja. Pode levar até 1 minuto para atualizar">{sLoja !== statusLoja &&
+              <Spin style={{ margin: 'auto', color: 'red' }} indicator={antIcon} />
+            }
+            {statusLoja}
+          </Div>
+          <DivMenu title="" onClick={() => initTimer()}>{isLoja}</DivMenu>
+          <DivMenu onClick={() => onModal()}>Pausar/Fechar</DivMenu>
         </Div>
       </DivBody>
       <ModalPausa />
