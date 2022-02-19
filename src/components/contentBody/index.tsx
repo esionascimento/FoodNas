@@ -11,7 +11,7 @@ import { ACDataOrderConfirmed, ACDataOrderAck, ACDataOrderPending, ACDataOrderCa
 import { fechtOrderEventAcnowledgment } from '../../services/FetchFood/merchantOrder'
 
 import 'antd/dist/antd.css'
-import { DivBody, DivFooter } from '../../../styles/dashboardCss'
+import { DivBody, DivFooter, ButtonPending } from '../../../styles/dashboardCss'
 const { Footer } = Layout
 
 function ContentBody() {
@@ -33,7 +33,7 @@ function ContentBody() {
   const [dataCanceled, setDataCanceled] = useState([])
   const [dataDispatched, setDataDispatched] = useState([])
   const [dataConcluded, setDataConcluded] = useState([])
-  const [aux, setAux] = useState()
+  const [selectOrderId, setSelectOrderId] = useState()
 
   useMemo(() => {
     const storagePlaced = JSON.parse(localStorage.getItem('orderPLACED'))
@@ -41,6 +41,7 @@ function ContentBody() {
     const storageCanceled = JSON.parse(localStorage.getItem('orderCANCELLED'))
     const storageDispatched = JSON.parse(localStorage.getItem('orderDISPATCHED'))
     const storageConcluded = JSON.parse(localStorage.getItem('orderCONCLUDED'))
+    const storageCancellationRequested = JSON.parse(localStorage.getItem('orderCANCELLATION_REQUESTED'))
 
     if (storagePlaced) {
       storagePlaced.data.forEach((data: { code: string }) => {
@@ -65,6 +66,11 @@ function ContentBody() {
     if (storageDispatched) {
       storageDispatched.data.forEach((data: { code: string }) => {
         setDataDispatched(prev => [...prev, data])
+      })
+    }
+    if (storageCancellationRequested) {
+      storageCancellationRequested.data.forEach((data: { code: string }) => {
+        setDataCanceled(prev => [...prev, data])
       })
     }
   }, [])
@@ -131,7 +137,7 @@ function ContentBody() {
   }
 
   const handlerOrderByStatus = useCallback((e, dados) => {
-    setAux(e.target.name)
+    setSelectOrderId(e.target.name)
     dispatch(ACDataOrderAck(dados))
     dispatch(ACSelectPedido(e.target.id))
     dispatch(ACSelectOrderId(e.target.name))
@@ -158,14 +164,15 @@ function ContentBody() {
                       <h3>Pedidos pendentes</h3>
                         {dataPending.length &&
                           dataPending.map((dados, index) => (
-                            <button
+                            <ButtonPending
+                              inbutton={dados.orderId === selectOrderId}
                               id="pending"
                               name={dados.orderId}
                               key={index}
                               onClick={(e) => handlerOrderByStatus(e, dados)}
                             >
                               {dados.id}
-                            </button>
+                            </ButtonPending>
                           ))
                         }
                     </div>
@@ -202,7 +209,7 @@ function ContentBody() {
                     <h3>Pedidos Cancelados</h3>
                     {dataCanceled.length
                       ? dataCanceled.map((dados, index) => (
-                        <button id="canceled" name={dados.orderId} key={index} onClick={(e) => handlerOrderByStatus(e, dados)}>{dados.id}</button>
+                        <button id="cancelled" name={dados.orderId} key={index} onClick={(e) => handlerOrderByStatus(e, dados)}>{dados.id}</button>
                       ))
                       : <p>0 Pedidos Cancelados</p>
                       }
@@ -213,7 +220,7 @@ function ContentBody() {
           <Col flex="auto" >
             <DivBody>
               <div>
-                {aux ? <ColRight /> : 'Bem vindo de volta!!'}
+                {selectOrderId ? <ColRight /> : 'Bem vindo de volta!!'}
               </div>
             </DivBody>
           </Col>
