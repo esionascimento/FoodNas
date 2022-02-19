@@ -46,7 +46,7 @@ function ComponentBody() {
     } else if (selectPedido === 'pending') {
       return (
         <>
-          {CompPending(dataLog, dataOrderAck, selectOrderId)}
+          {CompPending(dataLog, dataOrderAck, selectOrderId, dispatch)}
         </>
       )
     } else {

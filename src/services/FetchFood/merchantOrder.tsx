@@ -33,3 +33,7 @@ export const fechtOrderDispatch = (orderId: string) => {
   headers(orderId)
   return APIPOST.get('/merchant/order/dispatch')
 }
+
+export const fechtOrderCancelled = (orderId: string) => {
+  return APIPOST.post(`/merchant/order/${orderId}/cancelled`)
+}
