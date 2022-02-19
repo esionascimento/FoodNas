@@ -1,6 +1,9 @@
 import React from 'react'
-import { fechtOrderConfirmed } from '../../services/FetchFood/merchantOrder'
+import { Dispatch } from 'redux'
+
+import { fechtOrderCancelled, fechtOrderConfirmed } from '../../services/FetchFood/merchantOrder'
 import Notification from '../notification/index'
+import IntervalVerifyConfCancel from './intervalVerifyConfCancel'
 
 import { DivContact, DivButton, DivBody } from './styled'
 
@@ -17,7 +20,7 @@ interface interMapData {
   name: string, quantity: number, totalPrice: number
 }
 
-export function CompPending(dataLog: interDataLog, dataOrderAck: unknown, selectOrderId: string) {
+export function CompPending(dataLog: interDataLog, dataOrderAck: unknown, selectOrderId: string, dispatch: Dispatch<{ type: string, payload: string}>) {
   console.log('dataOrderAck :', dataOrderAck)
   function items() {
     return dataLog.items.map((aux: interMapData, index: number) => {
@@ -39,10 +42,16 @@ export function CompPending(dataLog: interDataLog, dataOrderAck: unknown, select
   async function handleConfirmed() {
     await fechtOrderConfirmed(selectOrderId)
     Notification(false)
+    IntervalVerifyConfCancel(selectOrderId, dispatch)
   }
 
   async function handlerCanceled() {
-    console.log('cancelled')
+    fechtOrderCancelled(selectOrderId).then((suces) => {
+      console.log('suces :', suces)
+    }).catch((err) => {
+      console.log('err :', err.response)
+      IntervalVerifyConfCancel(selectOrderId, dispatch)
+    })
   }
 
   return (
