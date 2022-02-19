@@ -120,7 +120,7 @@ function HeaderAntd() {
             concludedAr.push(result)
             dispatch(ACDataOrderConcluded(concludedAr))
           }
-        } else if (data.code === 'CAN') {
+        } else if (data.code === 'CAN' || data.code === 'CAR') {
           if (result) {
             canceledAr.push(result)
             dispatch(ACDataOrderCanceled(canceledAr))
