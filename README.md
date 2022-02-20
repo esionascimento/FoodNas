@@ -6,8 +6,7 @@
 - [Desenvolvimento](#desenvolvimento)
 - [Para clonar o projeto](#para-clonar-o-projeto)
 - [Regras de negócio](#regras-de-negócio)
-- [EndPoint](#endpoint)
-- [Deploy](#deploy)
+- [Rotas](#deploy)
 
 ## O que deverá ser desenvolvido
 
@@ -36,22 +35,21 @@ Aplicação desenvolvidade com `Reactjs`, `TypeScript`, `Nextjs`.
 
 ## Regras de negócio
 
-1. As informações relativas ao sistema devem ser persistidas usando uma API;
+1. As informações relativas ao sistema são ser persistidas usando uma API;
 2. Para acessar o sistema o comerciante precisa passar por um processo de autenticação;
 3. Confirmar ou Cancelar novos pedidos;
-4. Vê detalhes dos pedidos após confirmar o pedido;
+4. Vê detalhes dos pedidos após confirmar;
 5. Despachar pedidos para entrega;
 6. Trocar nome de usuário.
 
-## EndPoint
+## Rotas
 
-A 3 rotas no projeto
-endpoint:
+As Rotas principais
 
-- `/login` 'POST'
-- `/user` 'GET', 'POST'
-- `/authorization` 'POST'
-- `/dashboard` 'GET', 'POST', 'PATCH'
+- `/`
+- `/dashboard`
+- `/register`
+- `/profile`
 
 ## Deploy
 
@@ -62,5 +60,3 @@ Deploy para auxiliar
 ## Variável de ambiente
 
 1. `NEXT_PUBLIC_BASE_URL`
-
-README baseado nos REDMEs da trybe
