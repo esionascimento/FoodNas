@@ -14,7 +14,7 @@ Desenvolver um Gestor de Pedidos na qual usa a API do IFood.
 
 ## Desenvolvimento
 
-Aplicação desenvolvidade com `Reactjs`, `TypeScript`, `Nextjs`.
+Aplicação desenvolvidade com `Reactjs`, `TypeScript`, `Nextjs`, `Redux`.
 
 ## Para clonar o projeto
 
